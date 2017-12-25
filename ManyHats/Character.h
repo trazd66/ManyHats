@@ -1,14 +1,18 @@
-class Character {
+#include"InGameObj.h"
+class Character :InGameObj{
+
 private:
-	//
-	double x_Loc;
-	double y_Loc;
-
-	double x_Vel;
-	double y_Vel;
-
 	int health;
-
+	int playerNum;
 public:
+	int getHealth();
+
+	Character(int playerNum);
 	
+	virtual void jump();
+
+	virtual void move();
+
+	virtual void throwHat();
+
 };
