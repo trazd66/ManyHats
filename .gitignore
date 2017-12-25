@@ -3,6 +3,9 @@
 Debug/
 .vs/
 
+# Visual Studio
+*.sln
+
 # Compiled Object files
 *.slo
 *.lo
