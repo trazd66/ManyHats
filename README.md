@@ -1,0 +1,2 @@
+# ManyHats
+Our hat Game
