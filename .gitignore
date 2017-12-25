@@ -5,6 +5,8 @@ Debug/
 
 # Visual Studio
 *.sln
+*.vcxproj
+*.filters
 
 # Compiled Object files
 *.slo
