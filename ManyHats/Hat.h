@@ -3,36 +3,41 @@ class Hat : InGameObj{
 public:
 	virtual int getHatType() = 0;// pure virtual function providing interface framework.
 
-	Hat(int BaseDamage, double damageModifier, double fallSpeed, double launchSpeed){
-		this->baseDamage = BaseDamage;
-		this->damageModifier = damageModifier;
-		this->fallSpeed = fallSpeed;
-		this->launchVelocity = launchSpeed;
+	Hat(const int baseDamage,const double damageModifier,const double fallSpeed,const double launchSpeed,double (&hitBox)[2])
+		:baseDamage(baseDamage),damageModifier(damageModifier),fallSpeed(fallSpeed), launchVelocity(launchSpeed), InGameObj(hitBox)
+	{};
+
+	~Hat() {
+		delete & baseDamage;
+		delete & damageModifier;
+		delete & fallSpeed;
+		delete & launchVelocity;
 	};
 
-	int getBaseDamage() {
+	int getBaseDamage() {//returns the baseDamage of the hat
 		return this->baseDamage;
 	};
 
-	double getDamageModifier() {
+	double getDamageModifier() {//returns the damage modifier of the hat
 		return this->damageModifier;
 	};
 
-	double getFallSpeed() {
+	double getFallSpeed() {// returns the fallspead of the hat
 		return this->fallSpeed;
 	};
 
-	double getLaunchVelocity() {
+	double getLaunchVelocity() {// returns the launch velocity of the hat
 		return this->launchVelocity;
 	};
 
+	virtual void launch(double xDir,double yDir);// launches the hat with given direction!
 	
 private:
-	int baseDamage;
+	const int baseDamage;//the base damage of the hat
 
-	double damageModifier;
+	const double damageModifier;// damage modifier of the hat
 	
-	double fallSpeed;
+	const double fallSpeed;//fall speed of the hat (when it's airborne)
 	
-	double launchVelocity;
+	const double launchVelocity;//launch velocity of the hat
 };

@@ -1,22 +1,27 @@
 #include "Character.h"
 
-int Character::getHealth()
+void Character::setHealth(int num)
 {
-	return this->health;
+	this->health = num;
 }
 
-Character::Character(int playerNum): health(100)
+Character::Character(const int Num, double(&arr)[2]):playerNum(Num), InGameObj(arr)
 {
-	this->playerNum = playerNum;
+
 }
 
 void Character::jump()
 {
 }
 
-void Character::move()
+void Character::moveLeft()
 {
 }
+
+void Character::moveRight()
+{
+}
+
 
 void Character::throwHat()
 {
