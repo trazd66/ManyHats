@@ -2,7 +2,7 @@
 class InGameObj
 {
 public:
-	virtual int getItemType() = 0;// pure virtual function providing interface framework.
+	virtual std::string getItemType() = 0;// pure virtual function providing interface framework.
 	
 	InGameObj(double (&arr)[2]) :x_Vel(0), y_Vel(0),location(),hitBox(arr){
 	};//velocities of this object is default to 0, initialize the hitBox
@@ -13,6 +13,10 @@ public:
 		delete &x_Vel;
 		delete &y_Vel;
 	};
+
+	bool getAirborneStatus() {
+		return airborne;
+	}
 
 	double* getLocation() {// get the location of the object
 		return location;
@@ -43,6 +47,10 @@ public:
 	void setX_vel(const double x) {// set x velocity only
 		x_Vel = x;
 	}
+	
+	void setAirborneStatus(bool status) {
+		airborne = status;
+	}
 
 private:
 
@@ -50,6 +58,6 @@ private:
 	double location[2]; // the center of location of this object,x as first element, y as the second element
 	double x_Vel;//x velocity of the object
 	double y_Vel;//y velocity of the object
-
+	bool airborne = false;
 };
 

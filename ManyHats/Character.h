@@ -4,10 +4,19 @@ class Character :InGameObj{
 private:
 	int health = 100;//health of this character, initially set to 100
 
+	const int jumpSpeed = 10;// how high this character can jump
+
+	const int movementSpeed = 10; //how fast this character can move
+
 	const int playerNum;//player number of this character
 
+	
 public:
 	Character(const int playerNum, double(&arr)[2]);
+
+	std::string getItemType() {
+		return "Character";
+	};
 
 	int Character::getHealth()//returns the health of this character
 	{
@@ -25,4 +34,5 @@ public:
 
 	virtual void throwHat();
 
+	virtual void fetchHat();
 };
