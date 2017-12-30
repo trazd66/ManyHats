@@ -12,9 +12,9 @@ private:
 
 	
 public:
-	Character(const int playerNum, double(&arr)[2]);
+	Character(const int playerNum, double(&hitBox)[2]);
 
-	std::string getItemType() {
+	string getItemType() {
 		return "Character";
 	};
 

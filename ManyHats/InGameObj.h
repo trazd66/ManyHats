@@ -1,8 +1,9 @@
 #pragma once
+using std::string;
 class InGameObj
 {
 public:
-	virtual std::string getItemType() = 0;// pure virtual function providing interface framework.
+	virtual string getItemType() = 0;// pure virtual function providing interface framework.
 	
 	InGameObj(double (&arr)[2]) :x_Vel(0), y_Vel(0),location(),hitBox(arr){
 	};//velocities of this object is default to 0, initialize the hitBox
