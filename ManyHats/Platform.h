@@ -11,6 +11,10 @@ private:
 	double length;
 
 public:
+	string getItemType() {
+		return "Platform";
+	}
+
 	Platform(double(&hitBox)[2]);
 
 	~Platform() {

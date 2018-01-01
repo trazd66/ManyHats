@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 using std::string;
 class InGameObj
 {
@@ -9,12 +10,8 @@ public:
 	};//velocities of this object is default to 0, initialize the hitBox
 
 	~InGameObj() {//destructor of the object
-		delete [] hitBox;
-		hitBox = NULL;
-
-		delete [] location;
-		location = NULL;
-
+		delete [] &hitBox;
+		delete [] &location;
 		delete &x_Vel;
 		delete &y_Vel;
 	};
@@ -52,17 +49,29 @@ public:
 	void setX_vel(const double x) {// set x velocity only
 		x_Vel = x;
 	}
+<<<<<<< HEAD
 
 	void setAirborneStatus(bool status) {
+=======
+
+	void setAirborneStatus(bool status) {// true if airborne, false if not airborne
+>>>>>>> 3402a867f11ea2d286e1ca79eb2aefb0d812e17e
 		airborne = status;
 	}
 
+	double* getHitBox() {// returns the pointer to the hitBox of this object
+		return hitBox;
+	}
 private:
 
 	double (&hitBox)[2]; // the hit box of this in game item, x as first element, y as the second element
+
 	double location[2]; // the center of location of this object,x as first element, y as the second element
+
 	double x_Vel;//x velocity of the object
+
 	double y_Vel;//y velocity of the object
+
 	bool airborne = false;
 };
 
