@@ -1,5 +1,4 @@
 #include "Character.h"
-
 void Character::setHealth(int num)
 {
 	if (0 <= num && num <= 100) {
@@ -33,12 +32,18 @@ void Character::moveRight()
 }
 
 
-void Character::throwHat()
+Hat* Character::throwHat()
 {
-
+	if (hatQueue.size() != 0) {
+		Hat* hatToThrow = hatQueue.front();
+		hatQueue.pop();
+		return hatToThrow;
+	}
 }
 
-void Character::fetchHat()
+void Character::fetchHat(Hat* hat)
 {
-
+	if (hatQueue.size() < 10) {
+		hatQueue.push(hat);
+	}
 }

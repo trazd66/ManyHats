@@ -1,5 +1,7 @@
+#pragma once // Can CDH sort this out?  -Papa Dylan
 #include "InGameObj.h"
-class Hat : InGameObj{
+
+class Hat : public InGameObj{
 public:
 	Hat(const int baseDamage,const double damageModifier,const double fallSpeed,const double launchSpeed,double (&hitBox)[2])
 		:baseDamage(baseDamage),damageModifier(damageModifier),fallSpeedModifier(fallSpeed), launchVelocity(launchSpeed), InGameObj(hitBox)
@@ -31,11 +33,11 @@ public:
 
 	virtual void launch(double xDir,double yDir) = 0;// launches the hat with given direction!
 
-	bool getThrownStatus() {
+	bool getThrownStatus() {// returns true if the hat is being thrown by a player, false if not
 		return playerThrown;
 	}
 
-	void setPlayerThrown(bool status) {
+	void setPlayerThrown(bool status) {//true if the hat is thrown by a player, false if not
 		playerThrown = status;
 	}
 	
@@ -48,5 +50,5 @@ private:
 	
 	const double launchVelocity;//launch velocity of the hat
 
-	bool playerThrown = false;
+	bool playerThrown = false;// if the hat is thrown by a player
 };

@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include"Character.h"
 #include"Hat.h"
@@ -17,8 +18,7 @@ private:
 
 	list<Character> charList;
 	list<Platform> platformList;
-	//list<Hat> hatList;
-
+	Hat* hatArray[50];
 
 	void ramdonGenPlatform();
 

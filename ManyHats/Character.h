@@ -1,6 +1,11 @@
+#pragma once
 #include"InGameObj.h"
+#include "Hat.h"
+#include <queue>
 
-class Character :InGameObj{
+using std::queue;
+
+class Character :public InGameObj{
 
 private:
 	int health = 100;//health of this character, initially set to 100
@@ -11,7 +16,8 @@ private:
 
 	const int playerNum;//player number of this character
 
-	
+	queue<Hat*> hatQueue; // a player can hold up to maximum of 10 hats
+
 public:
 	Character(const int playerNum, double(&hitBox)[2]);
 
@@ -37,7 +43,7 @@ public:
 
 	virtual void moveRight();
 
-	virtual void throwHat();
+	virtual Hat* throwHat();
 
-	virtual void fetchHat();
+	virtual void fetchHat(Hat* hat);
 };
