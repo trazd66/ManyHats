@@ -18,6 +18,8 @@ private:
 
 	queue<Hat*> hatQueue; // a player can hold up to maximum of 10 hats
 
+	bool faceRight = true;//true if facing right, false if left
+
 public:
 	Character(const int playerNum, double(&hitBox)[2]);
 
@@ -36,6 +38,9 @@ public:
 
 	void setHealth(int num);//set the health of this character
 
+	bool ifFaceRight() {
+		return faceRight;
+	}
 	
 	virtual void jump();
 

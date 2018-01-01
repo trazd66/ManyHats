@@ -23,11 +23,13 @@ void Character::jump()
 
 void Character::moveLeft()
 {
+	faceRight = false;
 	InGameObj::setX_vel(-movementSpeed);
 }
 
 void Character::moveRight()
 {
+	faceRight = true;
 	InGameObj::setX_vel(movementSpeed);
 }
 
