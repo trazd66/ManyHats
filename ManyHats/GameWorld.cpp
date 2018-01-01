@@ -14,7 +14,7 @@ void GameWorld::initiate()
 
 void GameWorld::initChars(int numOfPlayers)
 {
-	for (int i = 0; i++; i < numOfPlayers) {
+	for (int i = 0; i < numOfPlayers; i++) {
 		Character* thisChar = new Character(i + 1, playerHitBox);
 		charList.push_back(*thisChar);
 	}

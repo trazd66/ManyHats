@@ -4,13 +4,17 @@ class InGameObj
 {
 public:
 	virtual string getItemType() = 0;// pure virtual function providing interface framework.
-	
+
 	InGameObj(double (&arr)[2]) :x_Vel(0), y_Vel(0),location(),hitBox(arr){
 	};//velocities of this object is default to 0, initialize the hitBox
-	
+
 	~InGameObj() {//destructor of the object
-		delete hitBox;
-		delete location;
+		delete [] hitBox;
+		hitBox = NULL;
+
+		delete [] location;
+		location = NULL;
+
 		delete &x_Vel;
 		delete &y_Vel;
 	};
@@ -22,7 +26,7 @@ public:
 	double* getLocation() {// get the location of the object
 		return location;
 	};
-	
+
 	double getX_vel() {// get the x velocity of the object
 		return x_Vel;
 	}
@@ -48,7 +52,7 @@ public:
 	void setX_vel(const double x) {// set x velocity only
 		x_Vel = x;
 	}
-	
+
 	void setAirborneStatus(bool status) {
 		airborne = status;
 	}
