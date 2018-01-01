@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 using std::string;
 class InGameObj
 {
@@ -49,16 +50,23 @@ public:
 		x_Vel = x;
 	}
 	
-	void setAirborneStatus(bool status) {
+	void setAirborneStatus(bool status) {// true if airborne, false if not airborne
 		airborne = status;
 	}
 
+	double* getHitBox() {// returns the pointer to the hitBox of this object
+		return hitBox;
+	}
 private:
 
 	double (&hitBox)[2]; // the hit box of this in game item, x as first element, y as the second element
+	
 	double location[2]; // the center of location of this object,x as first element, y as the second element
+	
 	double x_Vel;//x velocity of the object
+	
 	double y_Vel;//y velocity of the object
+	
 	bool airborne = false;
 };
 

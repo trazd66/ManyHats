@@ -3,13 +3,15 @@
 void Character::setHealth(int num)
 {
 	if (0 <= num <= 100) {
-		this->health = num;
+		health = num;
 	}
 }
 
 Character::Character(const int Num, double(&hitBox)[2]):playerNum(Num), InGameObj(hitBox)
 //initialize a character
 {
+	jumpSpeed = getHitBox()[1] * 2;//the jump speed is set to be double the character's height
+	movementSpeed = getHitBox()[0] * 2;//the movement speed is set to be double the width
 }
 
 void Character::jump()

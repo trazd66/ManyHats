@@ -4,9 +4,9 @@ class Character :InGameObj{
 private:
 	int health = 100;//health of this character, initially set to 100
 
-	const int jumpSpeed = 10;// how high this character can jump
+	static int jumpSpeed;// how high this character can jump
 
-	const int movementSpeed = 10; //how fast this character can move
+	static int movementSpeed; //how fast this character can move
 
 	const int playerNum;//player number of this character
 
@@ -18,9 +18,13 @@ public:
 		return "Character";
 	};
 
-	int Character::getHealth()//returns the health of this character
+	static int getJumpSpeed() {
+		return jumpSpeed;
+	}
+
+	int getHealth()//returns the health of this character
 	{
-		return this->health;
+		return health;
 	}
 
 	void setHealth(int num);//set the health of this character

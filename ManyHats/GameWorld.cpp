@@ -6,6 +6,9 @@ GameWorld::GameWorld()
 
 GameWorld::~GameWorld()
 {
+	//delete all platforms
+	//delete all characters
+	//delete all hats
 }
 
 void GameWorld::initiate()
@@ -29,7 +32,8 @@ void GameWorld::dropHats()
 void GameWorld::ramdonGenPlatform()
 {
 	//first generate the main continent
-
+	Platform* continent = new Platform(continentHitBox);
+	platformList.push_back(*continent);
 	// then generate mario-like islands that players can jump to
 
 }
