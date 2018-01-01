@@ -1,12 +1,13 @@
 #include"InGameObj.h"
+
 class Character :InGameObj{
 
 private:
 	int health = 100;//health of this character, initially set to 100
 
-	static int jumpSpeed;// how high this character can jump
+	int jumpSpeed;// how high this character can jump
 
-	static int movementSpeed; //how fast this character can move
+	int movementSpeed; //how fast this character can move
 
 	const int playerNum;//player number of this character
 
@@ -18,7 +19,7 @@ public:
 		return "Character";
 	};
 
-	static int getJumpSpeed() {
+	int getJumpSpeed() {
 		return jumpSpeed;
 	}
 

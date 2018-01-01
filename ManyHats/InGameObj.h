@@ -10,8 +10,8 @@ public:
 	};//velocities of this object is default to 0, initialize the hitBox
 	
 	~InGameObj() {//destructor of the object
-		delete hitBox;
-		delete location;
+		delete [] &hitBox;
+		delete [] &location;
 		delete &x_Vel;
 		delete &y_Vel;
 	};

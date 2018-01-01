@@ -2,7 +2,7 @@
 
 void Character::setHealth(int num)
 {
-	if (0 <= num <= 100) {
+	if (0 <= num && num <= 100) {
 		health = num;
 	}
 }
@@ -10,13 +10,13 @@ void Character::setHealth(int num)
 Character::Character(const int Num, double(&hitBox)[2]):playerNum(Num), InGameObj(hitBox)
 //initialize a character
 {
-	jumpSpeed = getHitBox()[1] * 2;//the jump speed is set to be double the character's height
-	movementSpeed = getHitBox()[0] * 2;//the movement speed is set to be double the width
+	jumpSpeed = (int)getHitBox()[1] * 2;//the jump speed is set to be double the character's height
+	movementSpeed = (int)getHitBox()[0] * 2;//the movement speed is set to be double the width
 }
 
 void Character::jump()
 {
-	if (InGameObj::getAirborneStatus == false) {
+	if (InGameObj::getAirborneStatus() == false) {
 		InGameObj::setAirborneStatus(true);
 		InGameObj::setY_vel(jumpSpeed);
 	}
@@ -35,8 +35,10 @@ void Character::moveRight()
 
 void Character::throwHat()
 {
+
 }
 
 void Character::fetchHat()
 {
+
 }
