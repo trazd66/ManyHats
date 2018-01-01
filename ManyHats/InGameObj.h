@@ -50,13 +50,8 @@ public:
 	void setX_vel(const double x) {// set x velocity only
 		x_Vel = x;
 	}
-<<<<<<< HEAD
-
-	void setAirborneStatus(bool status) {
-=======
 
 	void setAirborneStatus(bool status) {// true if airborne, false if not airborne
->>>>>>> 3402a867f11ea2d286e1ca79eb2aefb0d812e17e
 		airborne = status;
 	}
 
