@@ -1,10 +1,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <iostream>
 
-#include "Shader.h"
-#include "Texture2D.h"
-
+#include "GL_Manager.h"
 
 
 
@@ -18,6 +15,7 @@ void set_Char_Text();
 void initCharacter();
 
 // settings
+GL_Manager * manager = new GL_Manager();
 unsigned int ID;
 unsigned int BG_texture;
 unsigned int Char_texture;
@@ -65,12 +63,10 @@ int main()
 
 	// build and compile our shader zprogram
 	// ------------------------------------
-	Shader BG_Shader("GLSL/BG_texture.vs", "GLSL/BG_texture.fs");
+	manager->LoadShader("GLSL/BG_texture.vs", "GLSL/BG_texture.fs","", "BG_Shader");
 	initBackground();
-	// load and create a texture 
-	// -------------------------
-
-
+	manager->LoadShader("GLSL/Char_texture.vs", "GLSL/Char_texture.fs", "", "Char_Shader");
+	initCharacter();
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
@@ -81,13 +77,13 @@ int main()
 
 		// bind textures on corresponding texture units
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, BG_texture);
+		glBindTexture(GL_TEXTURE_2D, *manager->GetTexture("BG_Texture").getTextureID());
 		
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, Char_texture);
+		//glActiveTexture(GL_TEXTURE1);
+		//glBindTexture(GL_TEXTURE_2D, Char_texture);
 
 		// render container
-		BG_Shader.use();
+		manager->GetShader("BG_Shader").use();
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
@@ -157,19 +153,7 @@ void initBackground()
 
 	// tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
 	// -------------------------------------------------------------------------------------------
-	set_BG_Text();
-}
-
-void set_BG_Text()
-{
-	Texture2D bg_tex("background.jpg", false);
-	BG_texture = bg_tex.getTexture();
-}
-
-void set_Char_Text()
-{
-	Texture2D char_tex("sprite.png", true);
-	Char_texture = char_tex.getTexture();
+	manager->LoadTexture("background.jpg", false, "BG_Texture");
 }
 
 void initCharacter()
@@ -178,10 +162,10 @@ void initCharacter()
 	// ------------------------------------------------------------------
 	float vertices[] = {
 		// positions          // colors           // texture coords
-		0.2f,  0.2f, 0.2f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
-		0.2f, -0.2f, 0.2f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
-		-0.2f, -0.2f, 0.2f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
-		-0.2f,  0.2f, 0.2f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left 
+		0.1f,  0.1f, 0.1f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
+		0.1f, -0.1f, 0.1f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
+		-0.1f, -0.1f, 0.1f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
+		-0.1f,  0.1f, 0.1f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left 
 	};
 
 	unsigned int indices[] = {
@@ -209,8 +193,7 @@ void initCharacter()
 	// texture coord attribute
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
-	
-	set_Char_Text();
+	manager->LoadTexture("MarioTest.png", true, "Char_Texture");
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
