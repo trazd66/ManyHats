@@ -3,6 +3,9 @@
 
 #include "GL_Manager.h"
 
+#define BACKGROUND_IMAGE "background.jpg"
+#define CHARACTER_IMAGE "MarioTest.jpg"
+
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -61,12 +64,13 @@ int main()
 	}
 
 
-	// build and compile our shader zprogram
+	// build and compile our shader program
 	// ------------------------------------
 	manager->LoadShader("GLSL/BG_texture.vs", "GLSL/BG_texture.fs","", "BG_Shader");
 	initBackground();
-	manager->LoadShader("GLSL/Char_texture.vs", "GLSL/Char_texture.fs", "", "Char_Shader");
-	initCharacter();
+	// manager->LoadShader("GLSL/Char_texture.vs", "GLSL/Char_texture.fs", "", "Char_Shader");
+	// initCharacter();
+
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
@@ -76,14 +80,20 @@ int main()
 		processInput(window);
 
 		// bind textures on corresponding texture units
+
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, *manager->GetTexture("BG_Texture").getTextureID());
-		
-		//glActiveTexture(GL_TEXTURE1);
-		//glBindTexture(GL_TEXTURE_2D, Char_texture);
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, *manager->GetTexture("Char_Texture").getTextureID());
 
 		// render container
+
 		manager->GetShader("BG_Shader").use();
+		glBindVertexArray(VAO);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+		manager->GetShader("Char_Shader").use();
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
@@ -122,7 +132,7 @@ void initBackground()
 		1.0f,  1.0f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
 		1.0f, -1.0f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
 		-1.0f, -1.0f, 0.0f,  0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
-		-1.0f,  1.0f, 0.0f,  1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left 
+		-1.0f,  1.0f, 0.0f,  1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left
 	};
 
 	unsigned int indices[] = {
@@ -153,7 +163,7 @@ void initBackground()
 
 	// tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
 	// -------------------------------------------------------------------------------------------
-	manager->LoadTexture("background.jpg", false, "BG_Texture");
+	manager->LoadTexture(BACKGROUND_IMAGE, false, "BG_Texture");
 }
 
 void initCharacter()
@@ -165,7 +175,7 @@ void initCharacter()
 		0.1f,  0.1f, 0.1f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
 		0.1f, -0.1f, 0.1f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
 		-0.1f, -0.1f, 0.1f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
-		-0.1f,  0.1f, 0.1f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left 
+		-0.1f,  0.1f, 0.1f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left
 	};
 
 	unsigned int indices[] = {
@@ -193,14 +203,17 @@ void initCharacter()
 	// texture coord attribute
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
-	manager->LoadTexture("MarioTest.png", true, "Char_Texture");
+
+	// tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
+	// -------------------------------------------------------------------------------------------
+	manager->LoadTexture(CHARACTER_IMAGE, false, "Char_Texture");   // TODO:  This was true originally, but I don't think it should be.  I could be wrong though.
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 // ---------------------------------------------------------------------------------------------
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-	// make sure the viewport matches the new window dimensions; note that width and 
+	// make sure the viewport matches the new window dimensions; note that width and
 	// height will be significantly larger than specified on retina displays.
 	glViewport(0, 0, width, height);
 }

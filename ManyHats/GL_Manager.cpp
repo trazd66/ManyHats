@@ -28,7 +28,7 @@ Texture2D GL_Manager::GetTexture(std::string name)
 
 void GL_Manager::Clear()
 {
-	    // (Properly) delete all shaders	
+	    // (Properly) delete all shaders
     for (auto iter : Shaders)
         glDeleteProgram(iter.second.getID());
     // (Properly) delete all textures
@@ -86,7 +86,7 @@ Texture2D GL_Manager::loadTextureFromFile(const GLchar * file, GLboolean alpha)
 	int width, height, nrChannels;
 	stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
 	unsigned char* data = stbi_load(file, &width, &height, &nrChannels, 0);
-	Texture2D texture; 
+	Texture2D texture;
 	texture.init(data, width, height, alpha);
 	stbi_image_free(data);
 	return texture;
