@@ -24,6 +24,7 @@ unsigned int BG_texture;
 unsigned int Char_texture;
 
 unsigned int VBO, VAO, EBO;
+unsigned int VBO2, VAO2, EBO2;
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -68,8 +69,8 @@ int main()
 	// ------------------------------------
 	manager->LoadShader("GLSL/BG_texture.vs", "GLSL/BG_texture.fs","", "BG_Shader");
 	initBackground();
-	// manager->LoadShader("GLSL/Char_texture.vs", "GLSL/Char_texture.fs", "", "Char_Shader");
-	// initCharacter();
+	manager->LoadShader("GLSL/Char_texture.vs", "GLSL/Char_texture.fs", "", "Char_Shader");
+	initCharacter();
 
 	// render loop
 	// -----------
@@ -79,22 +80,24 @@ int main()
 		// -----
 		processInput(window);
 
+
 		// bind textures on corresponding texture units
-
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, *manager->GetTexture("BG_Texture").getTextureID());
-
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, *manager->GetTexture("Char_Texture").getTextureID());
+		glBindTexture(GL_TEXTURE_2D, *manager->GetTexture("BG_Texture").getTextureID());   // TextureID of BG is 1.
 
 		// render container
-
 		manager->GetShader("BG_Shader").use();
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
+
+		// render container
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, *manager->GetTexture("Char_Texture").getTextureID());   // TextureID of Char is 3.
+
+		// bind textures on corresponding texture units
 		manager->GetShader("Char_Shader").use();
-		glBindVertexArray(VAO);
+		glBindVertexArray(VAO2);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -108,6 +111,10 @@ int main()
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
+
+	glDeleteVertexArrays(1, &VAO2);
+	glDeleteBuffers(1, &VBO2);
+	glDeleteBuffers(1, &EBO2);
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
@@ -182,16 +189,16 @@ void initCharacter()
 		0, 1, 3, // first triangle
 		1, 2, 3  // second triangle
 	};
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
+	glGenVertexArrays(1, &VAO2);
+	glGenBuffers(1, &VBO2);
+	glGenBuffers(1, &EBO2);
 
-	glBindVertexArray(VAO);
+	glBindVertexArray(VAO2);
 
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO2);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO2);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	// position attribute
@@ -206,7 +213,8 @@ void initCharacter()
 
 	// tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
 	// -------------------------------------------------------------------------------------------
-	manager->LoadTexture(CHARACTER_IMAGE, false, "Char_Texture");   // TODO:  This was true originally, but I don't think it should be.  I could be wrong though.
+	// TODO:  This was true originally, but I don't think it should be.  I could be wrong though.
+	manager->LoadTexture(CHARACTER_IMAGE, false, "Char_Texture");
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
