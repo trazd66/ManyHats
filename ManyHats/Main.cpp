@@ -9,9 +9,6 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
 
 void initBackground();
-void set_BG_Text();
-
-void set_Char_Text();
 void initCharacter();
 
 // settings
@@ -65,8 +62,8 @@ int main()
 	// ------------------------------------
 	manager->LoadShader("GLSL/BG_texture.vs", "GLSL/BG_texture.fs","", "BG_Shader");
 	initBackground();
-	manager->LoadShader("GLSL/Char_texture.vs", "GLSL/Char_texture.fs", "", "Char_Shader");
-	initCharacter();
+	//manager->LoadShader("GLSL/Char_texture.vs", "GLSL/Char_texture.fs", "", "Char_Shader");
+	//initCharacter();
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
