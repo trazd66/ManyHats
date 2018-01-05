@@ -30,10 +30,11 @@ public:
 		else
 		{
 			std::cout << "Failed to load texture" << std::endl;
+			perror("init");
 		}
 	}
 
-	
+
 	unsigned int* getTextureID() {
 		return &ID;
 	}

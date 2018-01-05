@@ -58,6 +58,16 @@ public:
 	double* getHitBox() {// returns the pointer to the hitBox of this object
 		return hitBox;
 	}
+
+	// Returns whether this InGameObj is touching obj.
+	bool touching(InGameObj& obj) {
+		// Basically, return true if and only if my left < obj's right and obj's left < my right and my bottom < obj's top and obj's bottom < my top.
+		return (location[0] - (hitBox[0] / 2) < obj.location[0] + (obj.hitBox[0] / 2))
+		&& (obj.location[0] - (obj.hitBox[0] / 2) < location[0] + (hitBox[0] / 2))
+		&& (location[1] - (hitBox[1] / 2) < obj.location[1] + (obj.hitBox[1] / 2))
+		&& (obj.location[1] - (obj.hitBox[1] / 2) < location[1] + (hitBox[1] / 2));
+	}
+
 private:
 
 	double (&hitBox)[2]; // the hit box of this in game item, x as first element, y as the second element

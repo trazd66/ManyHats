@@ -41,6 +41,7 @@ Hat* Character::throwHat()
 		hatQueue.pop();
 		return hatToThrow;
 	}
+	return NULL;
 }
 
 void Character::fetchHat(Hat* hat)
