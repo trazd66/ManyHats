@@ -1,5 +1,7 @@
 #include "GameWorld.h"
 
+const float GameWorld::GRAVITY = -0.005f;
+
 GameWorld::GameWorld()
 {
 }
@@ -41,4 +43,10 @@ void GameWorld::ramdonGenPlatform()
 void GameWorld::randomGenHats()
 {
 	//randomly generate different kinds of hats
+}
+
+// Returns the value of GRAVITY.
+float GameWorld::getGravity()
+{
+	return GRAVITY;
 }

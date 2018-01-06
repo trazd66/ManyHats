@@ -9,7 +9,7 @@ public:
 	Texture2D() {
 		glGenTextures(1, &ID);
 	};
-	void init(unsigned char* data,int width, int height, bool alpha) {
+	void init(unsigned char* data, int width, int height, bool alpha) {
 		glBindTexture(GL_TEXTURE_2D, ID);
 		// set the texture wrapping parameters
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)

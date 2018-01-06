@@ -10,7 +10,7 @@ using std::list;
 class GameWorld {
 	//provides simple physics, generates the gameworld
 private:
-	const static int GRAVITY = -10; // gravity pull for the game world
+	const static float GRAVITY;  // gravity pull for the game world
 
 	double playerHitBox[2] = { 5,10 }; //the hitBoxes of players, depend on the sprite
 	const double mapSize[2] = { 800,600 };
@@ -29,8 +29,11 @@ public:
 	~GameWorld();
 
 	void initiate();//initialize a game world
-	
+
 	void initChars(int numOfPlayers = 2);//initiate characters
-	
+
 	void dropHats();// drops hats
+
+	// Returns the value of GRAVITY.
+	float getGravity();
 };
