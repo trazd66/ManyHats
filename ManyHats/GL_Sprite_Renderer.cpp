@@ -69,7 +69,7 @@ void GL_Sprite_Renderer::init()
 }
 
 
-void GL_Sprite_Renderer::renerSprite(Texture2D texture,Shader shader, glm::vec2 position, float scalingFactor)
+void GL_Sprite_Renderer::renderSprite(Texture2D texture,Shader shader, glm::vec2 position, float scalingFactor)
 {
 
 	
@@ -80,10 +80,10 @@ void GL_Sprite_Renderer::renerSprite(Texture2D texture,Shader shader, glm::vec2 
 																						 // create transformations
 	glm::mat4 transform;
 	
-	//transform = glm::translate(transform, glm::vec3(position, 0.0f));
+	transform = glm::translate(transform, glm::vec3(position, 0.0f));
 
 	//transform the size of the 
-	//transform = glm::scale(transform, glm::vec3(scalingFactor, scalingFactor, scalingFactor));
+	transform = glm::scale(transform, glm::vec3(scalingFactor, scalingFactor, scalingFactor));
 
 	// The following line rotates the character.  I am keeping it here in case we need to use it in the future.
 	// transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
@@ -106,19 +106,4 @@ void GL_Sprite_Renderer::renerSprite(Texture2D texture,Shader shader, glm::vec2 
 
 }
 
-
-
-
-void GL_Sprite_Renderer::drawBackground()
-{
-	// bind textures on corresponding texture units
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, *manager->GetTexture("BG_Texture").getTextureID());  
-
-	manager->GetShader("BG_Shader").use();
-	glBindVertexArray(quadVAO);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
-
-}
 

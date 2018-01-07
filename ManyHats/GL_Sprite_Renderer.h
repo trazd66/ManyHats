@@ -15,11 +15,10 @@ public:
 	~GL_Sprite_Renderer();
 
 	void init();
-	void renerSprite(Texture2D texture, Shader shader, glm::vec2 position, float scalingFactor = 1.0f);
+	void renderSprite(Texture2D texture, Shader shader, glm::vec2 position, float scalingFactor = 1.0f);
 
 	void draw(Character charToDraw);
 	void draw(Platform platformToDraw);
-	void drawBackground();
 	unsigned int* getVAO() {
 		return &quadVAO;
 	}

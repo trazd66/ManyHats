@@ -69,9 +69,18 @@ int main()
 	// -----------
 	while (!glfwWindowShouldClose(window))
 	{
-		renderer->renerSprite(manager->GetTexture("BG_Texture"),
+		//rendering the background
+		renderer->renderSprite(
+			manager->GetTexture("BG_Texture"),
 			manager->GetShader("Char_Shader"),
-			glm::vec2(10, 10));
+			glm::vec2(0,0));
+		//rendering the character
+		renderer->renderSprite(
+			manager->GetTexture("Char_Texture"),
+			manager->GetShader("Char_Shader"),
+			glm::vec2(-0.6,0),
+			0.1f);
+
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
 		glfwSwapBuffers(window);
