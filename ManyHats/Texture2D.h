@@ -9,6 +9,8 @@ public:
 	Texture2D() {
 		glGenTextures(1, &ID);
 	};
+
+
 	void init(unsigned char* data,int width, int height, bool alpha) {
 		glBindTexture(GL_TEXTURE_2D, ID);
 		// set the texture wrapping parameters
@@ -21,6 +23,8 @@ public:
 		{
 			if (alpha) {
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			}
 			else {
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);

@@ -84,8 +84,15 @@ Shader GL_Manager::loadShaderFromFile(const GLchar * vShaderFile, const GLchar *
 Texture2D GL_Manager::loadTextureFromFile(const GLchar * file, GLboolean alpha)
 {
 	int width, height, nrChannels;
+	unsigned char* data;
 	stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-	unsigned char* data = stbi_load(file, &width, &height, &nrChannels, 0);
+	if (!alpha) {
+		data = stbi_load(file, &width, &height, &nrChannels, STBI_rgb);
+	}
+	else
+	{
+		data = stbi_load(file, &width, &height, &nrChannels, STBI_rgb_alpha);
+	}
 	Texture2D texture;
 	texture.init(data, width, height, alpha);
 	stbi_image_free(data);
