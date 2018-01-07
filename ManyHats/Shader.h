@@ -62,6 +62,11 @@ public:
 	{
 		glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
 	}
+	// ------------------------------------------------------------------------------
+	void Shader::SetVector3f(const GLchar *name, GLfloat x, GLfloat y, GLfloat z)
+	{
+		glUniform3f(glGetUniformLocation(this->ID, name), x, y, z);
+	}
 
 	unsigned int getID() {
 		return ID;
