@@ -2,60 +2,76 @@
 #include <iostream>
 using std::string;
 
+// An abstract class to represent any sprite.
 class InGameObj
 {
 public:
-	virtual string getItemType() = 0;// pure virtual function providing interface framework.
+	// Pure virtual function providing interface framework.
+	virtual string getItemType() = 0;
 
-	InGameObj(double (&arr)[2]) :x_Vel(0), y_Vel(0),location(),hitBox(arr){
-	};//velocities of this object is default to 0, initialize the hitBox
+	// Velocities of this object are 0 by default, initialize the hitBox.
+	InGameObj(double (&arr)[2]) : x_Vel(0), y_Vel(0), location(), hitBox(arr) {
 
-	~InGameObj() {//destructor of the object
+	};
+
+	// Destructor of the object.
+	~InGameObj() {
 		delete [] &hitBox;
 		delete [] &location;
 		delete &x_Vel;
 		delete &y_Vel;
 	};
 
+	// Returns whether or not the object is floating in the air.
 	bool getAirborneStatus() {
 		return airborne;
 	}
 
-	double* getLocation() {// get the location of the object
+	// Get the location of the object.
+	double* getLocation() {
 		return location;
 	};
 
-	double getX_vel() {// get the x velocity of the object
+	// Get the x velocity of the object.
+	double getX_vel() {
 		return x_Vel;
 	}
 
-	double getY_vel() {// get the y velocity of the object
+	// Get the y velocity of the object.
+	double getY_vel() {
 		return y_Vel;
 	}
 
-	void setLocation(const double x,const double y){// set the location of the object
+	// Set the location of the object.
+	void setLocation(const double x,const double y){
 		location[0] = x;
 		location[1] = y;
 	};
 
-	void setVelocity(const double x, const double y) {// set the velocity of the object
+	// Set the velocity of the object.
+	void setVelocity(const double x, const double y) {
 		x_Vel = x;
 		y_Vel = y;
 	}
 
-	void setY_vel(const double y) {// set y velocity only
+	// Set y velocity only.
+	void setY_vel(const double y) {
 		y_Vel = y;
 	}
 
-	void setX_vel(const double x) {// set x velocity only
+	// Set x velocity only.
+	void setX_vel(const double x) {
 		x_Vel = x;
 	}
 
-	void setAirborneStatus(bool status) {// true if airborne, false if not airborne
+	// Sets the airborne variable.
+	void setAirborneStatus(bool status) {
+		// True if airborne, false if not airborne.
 		airborne = status;
 	}
 
-	double* getHitBox() {// returns the pointer to the hitBox of this object
+	// Returns the pointer to the hitBox of this object.
+	double* getHitBox() {
 		return hitBox;
 	}
 
@@ -70,14 +86,22 @@ public:
 
 private:
 
-	double (&hitBox)[2]; // the hit box of this in game item, x as first element, y as the second element
+	// The hit box of this in game item, x as first element, y as the second element
+	double (&hitBox)[2];
 
-	double location[2]; // the center of location of this object,x as first element, y as the second element
+	// The centre of location of this object, x as first element, y as the second element
+	double location[2];
 
-	double x_Vel;//x velocity of the object
+	// X velocity of the object.
+	double x_Vel;
 
-	double y_Vel;//y velocity of the object
+	// Y velocity of the object.
+	double y_Vel;
 
+	// Represents whether or not the object is floating in the air.
 	bool airborne = false;
+
+	// The name of the image that the InGameObj should have.
+	string image;
 };
 

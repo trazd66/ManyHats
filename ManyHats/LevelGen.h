@@ -1,3 +1,3 @@
 class LevelGen {
-	//provides game mechanics
+	// Provides game mechanics.
 };

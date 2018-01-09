@@ -1,4 +1,6 @@
 #include "Character.h"
+
+// Sets the character's health.
 void Character::setHealth(int num)
 {
 	if (0 <= num && num <= 100) {
@@ -6,13 +8,17 @@ void Character::setHealth(int num)
 	}
 }
 
-Character::Character(const int Num, double(&hitBox)[2]):playerNum(Num), InGameObj(hitBox)
-//initialize a character
+// Default constructor for a Character object.
+Character::Character(const int Num, double(&hitBox)[2]) : playerNum(Num), InGameObj(hitBox)
 {
-	jumpSpeed = (int)getHitBox()[1] * 2;//the jump speed is set to be double the character's height
-	movementSpeed = (int)getHitBox()[0] * 2;//the movement speed is set to be double the width
+	// The jump speed is set to be double the character's height.
+	jumpSpeed = (int)getHitBox()[1] * 2;
+
+	// The movement speed is set to be double the width.
+	movementSpeed = (int)getHitBox()[0] * 2;
 }
 
+// Make the character jump.
 void Character::jump()
 {
 	if (InGameObj::getAirborneStatus() == false) {
@@ -21,29 +27,33 @@ void Character::jump()
 	}
 }
 
+// Move the character to the right.
 void Character::moveLeft()
 {
 	faceRight = false;
 	InGameObj::setX_vel(-movementSpeed);
 }
 
+// Move the character to the right.
 void Character::moveRight()
 {
 	faceRight = true;
 	InGameObj::setX_vel(movementSpeed);
 }
 
-
+// Allows the character to throw a hat.
 Hat* Character::throwHat()
 {
 	if (hatQueue.size() != 0) {
 		Hat* hatToThrow = hatQueue.front();
 		hatQueue.pop();
 		return hatToThrow;
+		// TODO:  Actually throw the hat.
 	}
 	return NULL;
 }
 
+// Adds a hat to the character's hat queue.
 void Character::fetchHat(Hat* hat)
 {
 	if (hatQueue.size() < 10) {

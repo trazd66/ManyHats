@@ -80,7 +80,6 @@ int main()
 		renderer->renderSprite(
 			manager->GetTexture("Char_Texture"),
 			manager->GetShader("Char_Shader"),
-			// glm::vec2(-0.6, 0),
 			glm::vec2(100, 300),
 			0.1f);
 

@@ -17,7 +17,11 @@ private:
 	const double MAP_SIZE[2] = { 800, 600 };
 
 	// The number of platforms in the game.
-	int numPlatforms;
+	// By default, this is one, since the continentHitBox is always in the list of platforms.
+	int numPlatforms = 1;
+
+	// The number of hats that must be drawn.  Should be equal to the number of hats in the array.
+	int numHats = 0;
 
 	// The hitBoxes of players, depend on the sprite.
 	double playerHitBox[2] = { 5, 10 };
@@ -55,5 +59,5 @@ public:
 	void dropHats();
 
 	// Generates a single platform.
-	void generatePlatform(int x, int y, int width, int height);
+	void generatePlatform(int x, int y, double width, double height);
 };

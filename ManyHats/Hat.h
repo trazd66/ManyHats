@@ -1,12 +1,17 @@
 #pragma once // Can CDH sort this out?  -Papa Dylan
 #include "InGameObj.h"
 
+// Represents a Hat in the game.
 class Hat : public InGameObj{
 public:
-	Hat(const int baseDamage,const double damageModifier,const double fallSpeed,const double launchSpeed,double (&hitBox)[2])
-		:baseDamage(baseDamage),damageModifier(damageModifier),fallSpeedModifier(fallSpeed), launchVelocity(launchSpeed), InGameObj(hitBox)
-	{};
+	// The default constructor for this class.
+	Hat(const int baseDamage, const double damageModifier, const double fallSpeed, const double launchSpeed, double (&hitBox)[2])
+		: baseDamage(baseDamage), damageModifier(damageModifier), fallSpeedModifier(fallSpeed), launchVelocity(launchSpeed), InGameObj(hitBox)
+	{
 
+	};
+
+	// The default destructor for this class.
 	~Hat() {
 		delete & baseDamage;
 		delete & damageModifier;
@@ -15,40 +20,52 @@ public:
 		delete & playerThrown;
 	};
 
-	int getBaseDamage() {//returns the baseDamage of the hat
+	// Returns the baseDamage of the hat.
+	int getBaseDamage() {
 		return this->baseDamage;
 	};
 
-	double getDamageModifier() {//returns the damage modifier of the hat
+	// Returns the damage modifier of the hat.
+	double getDamageModifier() {
 		return this->damageModifier;
 	};
 
-	double getFallSpeed() {// returns the fallspead of the hat
+	// Returns the fall speed of the hat.
+	double getFallSpeed() {
 		return this->fallSpeedModifier;
 	};
 
-	double getLaunchVelocity() {// returns the launch velocity of the hat
+	// Returns the launch velocity of the hat.
+	double getLaunchVelocity() {
 		return this->launchVelocity;
 	};
 
-	virtual void launch(double xDir,double yDir) = 0;// launches the hat with given direction!
+	// Launches the hat with given direction!
+	virtual void launch(double xDir, double yDir) = 0;
 
-	bool getThrownStatus() {// returns true if the hat is being thrown by a player, false if not
+	// Returns true if the hat is being thrown by a player, false otherwise.
+	bool getThrownStatus() {
 		return playerThrown;
 	}
 
-	void setPlayerThrown(bool status) {//true if the hat is thrown by a player, false if not
+	// True if the hat is thrown by a player, false otherwise.
+	void setPlayerThrown(bool status) {
 		playerThrown = status;
 	}
-	
+
 private:
-	const int baseDamage;//the base damage of the hat
+	// The base damage of the hat.
+	const int baseDamage;
 
-	const double damageModifier;// damage modifier of the hat
-	
-	const double fallSpeedModifier;//fall speed of the hat (when it's airborne)
-	
-	const double launchVelocity;//launch velocity of the hat
+	// The damage modifier of the hat.
+	const double damageModifier;
 
-	bool playerThrown = false;// if the hat is thrown by a player
+	//The fall speed of the hat (when it's airborne).
+	const double fallSpeedModifier;
+
+	// The launch velocity of the hat.
+	const double launchVelocity;
+
+	// Represents whether or not the hat is thrown by a player.
+	bool playerThrown = false;
 };
