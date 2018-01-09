@@ -29,8 +29,11 @@ public:
 	~GameWorld();
 
 	void initiate();//initialize a game world
-	
+
 	void initChars(int numOfPlayers = 2);//initiate characters
-	
+
 	void dropHats();// drops hats
+
+	// Generates a single platform.
+	void generatePlatform(int x, int y, int width, int height);
 };

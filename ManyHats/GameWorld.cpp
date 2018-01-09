@@ -38,6 +38,12 @@ void GameWorld::ramdonGenPlatform()
 
 }
 
+// Generate a single platform in this game.
+void GameWorld::generatePlatform(int x, int y, int width, int height)
+{
+
+}
+
 void GameWorld::randomGenHats()
 {
 	//randomly generate different kinds of hats
