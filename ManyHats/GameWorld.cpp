@@ -13,6 +13,8 @@ GameWorld::~GameWorld()
 
 void GameWorld::initiate()
 {
+	numPlatforms = 3;
+	// generatePlatform();
 }
 
 void GameWorld::initChars(int numOfPlayers)

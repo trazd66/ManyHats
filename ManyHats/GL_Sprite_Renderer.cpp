@@ -12,7 +12,7 @@ GL_Sprite_Renderer::~GL_Sprite_Renderer()
 
 void GL_Sprite_Renderer::init()
 {
-	unsigned int VBO,EBO;
+	unsigned int VBO, EBO;
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
 	float vertices[] = {
@@ -28,18 +28,18 @@ void GL_Sprite_Renderer::init()
 		1, 2, 3  // second triangle
 	};
 
-	//VAO: Stores bindings and enables for vertex attributes as well as the binding for the index list. 
-	//Does not store any data (content) within the bound arrays/buffers, 
-	//but "does" (different from what you said) store references to the arrays/buffers. 
+	//VAO: Stores bindings and enables for vertex attributes as well as the binding for the index list.
+	//Does not store any data (content) within the bound arrays/buffers,
+	//but "does" (different from what you said) store references to the arrays/buffers.
 	//So strictly speaking the arrays/buffers must be created first (so you have the addresses and/or buffer handles to put in the VAO).
 	glGenVertexArrays(1, &quadVAO);
 
 	//VBO: Can contain a list of numbers, but even more generally, a buffer object is just a list of bytes.
-	// You tell the GPU how to pull data out of this buffer (offsets, data types, interleaving, etc.). 
+	// You tell the GPU how to pull data out of this buffer (offsets, data types, interleaving, etc.).
 	//The order of binding VBOs and VAOs "is" relevant, as binding VBOs changes the bound VAO.
 	glGenBuffers(1, &VBO);
 
-	//EBOs: These are just buffer objects used differently. So see VBO: above for everything you need to know. 
+	//EBOs: These are just buffer objects used differently. So see VBO: above for everything you need to know.
 	//The only reason there's a distinction is that you bind these buffer objects to a different bind point
 	// so the GPU pulls DrawElements index data from it rather than vertex attributes
 	glGenBuffers(1, &EBO);
@@ -69,20 +69,26 @@ void GL_Sprite_Renderer::init()
 }
 
 
-void GL_Sprite_Renderer::renderSprite(Texture2D texture,Shader shader, glm::vec2 position, float scalingFactor)
+void GL_Sprite_Renderer::renderSprite(Texture2D texture, Shader shader, glm::vec2 position, float scalingFactor)
 {
 
-	
+
 	// bind textures on corresponding texture units
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, *texture.getTextureID());   // TextureID of Char is 3.
 
-																						 // create transformations
+	// create transformations
 	glm::mat4 transform;
-	
+
+	// Changes position from a vector (x, y) with 0 <= x <= 800, 0 <= y <= 600
+	// to a vector (x', y') with -1 <= x', y' <= 1 (which is the form that OpenGL needs).
+	position[0] *= 1.0f / 400.0f;
+	position[1] *= 1.0f / 300.0f;
+	position -= glm::vec2(1.0f, 1.0f);
+
 	transform = glm::translate(transform, glm::vec3(position, 0.0f));
 
-	//transform the size of the 
+	//transform the size of the
 	transform = glm::scale(transform, glm::vec3(scalingFactor, scalingFactor, scalingFactor));
 
 	// The following line rotates the character.  I am keeping it here in case we need to use it in the future.
