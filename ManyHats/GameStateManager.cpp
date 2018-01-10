@@ -1,12 +1,5 @@
 #include "GameStateManager.h"
 
-
-
-GameStateManager::GameStateManager()
-{
-}
-
-
-GameStateManager::~GameStateManager()
+void GameStateManager::displayWelcomeScreen()
 {
 }

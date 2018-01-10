@@ -16,7 +16,7 @@ private:
 	const double mapSize[2] = { 800,600 };
 	double continentHitBox[2] = { mapSize[0] ,mapSize[1] / 8 };
 
-	list<Character> charList;
+	list<Character*> charList;
 	list<Platform> platformList;
 	Hat* hatArray[50];
 

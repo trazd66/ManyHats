@@ -1,16 +1,7 @@
 #include "GL_Sprite_Renderer.h"
 
-GL_Sprite_Renderer::GL_Sprite_Renderer(GL_Manager* manager)
-{
-	setManager(manager);
-}
 
-
-GL_Sprite_Renderer::~GL_Sprite_Renderer()
-{
-}
-
-void GL_Sprite_Renderer::init()
+void GL_Sprite_Renderer::initShader()
 {
 	unsigned int VBO,EBO;
 	// set up vertex data (and buffer(s)) and configure vertex attributes
@@ -68,6 +59,11 @@ void GL_Sprite_Renderer::init()
 
 }
 
+void GL_Sprite_Renderer::loadCharacters(std::map<char, Char>* characters)
+{
+	this->characters = characters;
+}
+
 
 void GL_Sprite_Renderer::renderSprite(Texture2D texture,Shader shader, glm::vec2 position, float scalingFactor)
 {
@@ -78,8 +74,7 @@ void GL_Sprite_Renderer::renderSprite(Texture2D texture,Shader shader, glm::vec2
 	glBindTexture(GL_TEXTURE_2D, *texture.getTextureID());   // TextureID of Char is 3.
 
 																						 // create transformations
-	glm::mat4 transform;
-	
+	glm::mat4 transform = glm::ortho(0.0f, static_cast<GLfloat>(WIDTH), 0.0f, static_cast<GLfloat>(HEIGHT));
 	transform = glm::translate(transform, glm::vec3(position, 0.0f));
 
 	//transform the size of the 
@@ -100,10 +95,80 @@ void GL_Sprite_Renderer::renderSprite(Texture2D texture,Shader shader, glm::vec2
 	}
 
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
-
 	glBindVertexArray(quadVAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 }
+
+
+
+void GL_Sprite_Renderer::renderText(Shader shader, std::string text, glm::vec2 position, glm::vec3 color, float scalingFactor)
+{
+	// Activate corresponding render state	
+	shader.use();
+	shader.SetVector3f("textColor", color, false);
+	glActiveTexture(GL_TEXTURE0);
+	glBindVertexArray(textVAO);
+
+	// Iterate through all characters
+	std::string::const_iterator c;
+	std::map<char, Char> charMap = *characters;
+	for (c = text.begin(); c != text.end(); c++)
+	{
+		Char ch = charMap[*c];
+		GLfloat xpos = position.x + ch.Bearing.x * scalingFactor;
+		GLfloat ypos = position.y - (ch.Size.y - ch.Bearing.y) * scalingFactor;
+
+		GLfloat w = ch.Size.x * scalingFactor;
+		GLfloat h = ch.Size.y * scalingFactor;
+		// Update VBO for each character
+		GLfloat vertices[6][4] = {
+			{ xpos,     ypos + h,   0.0, 0.0 },
+			{ xpos,     ypos,       0.0, 1.0 },
+			{ xpos + w, ypos,       1.0, 1.0 },
+
+			{ xpos,     ypos + h,   0.0, 0.0 },
+			{ xpos + w, ypos,       1.0, 1.0 },
+			{ xpos + w, ypos + h,   1.0, 0.0 }
+		};
+		// Render glyph texture over quad
+		glBindTexture(GL_TEXTURE_2D, ch.TextureID);
+		// Update content of VBO memory
+		glBindBuffer(GL_ARRAY_BUFFER, textVBO);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // Be sure to use glBufferSubData and not glBufferData
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		// Render quad
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		// Now advance cursors for next glyph (note that advance is number of 1/64 pixels)
+		position.x += (ch.Advance >> 6) * scalingFactor; // Bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+	}
+	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void GL_Sprite_Renderer::initTextRendering(Shader shader, std::map<char, Char> * characters)
+{
+	this->loadCharacters(characters);
+	glGenVertexArrays(1, &this->textVAO);
+	glGenBuffers(1, &textVBO);
+	glBindVertexArray(this->textVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, textVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+
+	// Compile and setup the shader
+	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(WIDTH), 0.0f, static_cast<GLfloat>(HEIGHT));
+	shader.use();
+	shader.SetMatrix4("projection", projection, false);
+
+}
+
+
+
 
 
