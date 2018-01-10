@@ -1,22 +1,29 @@
 #pragma once
 #include "InGameObj.h"
-class Platform :
-	// if a character is not airborne, then it must be on a platform
-	//platforms are rectangles basically
-	public InGameObj
+
+// If a character is not airborne, then it must be on a platform.
+// Platforms are rectangles basically.
+class Platform : public InGameObj
 {
 
 private:
+	// The width of this platform.
 	double width;
+
+	// The height of this platform.
 	double length;
 
 public:
+
+	// Returns the type of this object.
 	string getItemType() {
 		return "Platform";
 	}
 
-	Platform(double(&hitBox)[2]);
+	// Default constructor for this class.
+	Platform(int x, int y, double(&hitBox)[2]);
 
+	// Default destructor for this class.
 	~Platform() {
 		delete &width;
 		delete &length;

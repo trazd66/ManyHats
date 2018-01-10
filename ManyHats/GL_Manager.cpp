@@ -29,7 +29,6 @@ Texture2D GL_Manager::GetTexture(std::string name)
 
 void GL_Manager::loadFont(const GLchar * fontPath)
 {
-
 	// FreeType
 	FT_Library ft;
 	// All functions return a value different than 0 whenever an error occurred
