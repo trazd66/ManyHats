@@ -5,13 +5,13 @@
 #include"Platform.h"
 #include <list>
 
-using std::list;
+using std::vector;
 
 class GameWorld {
 	// Provides simple physics, generates the gameworld.
 private:
 	// Gravity pull for the game world.
-	const static int GRAVITY = -10;
+	const static int GRAVITY = -1;
 
 	// The size of this map.
 	const double MAP_SIZE[2] = { 800, 600 };
@@ -29,15 +29,15 @@ private:
 	double continentHitBox[2] = { MAP_SIZE[0], MAP_SIZE[1] / 8 };
 
 	// A list containing the characters in this game.
-	list<Character> charList;
+	vector<Character*> charList;
 
 	// A list containing the platforms in this game.
-	list<Platform> platformList;
+	vector<Platform*> platformList;
 
 	// An array containing the hats in this game.
 	Hat* hatArray[50];
 
-	void ramdonGenPlatform();
+	void randomGenPlatform();
 
 	// Randomlty generates the hats in the game.
 	void randomGenHats();
@@ -52,12 +52,23 @@ public:
 	// Initialize a game world.
 	void initiate();
 
+	// Update the game world.
+	void update();
+
 	// Initiate characters.
-	void initChars(int numOfPlayers = 2);
+	void initChars(int* coords, int numOfPlayers = 2);
 
 	// Initiates the hat dropping.
 	void dropHats();
 
 	// Generates a single platform.
 	void generatePlatform(int x, int y, double width, double height);
+
+	// Returns the list of characters in the game.
+	vector<Character*> getCharacters();
+
+	// Returns the value of GRAVITY.
+	static int getGravity() {
+		return GRAVITY;
+	}
 };

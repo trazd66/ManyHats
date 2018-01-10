@@ -1,4 +1,5 @@
 #include "Character.h"
+#include "GameWorld.h"
 
 // Sets the character's health.
 void Character::setHealth(int num)
@@ -12,10 +13,11 @@ void Character::setHealth(int num)
 Character::Character(const int Num, double(&hitBox)[2]) : playerNum(Num), InGameObj(hitBox)
 {
 	// The jump speed is set to be double the character's height.
-	jumpSpeed = (int)getHitBox()[1] * 2;
+	setJumpSpeed((int) getHitBox()[1] * 2);
 
 	// The movement speed is set to be double the width.
-	movementSpeed = (int)getHitBox()[0] * 2;
+	// setMovementSpeed((int) getHitBox()[0] * 2);
+	setMovementSpeed(9);
 }
 
 // Make the character jump.
@@ -59,4 +61,11 @@ void Character::fetchHat(Hat* hat)
 	if (hatQueue.size() < 10) {
 		hatQueue.push(hat);
 	}
+}
+
+// Update this object.
+void Character::update()
+{
+	InGameObj::update();
+	setY_vel(getY_vel() + GameWorld::getGravity());
 }

@@ -16,10 +16,10 @@ public:
 
 	// Destructor of the object.
 	~InGameObj() {
-		delete [] &hitBox;
-		delete [] &location;
-		delete &x_Vel;
-		delete &y_Vel;
+		// delete [] &hitBox;
+		// delete [] &location;
+		// delete &x_Vel;
+		// delete &y_Vel;
 	};
 
 	// Returns whether or not the object is floating in the air.
@@ -33,34 +33,34 @@ public:
 	};
 
 	// Get the x velocity of the object.
-	double getX_vel() {
+	int getX_vel() {
 		return x_Vel;
 	}
 
 	// Get the y velocity of the object.
-	double getY_vel() {
+	int getY_vel() {
 		return y_Vel;
 	}
 
 	// Set the location of the object.
-	void setLocation(const double x,const double y){
+	void setLocation(const double x, const double y){
 		location[0] = x;
 		location[1] = y;
 	};
 
 	// Set the velocity of the object.
-	void setVelocity(const double x, const double y) {
+	void setVelocity(const int x, const int y) {
 		x_Vel = x;
 		y_Vel = y;
 	}
 
 	// Set y velocity only.
-	void setY_vel(const double y) {
+	void setY_vel(const int y) {
 		y_Vel = y;
 	}
 
 	// Set x velocity only.
-	void setX_vel(const double x) {
+	void setX_vel(const int x) {
 		x_Vel = x;
 	}
 
@@ -84,6 +84,22 @@ public:
 		&& (obj.location[1] - (obj.hitBox[1] / 2) < location[1] + (hitBox[1] / 2));
 	}
 
+	// Update this object.
+	void update() {
+		location[0] += x_Vel;
+		location[1] += y_Vel;
+	}
+
+	// Gets the image string of this object.
+	string getImage() {
+		return image;
+	}
+
+	// Sets the image property of this object.
+	void setImage(string newImage) {
+		image = newImage;
+	}
+
 private:
 
 	// The hit box of this in game item, x as first element, y as the second element
@@ -93,10 +109,10 @@ private:
 	double location[2];
 
 	// X velocity of the object.
-	double x_Vel;
+	int x_Vel;
 
 	// Y velocity of the object.
-	double y_Vel;
+	int y_Vel;
 
 	// Represents whether or not the object is floating in the air.
 	bool airborne = false;

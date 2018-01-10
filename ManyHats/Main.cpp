@@ -3,10 +3,10 @@
 
 #include "GL_Manager.h"
 #include "GL_Sprite_Renderer.h"
+#include "GameStateManager.h"
+#include "GameWorld.h"
 
 #define BACKGROUND_IMAGE "background.jpg"
-#define CHARACTER_IMAGE "MarioTest.png"
-
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -15,6 +15,9 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 // settings
 GL_Manager * manager = new GL_Manager();
 GL_Sprite_Renderer * renderer = new GL_Sprite_Renderer(manager);
+
+GameStateManager* gsm = new GameStateManager();
+GameWorld* game = new GameWorld();
 
 
 const unsigned int SCR_WIDTH = 800;
@@ -32,11 +35,12 @@ int main()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 #ifdef __APPLE__
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // uncomment this statement to fix compilation on OS X
+	// uncomment this statement to fix compilation on OS X
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-														 // glfw window creation
-														 // --------------------
+	// glfw window creation
+	// --------------------
 	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
 	if (window == NULL)
 	{
@@ -59,10 +63,34 @@ int main()
 	// build and compile our shader program
 	// ------------------------------------
 	renderer->init();
-	manager->LoadShader("GLSL/BG_texture.vs", "GLSL/BG_texture.fs", nullptr, "BG_Shader");
+
+	// Initiate the game.
+	game->initiate();
+
+	// TODO:  We probably can get rid of the BG_Shader?
+	// manager->LoadShader("GLSL/BG_texture.vs", "GLSL/BG_texture.fs", nullptr, "BG_Shader");
+
 	manager->LoadShader("GLSL/Char_texture.vs", "GLSL/Char_texture.fs", nullptr, "Char_Shader");
 	manager->LoadTexture(BACKGROUND_IMAGE, false, "BG_Texture");
-	manager->LoadTexture(CHARACTER_IMAGE, true, "Char_Texture");
+
+	char fileName1[game->getCharacters()[0]->getImage().size() + 1];
+	int i;
+	for (i = 0; i < game->getCharacters()[0]->getImage().size(); i++) {
+		fileName1[i] = game->getCharacters()[0]->getImage()[i];
+	}
+	fileName1[i] = '\0';
+
+	manager->LoadTexture(fileName1, true, "Char_Texture0");
+
+
+	char fileName2[game->getCharacters()[1]->getImage().size() + 1];
+
+	for (i = 0; i < game->getCharacters()[1]->getImage().size(); i++) {
+		fileName2[i] = game->getCharacters()[1]->getImage()[i];
+	}
+	fileName2[i] = '\0';
+
+	manager->LoadTexture(fileName2, true, "Char_Texture1");
 
 
 	// render loop
@@ -71,17 +99,29 @@ int main()
 	{
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		//rendering the background
+
+		// Process keystrokes.
+		gsm->processInput(game, window);
+
+		// Update the game's state.
+		game->update();
+
+		// Rendering the background.
 		renderer->renderSprite(
 			manager->GetTexture("BG_Texture"),
 			manager->GetShader("Char_Shader"),
 			glm::vec2(400, 300));
-		//rendering the character
-		renderer->renderSprite(
-			manager->GetTexture("Char_Texture"),
-			manager->GetShader("Char_Shader"),
-			glm::vec2(100, 300),
-			0.1f);
+
+		// Rendering the character.
+		for (int i = 0; i < game->getCharacters().size(); i++) {
+			renderer->renderSprite(
+				manager->GetTexture("Char_Texture" + std::to_string(i)),
+				manager->GetShader("Char_Shader"),
+				glm::vec2(
+					(float) (game->getCharacters()[i]->getLocation()[0]),
+					(float) (game->getCharacters()[i]->getLocation()[1])),
+				0.1f);
+		}
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------

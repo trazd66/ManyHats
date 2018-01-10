@@ -42,9 +42,19 @@ public:
 		return jumpSpeed;
 	}
 
+	// Sets the initial jump speed of this character.
+	void setJumpSpeed(int newSpeed) {
+		jumpSpeed = newSpeed;
+	}
+
 	// Returns the movement speed of this character.
 	int getMovementSpeed() {
 		return movementSpeed;
+	}
+
+	// Sets the movement speed of this character.
+	void setMovementSpeed(int newSpeed) {
+		movementSpeed = newSpeed;
 	}
 
 	// Returns the health of this character.
@@ -60,6 +70,9 @@ public:
 	bool ifFaceRight() {
 		return faceRight;
 	}
+
+	// Updates the Character.
+	void update();
 
 	// Initiates a jump.
 	virtual void jump();
