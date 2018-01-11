@@ -93,6 +93,8 @@ int main()
 	manager->LoadTexture(fileName2, true, "Char_Texture1");
 
 
+	manager->LoadTexture("platform.jpg", false, "Platform_Texture");
+
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
@@ -112,7 +114,19 @@ int main()
 			manager->GetShader("Char_Shader"),
 			glm::vec2(400, 300));
 
-		// Rendering the character.
+		// Rendering the platforms.
+		for (int i = 0; i < game->getPlatforms().size(); i++) {
+			renderer->renderSprite(
+				manager->GetTexture("Platform_Texture"),
+				manager->GetShader("Char_Shader"),
+				glm::vec2(
+					(float) (game->getPlatforms()[i]->getLocation()[0]),
+					(float) (game->getPlatforms()[i]->getLocation()[1])),
+				0.98f,
+				0.04f);
+		}
+
+		// Rendering the characters.
 		for (int i = 0; i < game->getCharacters().size(); i++) {
 			renderer->renderSprite(
 				manager->GetTexture("Char_Texture" + std::to_string(i)),
@@ -120,6 +134,7 @@ int main()
 				glm::vec2(
 					(float) (game->getCharacters()[i]->getLocation()[0]),
 					(float) (game->getCharacters()[i]->getLocation()[1])),
+				0.1f,
 				0.1f);
 		}
 

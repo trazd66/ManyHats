@@ -16,13 +16,16 @@ GameWorld::~GameWorld()
 // Initializes the game.
 void GameWorld::initiate()
 {
-	platformList.push_back(new Platform(0, 0, continentHitBox));
+	double hit[2] = { MAP_SIZE[0], MAP_SIZE[1] / 8 };
+	Platform* floor = new Platform(0, 50, hit);
+	floor->setImage("red.jpg");
+	platformList.push_back(floor);
 	// generatePlatform(200, 200, 300.0, 25.0);
 	// generatePlatform(600, 200, 300.0, 25.0);
 	// generatePlatform(400, 400, 300.0, 25.0);
 
-	// Coordinates:  x1   y1   x2   y2
-	int coords[4] = {200, 350, 300, 400};
+	// Coordinates:   x1   y1   x2   y2
+	int coords[4] = { 200, 350, 300, 400 };
 	initChars(coords, 2);
 }
 
@@ -30,19 +33,38 @@ void GameWorld::initiate()
 void GameWorld::update()
 {
 	for (int i = 0; i < charList.size(); i++) {
-		charList[i]->update();
+		charList[i]->update(this->platformList, GRAVITY);
 	}
 
-	for (int i = 0; i < platformList.size(); i++) {
-		for (int j = 0; j < charList.size(); j++) {
+	// for (int i = 0; i < platformList.size(); i++) {
+	// 	for (int j = 0; j < charList.size(); j++) {
 
-			if (charList[j]->touching(*(platformList[i]))) {
-				charList[j]->setY_vel(0);
-				charList[j]->setLocation(charList[j]->getLocation()[0], platformList[i]->getLocation()[1] + (platformList[i]->getHitBox()[1] + charList[j]->getHitBox()[1]) / 2.0);
-				charList[j]->setAirborneStatus(false);
-			}
-		}
-	}
+	// 		if (charList[j]->touching(*(platformList[i]))) {
+
+	// 			if (charList[j]->getLocation()[1] - (charList[j]->getHitBox()[1] / 2.0) - charList[j]->getY_vel() >= platformList[i]->getLocation()[1] + (platformList[i]->getHitBox()[1] / 2.0)) {
+	// 				// Above the platform.
+	// 				charList[j]->setY_vel(0);
+	// 				charList[j]->setLocation(charList[j]->getLocation()[0], platformList[i]->getLocation()[1] + (platformList[i]->getHitBox()[1] + charList[j]->getHitBox()[1]) / 2.0 + 1);
+	// 				charList[j]->setAirborneStatus(false);
+	// 			} else if (charList[j]->getLocation()[1] + (charList[j]->getHitBox()[1] / 2.0) + charList[j]->getY_vel() <= platformList[i]->getLocation()[1] - (platformList[i]->getHitBox()[1] / 2.0)) {
+	// 				// Below the platform.
+	// 				charList[j]->setY_vel(0);
+	// 				charList[j]->setLocation(charList[j]->getLocation()[0], platformList[i]->getLocatio	n()[1] - (platformList[i]->getHitBox()[1] + charList[j]->getHitBox()[1]) / 2.0);
+	// 				// Should not be necessary to set airborne status to true, but do it just in case.
+	// 				charList[j]->setAirborneStatus(true);
+	// 			} else {
+	// 				// On the same level as the platform.
+	// 				charList[j]->setLocation(charList[j]->getLocation()[0] - charList[j]->getX_vel(), charList[j]->getLocation()[1]);
+	// 			}
+	// 		// } else {
+	// 		// 	if (!(charList[j]->getLocation()[0] - (charList[j]->getHitBox()[0] / 2.0) < platformList[i]->getLocation()[0] + (platformList[i]->getHitBox()[0] / 2.0) &&
+	// 		// 		charList[j]->getLocation()[0] + (charList[j]->getHitBox()[0] / 2.0) > platformList[i]->getLocation()[0] - (platformList[i]->getHitBox()[0] / 2.0))) {
+	// 		// 		// Not horizontally colliding.
+	// 		// 		// Also, check whether they are above the platform.
+	// 		// 	}
+	// 		}
+	// 	}
+	// }
 }
 
 // Initializes the characters in this game.

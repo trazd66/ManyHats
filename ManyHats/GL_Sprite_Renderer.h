@@ -15,7 +15,7 @@ public:
 	~GL_Sprite_Renderer();
 
 	void init();
-	void renderSprite(Texture2D texture, Shader shader, glm::vec2 position, float scalingFactor = 1.0f);
+	void renderSprite(Texture2D texture, Shader shader, glm::vec2 position, float scalingFactorX = 1.0f, float scalingFactorY = 1.0f);
 
 	void draw(Character charToDraw);
 	void draw(Platform platformToDraw);

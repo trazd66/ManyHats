@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+// #include "Platform.h"
 using std::string;
 
 // An abstract class to represent any sprite.
@@ -10,8 +11,9 @@ public:
 	virtual string getItemType() = 0;
 
 	// Velocities of this object are 0 by default, initialize the hitBox.
-	InGameObj(double (&arr)[2]) : x_Vel(0), y_Vel(0), location(), hitBox(arr) {
-
+	InGameObj(double (&arr)[2]) : x_Vel(0), y_Vel(0), location() {
+		hitBox[0] = arr[0];
+		hitBox[1] = arr[1];
 	};
 
 	// Destructor of the object.
@@ -75,13 +77,16 @@ public:
 		return hitBox;
 	}
 
-	// Returns whether this InGameObj is touching obj.
-	bool touching(InGameObj& obj) {
+	/* - Returns whether this InGameObj is touching obj.
+	 * - xOffset and yOffset represent an offset for this InGameObj, to see if
+	 *   the image after the offset is applied is touching obj.
+	 */
+	bool touching(InGameObj& obj, int xOffset = 0, int yOffset = 0) {
 		// Basically, return true if and only if my left < obj's right and obj's left < my right and my bottom < obj's top and obj's bottom < my top.
-		return (location[0] - (hitBox[0] / 2) < obj.location[0] + (obj.hitBox[0] / 2))
-		&& (obj.location[0] - (obj.hitBox[0] / 2) < location[0] + (hitBox[0] / 2))
-		&& (location[1] - (hitBox[1] / 2) < obj.location[1] + (obj.hitBox[1] / 2))
-		&& (obj.location[1] - (obj.hitBox[1] / 2) < location[1] + (hitBox[1] / 2));
+		return (location[0] - (hitBox[0] / 2) + xOffset < obj.location[0] + (obj.hitBox[0] / 2))
+		&& (obj.location[0] - (obj.hitBox[0] / 2) < location[0] + (hitBox[0] / 2) + xOffset)
+		&& (location[1] - (hitBox[1] / 2) + yOffset < obj.location[1] + (obj.hitBox[1] / 2))
+		&& (obj.location[1] - (obj.hitBox[1] / 2) < location[1] + (hitBox[1] / 2) + yOffset);
 	}
 
 	// Update this object.
@@ -103,7 +108,7 @@ public:
 private:
 
 	// The hit box of this in game item, x as first element, y as the second element
-	double (&hitBox)[2];
+	double* hitBox = new double[2];
 
 	// The centre of location of this object, x as first element, y as the second element
 	double location[2];
@@ -115,7 +120,7 @@ private:
 	int y_Vel;
 
 	// Represents whether or not the object is floating in the air.
-	bool airborne = false;
+	bool airborne = true;
 
 	// The name of the image that the InGameObj should have.
 	string image;
