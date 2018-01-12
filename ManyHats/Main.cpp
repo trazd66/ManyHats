@@ -1,38 +1,44 @@
-#include <glad/glad.h>
+// Std. Includes
+#include <iostream>
+#include <map>
+#include <string>
+
+#include <glad/glad.h> 
+
+// GLFW
 #include <GLFW/glfw3.h>
 
 #include "GL_Manager.h"
 #include "GL_Sprite_Renderer.h"
-#include "GameStateManager.h"
-#include "GameWorld.h"
-
-#define BACKGROUND_IMAGE "background.jpg"
-
-
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-
-
-// settings
-GL_Manager * manager = new GL_Manager();
-GL_Sprite_Renderer * renderer = new GL_Sprite_Renderer(manager);
-
-GameStateManager* gsm = new GameStateManager();
-GameWorld* game = new GameWorld();
-
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 
 
+#include "GameStateManager.h"
+
+#define BACKGROUND_IMAGE "background.jpg"
+
+
+
+// settings
+GL_Manager * manager = new GL_Manager();
+GL_Sprite_Renderer * renderer = new GL_Sprite_Renderer(SCR_WIDTH, SCR_HEIGHT);
+
+GameStateManager* gsm = new GameStateManager();
+GameWorld* game = new GameWorld();
+
+
+// The MAIN function, from here we start our application and run the Game loop
 int main()
 {
-	// glfw: initialize and configure
-	// ------------------------------
+	// Init GLFW
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 #ifdef __APPLE__
 	// uncomment this statement to fix compilation on OS X
@@ -48,22 +54,22 @@ int main()
 		glfwTerminate();
 		return -1;
 	}
-	glfwMakeContextCurrent(window);
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-	// glad: load all OpenGL function pointers
-	// ---------------------------------------
+	glfwMakeContextCurrent(window);
+
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return -1;
 	}
 
+	// Define the viewport dimensions
+	glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
+
 
 	// build and compile our shader program
 	// ------------------------------------
-	renderer->init();
-
+	renderer->initShader();
 	// Initiate the game.
 	game->initiate();
 
@@ -73,7 +79,12 @@ int main()
 	manager->LoadShader("GLSL/Char_texture.vs", "GLSL/Char_texture.fs", nullptr, "Char_Shader");
 	manager->LoadTexture(BACKGROUND_IMAGE, false, "BG_Texture");
 
-	char fileName1[game->getCharacters()[0]->getImage().size() + 1];
+
+
+
+
+	char fileName1[100];
+
 	int i;
 	for (i = 0; i < game->getCharacters()[0]->getImage().size(); i++) {
 		fileName1[i] = game->getCharacters()[0]->getImage()[i];
@@ -81,26 +92,35 @@ int main()
 	fileName1[i] = '\0';
 
 	manager->LoadTexture(fileName1, true, "Char_Texture0");
-
-
-	char fileName2[game->getCharacters()[1]->getImage().size() + 1];
+	char fileName2[100];
 
 	for (i = 0; i < game->getCharacters()[1]->getImage().size(); i++) {
 		fileName2[i] = game->getCharacters()[1]->getImage()[i];
 	}
 	fileName2[i] = '\0';
-
 	manager->LoadTexture(fileName2, true, "Char_Texture1");
 
+<<<<<<< HEAD
 
 	manager->LoadTexture("platform.jpg", false, "Platform_Texture");
 
 	// render loop
 	// -----------
+=======
+	// Compile and setup the shader
+	// Game loop
+>>>>>>> 99001905878edc048aa2abce4290f652038b19af
 	while (!glfwWindowShouldClose(window))
 	{
+		// Check and call events
+		glfwPollEvents();
+
+		// Clear the colorbuffer
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		//renderer->renderText(manager->GetShader("text_shader"), "This is sample text",glm::vec2( 25.0f, 25.0f), glm::vec3(0.5, 0.8f, 0.2f));
+		// Swap the buffers
 
 		// Process keystrokes.
 		gsm->processInput(game, window);
@@ -141,8 +161,8 @@ int main()
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
 		glfwSwapBuffers(window);
-		glfwPollEvents();
 	}
+
 
 	// optional: de-allocate all resources once they've outlived their purpose:
 	// ------------------------------------------------------------------------
@@ -152,13 +172,4 @@ int main()
 	// ------------------------------------------------------------------
 	glfwTerminate();
 	return 0;
-}
-
-// glfw: whenever the window size changed (by OS or user resize) this callback function executes
-// ---------------------------------------------------------------------------------------------
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-	// make sure the viewport matches the new window dimensions; note that width and
-	// height will be significantly larger than specified on retina displays.
-	glViewport(0, 0, width, height);
 }

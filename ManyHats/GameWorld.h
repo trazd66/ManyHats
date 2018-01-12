@@ -16,6 +16,7 @@ private:
 	// The size of this map.
 	const double MAP_SIZE[2] = { 800, 600 };
 
+
 	// The number of platforms in the game.
 	// By default, this is one, since the continentHitBox is always in the list of platforms.
 	int numPlatforms = 1;
