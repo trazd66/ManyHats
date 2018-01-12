@@ -19,16 +19,13 @@ public:
 	//initiate the renderer
 	void initShader();
 
-<<<<<<< HEAD
 	void init();
-	void renderSprite(Texture2D texture, Shader shader, glm::vec2 position, float scalingFactorX = 1.0f, float scalingFactorY = 1.0f);
-=======
+
 	// render a given sprite, using the texture and shader given 
-	void renderSprite(Texture2D texture, Shader shader, glm::vec2 position, float scalingFactor = 1.0f);
-	
+	void renderSprite(Texture2D texture, Shader shader, glm::vec2 position, float scalingFactorX = 1.0f, float scalingFactorY = 1.0f);
+
 	//render a given sprite, using a glyph
 	void renderText(Shader shader, std::string text, glm::vec2 position, glm::vec3 color, float scalingFactor = 1.0f);
->>>>>>> 99001905878edc048aa2abce4290f652038b19af
 
 	void initTextRendering(Shader shader, std::map<char, Char> * characters);
 
