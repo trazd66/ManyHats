@@ -4,9 +4,11 @@
 
 #include "GameWorld.h"
 
-#define INITIAL_STATE 0;
-#define BEGINING_STATE 1;
-#define GAMEPLAY_STATE 2;
+
+enum GAME_STATE{
+	INITIAL_STATE,
+	GAMEPLAY_STATE
+};
 
 class GameStateManager
 {
