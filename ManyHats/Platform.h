@@ -16,7 +16,7 @@ private:
 public:
 
 	// Returns the type of this object.
-	string getItemType() {
+	std::string getItemType() {
 		return "Platform";
 	}
 

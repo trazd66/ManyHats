@@ -65,7 +65,7 @@ void GL_Sprite_Renderer::loadCharacters(std::map<char, Char>* characters)
 }
 
 
-void GL_Sprite_Renderer::renderSprite(Texture2D texture, Shader shader, glm::vec2 position, float scalingFactor)
+void GL_Sprite_Renderer::renderSprite(Texture2D texture, Shader shader, glm::vec2 position, float scalingFactorX, float scalingFactorY)
 {
 
 
@@ -84,7 +84,7 @@ void GL_Sprite_Renderer::renderSprite(Texture2D texture, Shader shader, glm::vec
 	transform = glm::translate(transform, glm::vec3(position, 0.0f));
 
 	//transform the size of the
-	transform = glm::scale(transform, glm::vec3(scalingFactor, scalingFactor, scalingFactor));
+	transform = glm::scale(transform, glm::vec3(scalingFactorX, scalingFactorY, 1.0f));
 
 	// The following line rotates the character.  I am keeping it here in case we need to use it in the future.
 	// transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));

@@ -1,5 +1,6 @@
 #pragma once
-#include"InGameObj.h"
+#include "InGameObj.h"
+#include "Platform.h"
 #include "Hat.h"
 #include <queue>
 
@@ -72,7 +73,7 @@ public:
 	}
 
 	// Updates the Character.
-	void update();
+	void update(std::vector<Platform*> platformList, int gravity);
 
 	// Initiates a jump.
 	virtual void jump();
@@ -88,4 +89,7 @@ public:
 
 	// Adds a hat to the character's hat queue.
 	virtual void fetchHat(Hat* hat);
+
+	// Returns the next vertical speed to adopt, which changes based on whether or not the character is near a platform.
+	int getNextYSpeed(std::vector<Platform*> platformList, int gravity);
 };
