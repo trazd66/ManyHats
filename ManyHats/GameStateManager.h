@@ -1,14 +1,5 @@
 #pragma once
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
-#include "GameWorld.h"
-
-
-enum GAME_STATE{
-	INITIAL_STATE,
-	GAMEPLAY_STATE
-};
+#include "GameState.h"
 
 class GameStateManager
 {
@@ -64,15 +55,10 @@ public:
 	}
 
 private:
+	
 	//primary gameworld
 	GameWorld* gameWorld;
-	//the current game state
-	int currGameSate;
 	
-	void displayWelcomeScreen();
-
-	//bind the input based on number of players
-	void bindInput(int numOfPlayer);
 
 };
 

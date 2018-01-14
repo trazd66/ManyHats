@@ -3,8 +3,7 @@
 #include "Character.h"
 #include "Hat.h"
 #include "Platform.h"
-#include <list>
-
+#include <vector>
 using std::vector;
 
 class GameWorld {

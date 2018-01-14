@@ -48,6 +48,7 @@ int main()
 	// glfw window creation
 	// --------------------
 	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+	GLFWwindow* exitWindow = glfwCreateWindow(SCR_WIDTH / 2, SCR_HEIGHT / 2, "asd", nullptr, nullptr);
 	if (window == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -56,7 +57,6 @@ int main()
 	}
 
 	glfwMakeContextCurrent(window);
-
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
@@ -100,16 +100,12 @@ int main()
 	fileName2[i] = '\0';
 	manager->LoadTexture(fileName2, true, "Char_Texture1");
 
-<<<<<<< HEAD
 
 	manager->LoadTexture("platform.jpg", false, "Platform_Texture");
 
 	// render loop
 	// -----------
-=======
-	// Compile and setup the shader
-	// Game loop
->>>>>>> 99001905878edc048aa2abce4290f652038b19af
+
 	while (!glfwWindowShouldClose(window))
 	{
 		// Check and call events
@@ -156,6 +152,7 @@ int main()
 					(float) (game->getCharacters()[i]->getLocation()[1])),
 				0.1f,
 				0.1f);
+			std::cout << game->getCharacters()[0]->getLocation()[0] << std::endl;
 		}
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
