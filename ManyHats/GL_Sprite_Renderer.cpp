@@ -156,6 +156,8 @@ void GL_Sprite_Renderer::renderText(Shader shader, std::string text, glm::vec2 p
 void GL_Sprite_Renderer::initTextRendering(Shader shader, std::map<char, Char> * characters)
 {
 	this->loadCharacters(characters);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glGenVertexArrays(1, &this->textVAO);
 	glGenBuffers(1, &textVBO);
 	glBindVertexArray(this->textVAO);

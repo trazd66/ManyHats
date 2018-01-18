@@ -1,6 +1,6 @@
 #pragma once
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+
+#include "GameState.h"
 
 enum inputState {
 	ESCAPE_PRESSED,
@@ -9,30 +9,31 @@ enum inputState {
 	INIT_STATE
 };
 
+
 class InputManager
 {
 public:
+	//initiate the inputManager with a gamestate
+	static void loadCurrGameState(GameState* gameState);
 
 	//return the current cursor location with top left corner as (0,0)
-	static double* getCursorLocation(GLFWwindow * window) {
-		double xpos, ypos;
-		glfwGetCursorPos(window, &xpos, &ypos);
-		double location[2] = { xpos,ypos };
-		return location;
-	}
+	static double* getCursorLocation(GLFWwindow * window);
+
+	// true if the cursor is currently on the given buttons
+	static bool cursorOnButton(GLFWwindow * window, GUI_Button* button);
+
+	// process keyboard inputs of two players
+	static void process_DUO_gameplay_input(GameWorld* game, GLFWwindow *window);
+
+	static void setCursorCallBack(GLFWwindow* window);
 
 
-	static void processKeyboardInput(GLFWwindow * window, inputState) {
+	static void process_left_click(GLFWwindow * window);
 
-	}
 
 private:
-	void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
-	{
-		if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
-			//if is pressed inside a button
-		}
 
-	}
+	//static GameState * currGameState;
+
 };
 

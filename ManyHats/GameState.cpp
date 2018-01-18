@@ -8,9 +8,14 @@ GameState::~GameState()
 {
 }
 
-void GameState::renderGui()
+
+void GameState::renderCall()
 {
-	for (auto &button : buttons) {
-		//render all buttons
-	}
+	this->renderCallBack();
 }
+
+void GameState::initGameState(std::function<void()> func)
+{
+	this->renderCallBack = func;
+}
+

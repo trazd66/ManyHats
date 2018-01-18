@@ -1,64 +1,43 @@
 #pragma once
 #include "GameState.h"
 
+enum state
+{
+	Welcome,
+	Gameplay
+};
+
+
 class GameStateManager
 {
 public:
-	GameStateManager() {};
+	GameStateManager(GL_Manager* manager, GL_Sprite_Renderer* renderer);
 
 	~GameStateManager() {};
 
-	// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-	// ---------------------------------------------------------------------------------------------------------
-	void processInput(GameWorld* game, GLFWwindow *window)
-
-	{
-		// Pressing the Escape key should close the window.
-		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-			glfwSetWindowShouldClose(window, true);
-		}
-
-		/* PLAYER 1 MOVEMENT */
-		// Deals with horizontal movement.
-		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-			game->getCharacters()[0]->moveRight();
-		} else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-			game->getCharacters()[0]->moveLeft();
-		}
-		else {
-			game->getCharacters()[0]->setX_vel(0);
-		}
-
-		// Deals with vertical movement.
-		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && !(game->getCharacters()[0]->getAirborneStatus())) {
-			game->getCharacters()[0]->setAirborneStatus(true);
-			game->getCharacters()[0]->setY_vel(game->getCharacters()[0]->getJumpSpeed());
-		}
-
-
-		/* PLAYER 2 MOVEMENT */
-		// Deals with horizontal movement.
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-			game->getCharacters()[1]->moveRight();
-		} else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-			game->getCharacters()[1]->moveLeft();
-		}
-		else {
-			game->getCharacters()[1]->setX_vel(0);
-		}
-
-		// Deals with vertical movement.
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !(game->getCharacters()[1]->getAirborneStatus())) {
-			game->getCharacters()[1]->setAirborneStatus(true);
-			game->getCharacters()[1]->setY_vel(game->getCharacters()[1]->getJumpSpeed());
-		}
+	void switchState(state nextState) {
+		currState = nextState;
+		this->update();	
 	}
 
-private:
-	
-	//primary gameworld
-	GameWorld* gameWorld;
-	
+	GameState* getCurrState();
 
+	void setWelcomeState();
+
+
+private:
+	void update();
+
+	state currState;
+	
+	vector<GameState*> gameStates;
+
+	GL_Manager* manager;
+
+	GL_Sprite_Renderer* renderer;
+
+	GLFWwindow * window;//there really should just be one window
+
+	void renderGUI_Objs(vector<GUI_Obj*> objs);
 };
 

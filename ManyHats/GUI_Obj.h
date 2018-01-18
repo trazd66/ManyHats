@@ -2,18 +2,36 @@
 #include <iostream>
 #include "Texture2D.h"
 
+#include <glm/vec2.hpp>
+
 using std::string;
 class GUI_Obj
 {
 public:
 	virtual std::string getGUI_type() = 0;
-	GUI_Obj(double loc[2], double height, double length, Texture2D texture) : height(height), length(length), texture(texture) {
-		location[0] = loc[0];
-		location[1] = loc[1];
+	// location is the coordinate at button left of the object
+	GUI_Obj(glm::vec2 location, double height, double length, Texture2D texture) :
+		location(location), height(height), length(length), texture(texture) {
+	}
+
+	glm::vec2 getLocation() {//get the location of the object
+		return location;
+	}
+
+	double getLength() {// get the length of this obj
+		return length;
+	}
+
+	double getHeight() {//height of this obj
+		return height;
+	}
+
+	Texture2D getTexture() {
+		return texture;
 	}
 
 private:
-	double location[2];	// The centre of location of this object, x as first element, y as the second element
+	glm::vec2 location;
 	double length;// length of the gui object
 	double height;// height of the gui object
 	Texture2D texture; // texture used for this gui object

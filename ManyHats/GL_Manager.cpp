@@ -11,7 +11,7 @@ Shader GL_Manager::LoadShader(const GLchar * vShaderFile, const GLchar * fShader
 	return Shaders[name];
 }
 
-Shader GL_Manager::GetShader(std::string name)
+Shader GL_Manager::getShader(std::string name)
 {
 	return Shaders[name];
 }
@@ -22,7 +22,7 @@ Texture2D GL_Manager::LoadTexture(const GLchar * file, GLboolean alpha, std::str
 	return Textures[name];
 }
 
-Texture2D GL_Manager::GetTexture(std::string name)
+Texture2D GL_Manager::getTexture(std::string name)
 {
 	return Textures[name];
 }

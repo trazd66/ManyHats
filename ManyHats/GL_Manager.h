@@ -31,13 +31,13 @@ public:
 	Shader   LoadShader(const GLchar *vShaderFile, const GLchar *fShaderFile, const GLchar *gShaderFile, std::string name);
 	
 	// Retrieves a stored sader
-	Shader   GetShader(std::string name);
+	Shader   getShader(std::string name);
 	
 	// Loads (and generates) a texture from file
 	Texture2D LoadTexture(const GLchar *file, GLboolean alpha, std::string name);
 	
 	// Retrieves a stored texture
-	Texture2D GetTexture(std::string name);
+	Texture2D getTexture(std::string name);
 	
 	//load a font, and store it in Characters
 	void loadFont(const GLchar * fontPath);

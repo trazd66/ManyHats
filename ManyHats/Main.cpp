@@ -26,7 +26,7 @@ const unsigned int SCR_HEIGHT = 600;
 GL_Manager * manager = new GL_Manager();
 GL_Sprite_Renderer * renderer = new GL_Sprite_Renderer(SCR_WIDTH, SCR_HEIGHT);
 
-GameStateManager* gsm = new GameStateManager();
+GameStateManager* gsm = new GameStateManager(manager,renderer);
 GameWorld* game = new GameWorld();
 
 
@@ -48,7 +48,6 @@ int main()
 	// glfw window creation
 	// --------------------
 	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
-	GLFWwindow* exitWindow = glfwCreateWindow(SCR_WIDTH / 2, SCR_HEIGHT / 2, "asd", nullptr, nullptr);
 	if (window == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -70,38 +69,19 @@ int main()
 	// build and compile our shader program
 	// ------------------------------------
 	renderer->initShader();
+	manager->LoadShader("GLSL/text_shader.vs", "GLSL/Text_shader.fs", nullptr, "Text_Shader");
+	manager->loadFont("Fonts/Vera.ttf");
+	renderer->initTextRendering(manager->getShader("Text_Shader"), manager->getCharacterMap());
 	// Initiate the game.
 	game->initiate();
-
-	// TODO:  We probably can get rid of the BG_Shader?
-	// manager->LoadShader("GLSL/BG_texture.vs", "GLSL/BG_texture.fs", nullptr, "BG_Shader");
 
 	manager->LoadShader("GLSL/Char_texture.vs", "GLSL/Char_texture.fs", nullptr, "Char_Shader");
 	manager->LoadTexture(BACKGROUND_IMAGE, false, "BG_Texture");
 
 
-
-
-
-	char fileName1[100];
-
-	int i;
-	for (i = 0; i < game->getCharacters()[0]->getImage().size(); i++) {
-		fileName1[i] = game->getCharacters()[0]->getImage()[i];
-	}
-	fileName1[i] = '\0';
-
-	manager->LoadTexture(fileName1, true, "Char_Texture0");
-	char fileName2[100];
-
-	for (i = 0; i < game->getCharacters()[1]->getImage().size(); i++) {
-		fileName2[i] = game->getCharacters()[1]->getImage()[i];
-	}
-	fileName2[i] = '\0';
-	manager->LoadTexture(fileName2, true, "Char_Texture1");
-
-
 	manager->LoadTexture("platform.jpg", false, "Platform_Texture");
+	manager->LoadTexture("button-1.jpg", false, "Button_Texture");
+	gsm->initWelcomeState();
 
 	// render loop
 	// -----------
@@ -115,45 +95,14 @@ int main()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		//renderer->renderText(manager->GetShader("text_shader"), "This is sample text",glm::vec2( 25.0f, 25.0f), glm::vec3(0.5, 0.8f, 0.2f));
+		//renderer->renderText(manager->getShader("text_shader"), "This is sample text",glm::vec2( 25.0f, 25.0f), glm::vec3(0.5, 0.8f, 0.2f));
 		// Swap the buffers
 
-		// Process keystrokes.
-		gsm->processInput(game, window);
-
+		
 		// Update the game's state.
 		game->update();
 
-		// Rendering the background.
-		renderer->renderSprite(
-			manager->GetTexture("BG_Texture"),
-			manager->GetShader("Char_Shader"),
-			glm::vec2(400, 300));
-
-		// Rendering the platforms.
-		for (int i = 0; i < game->getPlatforms().size(); i++) {
-			renderer->renderSprite(
-				manager->GetTexture("Platform_Texture"),
-				manager->GetShader("Char_Shader"),
-				glm::vec2(
-					(float) (game->getPlatforms()[i]->getLocation()[0]),
-					(float) (game->getPlatforms()[i]->getLocation()[1])),
-				0.98f,
-				0.04f);
-		}
-
-		// Rendering the characters.
-		for (int i = 0; i < game->getCharacters().size(); i++) {
-			renderer->renderSprite(
-				manager->GetTexture("Char_Texture" + std::to_string(i)),
-				manager->GetShader("Char_Shader"),
-				glm::vec2(
-					(float) (game->getCharacters()[i]->getLocation()[0]),
-					(float) (game->getCharacters()[i]->getLocation()[1])),
-				0.1f,
-				0.1f);
-			std::cout << game->getCharacters()[0]->getLocation()[0] << std::endl;
-		}
+		gsm->getCurrState()->renderCall();
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------

@@ -6,14 +6,14 @@
 
 #include <functional>
 
-class GUI_Button : GUI_Obj
+class GUI_Button : public GUI_Obj
 {
 public:
-	GUI_Button(std::function<void(GLFWwindow&)> windowCallBack,
+	GUI_Button(std::function<void()> windowCallBack,
 		GLFWwindow * window,
-		double location[2],
-		double length, 
-		double height, 
+		glm::vec2 location,
+		double length,
+		double height,
 		Texture2D texture)
 
 		:windowCallBack(windowCallBack),window(window),GUI_Obj(location,length,height,texture) {};
@@ -25,13 +25,14 @@ public:
 		return "Button";
 	}
 
+	void onPressed() {// when the button is pressed down, execute windowCallBack
+		windowCallBack(); // executes the function
+	}
+
 private:
 	GLFWwindow* window; // the window where this button belongs to
 
-	std::function<void(GLFWwindow&)>	windowCallBack; // the function that this button is going to execute when pressed
+	std::function<void()>	windowCallBack; // the function that this button is going to execute when pressed
 
-	void onPressed() {// when the button is pressed down, execute windowCallBack
-		windowCallBack(*window); // executes the function
-	}
 };
 

@@ -1,7 +1,4 @@
 #pragma once
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
 #include "GameWorld.h"
 
 #include "GUI_Button.h"
@@ -11,25 +8,39 @@
 class GameState
 {
 public:
-	GameState(GLFWwindow* window, GL_Sprite_Renderer* renderer, GameWorld world) :
-		window(window), renderer(renderer), currWorld(world) {};
+	GameState(GLFWwindow* window, GameWorld* world = nullptr) :
+		window(window), currWorld(world) {};
 
 	~GameState();
 
-	void addButton(GUI_Button button) {
+	void addButton(GUI_Button* button) {
 		buttons.push_back(button);
 	}
 	
-	//render the buttons
-	void renderGui();
+	void renderCall();
+
+	//returns the buttons that this game state uses
+	vector<GUI_Button*> getButtons() {
+		return buttons;
+	}
+
+
+	void initGameState(std::function<void()> func);
+
+	void testCall(GL_Sprite_Renderer* renderer, GL_Manager* manager) {
+		renderer->renderSprite(
+			manager->getTexture("BG_Texture"),
+			manager->getShader("Char_Shader"),
+			glm::vec2(400, 300));
+	}
 
 private:
 	GLFWwindow* window;
 
-	GL_Sprite_Renderer* renderer;// the renderer that this game state uses
+	std::function<void()> renderCallBack; // call back used during render call
 
-	GameWorld currWorld;
+	GameWorld* currWorld; // a game state may or may not contain a gameworld
 
-	vector<GUI_Button> buttons; //list of buttons used by in this gameState
+	vector<GUI_Button*> buttons; //list of buttons used by in this gameState
 };
 
