@@ -1,6 +1,8 @@
 #pragma once
 #include "GameState.h"
 
+#include "GL_Sprite_Renderer.h"
+
 enum state
 {
 	Welcome,
@@ -15,21 +17,23 @@ public:
 
 	~GameStateManager() {};
 
-	void switchState(state nextState) {
-		currState = nextState;
-		this->update();	
-	}
+	void init();
 
 	GameState* getCurrState();
 
-	void setWelcomeState();
-
-
-private:
 	void update();
 
+private:
+	void switchState(state nextState);
+
+	void setWelcomeState();
+
+	void setgameplayState();
+
+	void setPausedState();
+
 	state currState;
-	
+
 	vector<GameState*> gameStates;
 
 	GL_Manager* manager;
@@ -37,7 +41,5 @@ private:
 	GL_Sprite_Renderer* renderer;
 
 	GLFWwindow * window;//there really should just be one window
-
-	void renderGUI_Objs(vector<GUI_Obj*> objs);
 };
 

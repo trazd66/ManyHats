@@ -33,7 +33,7 @@ public:
 
 private:
 
-	//static GameState * currGameState;
+	static GameState * currGameState;
 
 };
 

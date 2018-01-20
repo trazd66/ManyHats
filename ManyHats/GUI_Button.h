@@ -16,7 +16,9 @@ public:
 		double height,
 		Texture2D texture)
 
-		:windowCallBack(windowCallBack),window(window),GUI_Obj(location,length,height,texture) {};
+		:window(window),GUI_Obj(location,length,height,texture) {
+		this->windowCallBack = windowCallBack;
+	};
 
 	~GUI_Button();
 
@@ -26,7 +28,7 @@ public:
 	}
 
 	void onPressed() {// when the button is pressed down, execute windowCallBack
-		windowCallBack(); // executes the function
+		this->windowCallBack(); // executes the function
 	}
 
 private:

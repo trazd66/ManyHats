@@ -10,8 +10,8 @@ class GUI_Obj
 public:
 	virtual std::string getGUI_type() = 0;
 	// location is the coordinate at button left of the object
-	GUI_Obj(glm::vec2 location, double height, double length, Texture2D texture) :
-		location(location), height(height), length(length), texture(texture) {
+	GUI_Obj(glm::vec2 location, double length, double height, Texture2D texture) :
+		location(location), length(length), height(height), texture(texture) {
 	}
 
 	glm::vec2 getLocation() {//get the location of the object

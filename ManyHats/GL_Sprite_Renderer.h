@@ -19,8 +19,6 @@ public:
 	//initiate the renderer
 	void initShader();
 
-	void init();
-
 	// render a given sprite, using the texture and shader given 
 	void renderSprite(Texture2D texture, Shader shader, glm::vec2 position, float scalingFactorX = 1.0f, float scalingFactorY = 1.0f);
 

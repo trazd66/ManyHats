@@ -1,6 +1,7 @@
 #include "InputManager.h"
 
 
+GameState* InputManager::currGameState;
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
@@ -16,7 +17,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 void InputManager::loadCurrGameState(GameState * gameState)
 {
 	if (gameState != nullptr) {
-		//InputManager::currGameState = gameState;
+		InputManager::currGameState = gameState;
 	}
 	else {
 		//gameState = nullptr;
@@ -27,18 +28,21 @@ double * InputManager::getCursorLocation(GLFWwindow * window)
 {
 	double xpos, ypos;
 	glfwGetCursorPos(window, &xpos, &ypos);
-	double location[2] = { xpos,ypos };
+	double location[2] = { xpos, abs( ypos-600)}; //position with top left corner as (0,0)
 	return location;
 }
 
 bool InputManager::cursorOnButton(GLFWwindow * window, GUI_Button * button)
 {
-	double x_loc = button->getLocation()[0];// bottom left x location of the button
-	double y_loc = button->getLocation()[1];// bottom left y location of the button
+	double x_loc = button->getLocation().x;//x location of the button
+	double y_loc = button->getLocation().y;//y location of the button
 
-	if (y_loc <= getCursorLocation(window)[0] <= y_loc + button->getHeight() &&
-		x_loc <= getCursorLocation(window)[1] <= x_loc + button->getLength()
-		) {
+	double y_diff0 = y_loc - button->getHeight() / 2;
+	double y_diff1 = y_loc + button->getHeight() / 2;
+	double x_diff0 = x_loc - button->getLength() / 2;
+	double x_diff1 = x_loc + button->getLength() / 2;
+	if ((y_diff0 <= getCursorLocation(window)[1] && getCursorLocation(window)[1] <= y_diff1) &&
+		(x_diff0 <= getCursorLocation(window)[0] && getCursorLocation(window)[0] <= x_diff1)) {
 		return true;
 	}
 	return false;
@@ -97,12 +101,12 @@ void InputManager::setCursorCallBack(GLFWwindow * window)
 
 void InputManager::process_left_click(GLFWwindow * window)
 {
-	//for (auto button : currGameState->getButtons()) {
-		//if (InputManager::cursorOnButton(window, button)) {
-			//button->onPressed();
-			//return;
-		//}
-//	}
+	for (auto button : currGameState->getButtons()) {
+		if (InputManager::cursorOnButton(window, button)) {
+			button->onPressed();
+			return;
+		}
+	}
 }
 
 
