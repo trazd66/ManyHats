@@ -24,6 +24,8 @@ public:
 	void update();
 
 private:
+	void updateGameWorld();
+
 	void switchState(state nextState);
 
 	void setWelcomeState();

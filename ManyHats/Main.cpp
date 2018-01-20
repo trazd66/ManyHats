@@ -27,8 +27,6 @@ GL_Manager * manager = new GL_Manager();
 GL_Sprite_Renderer * renderer = new GL_Sprite_Renderer(SCR_WIDTH, SCR_HEIGHT);
 
 GameStateManager* gsm = new GameStateManager(manager,renderer);
-GameWorld* game = new GameWorld();
-
 
 // The MAIN function, from here we start our application and run the Game loop
 int main()
@@ -72,8 +70,7 @@ int main()
 	manager->LoadShader("GLSL/text_shader.vs", "GLSL/Text_shader.fs", nullptr, "Text_Shader");
 	manager->loadFont("Fonts/Vera.ttf");
 	renderer->initTextRendering(manager->getShader("Text_Shader"), manager->getCharacterMap());
-	// Initiate the game.
-	game->initiate();
+	
 
 	manager->LoadShader("GLSL/Char_texture.vs", "GLSL/Char_texture.fs", nullptr, "Char_Shader");
 	manager->LoadTexture(BACKGROUND_IMAGE, false, "BG_Texture");
@@ -81,25 +78,6 @@ int main()
 
 	manager->LoadTexture("platform.jpg", false, "Platform_Texture");
 	manager->LoadTexture("button-1.jpg", false, "Button_Texture");
-
-	char fileName1[100];
-
-	int i;
-	for (i = 0; i < game->getCharacters()[0]->getImage().size(); i++) {
-		fileName1[i] = game->getCharacters()[0]->getImage()[i];
-	}
-	fileName1[i] = '\0';
-
-	manager->LoadTexture(fileName1, true, "Char_Texture0");
-	char fileName2[100];
-
-	for (i = 0; i < game->getCharacters()[1]->getImage().size(); i++) {
-		fileName2[i] = game->getCharacters()[1]->getImage()[i];
-	}
-	fileName2[i] = '\0';
-	manager->LoadTexture(fileName2, true, "Char_Texture1");
-
-	game->initiate();
 
 	gsm->init();
 	InputManager::setCursorCallBack(window);
@@ -112,7 +90,6 @@ int main()
 		// Check and call events
 		glfwPollEvents();
 		// Update the game's state.
-		game->update();
 		gsm->update();
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

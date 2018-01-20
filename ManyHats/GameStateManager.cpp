@@ -11,7 +11,6 @@ GameStateManager::GameStateManager(GL_Manager * manager, GL_Sprite_Renderer* ren
 void GameStateManager::switchState(state nextState)
 {
 	this->currState = nextState;
-//	this->update();
 }
 
 void GameStateManager::init()
@@ -76,8 +75,31 @@ void GameStateManager::setWelcomeState()
 
 void GameStateManager::setgameplayState()
 {
-	GameState * gameplay = new GameState(window);
+	GameWorld* game = new GameWorld();
+	GameState * gameplay = new GameState(window,game);
 	this->gameStates.push_back(gameplay);
+
+	game->initiate();
+
+	char fileName1[100];
+
+	int i;
+	for (i = 0; i < game->getCharacters()[0]->getImage().size(); i++) {
+		fileName1[i] = game->getCharacters()[0]->getImage()[i];
+	}
+	fileName1[i] = '\0';
+
+	manager->LoadTexture(fileName1, true, "Char_Texture0");
+	char fileName2[100];
+
+	for (i = 0; i < game->getCharacters()[1]->getImage().size(); i++) {
+		fileName2[i] = game->getCharacters()[1]->getImage()[i];
+	}
+	fileName2[i] = '\0';
+	manager->LoadTexture(fileName2, true, "Char_Texture1");
+
+
+
 
 	std::function<void()> renderCall = [this, gameplay]() {
 		// Clear the colorbuffer
@@ -129,4 +151,12 @@ void GameStateManager::setPausedState()
 void GameStateManager::update()
 {
 	gameStates.at(currState)->renderCall();
+	this->updateGameWorld();
+}
+
+void GameStateManager::updateGameWorld()
+{
+	if (getCurrState()->getWorld() != nullptr) {
+		this->getCurrState()->getWorld()->update();
+	}
 }
