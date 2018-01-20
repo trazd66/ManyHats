@@ -81,7 +81,7 @@ int main()
 
 	manager->LoadTexture("platform.jpg", false, "Platform_Texture");
 	manager->LoadTexture("button-1.jpg", false, "Button_Texture");
-	gsm->initWelcomeState();
+	gsm->setWelcomeState();
 
 	// render loop
 	// -----------

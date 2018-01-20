@@ -19,7 +19,7 @@ GameState* GameStateManager::getCurrState()
 	return gameStates.at(currState);
 }
 
-void GameStateManager::initWelcomeState()
+void GameStateManager::setWelcomeState()
 {
 	this->currState = Welcome;
 	GameState * welcome = new GameState(window);
