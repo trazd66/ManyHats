@@ -107,7 +107,6 @@ void GL_Sprite_Renderer::renderSprite(Texture2D texture, Shader shader, glm::vec
 }
 
 
-
 void GL_Sprite_Renderer::renderText(Shader shader, std::string text, glm::vec2 position, glm::vec3 color, float scalingFactor)
 {
 	// Activate corresponding render state	

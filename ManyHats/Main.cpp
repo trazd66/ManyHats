@@ -79,9 +79,11 @@ int main()
 	manager->LoadTexture("platform.jpg", false, "Platform_Texture");
 	manager->LoadTexture("button-1.jpg", false, "Button_Texture");
 
+	manager->LoadShader("GLSL/sprite_sheat.vs", "GLSL/sprite_sheat.fs", nullptr, "char_sprite");
 	gsm->init();
 	InputManager::setCursorCallBack(window);
 	InputManager::loadCurrGameState(gsm->getCurrState());
+
 
 	// render loop
 	// -----------
