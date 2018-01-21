@@ -149,9 +149,19 @@ void GameStateManager::setPausedState()
 }
 
 void GameStateManager::update()
-{
-	gameStates.at(currState)->renderCall();
-	this->updateGameWorld();
+{	
+	// - Measure time
+	nowTime = glfwGetTime();
+	deltaTime += (nowTime - lastTime) / limitFPS;
+	lastTime = nowTime;
+
+	// - Only update at 60 frames / s
+	while (deltaTime >= 1.0) {
+		this->updateGameWorld();
+		// - Update function
+		updates++;
+		deltaTime--;
+	}
 }
 
 void GameStateManager::updateGameWorld()

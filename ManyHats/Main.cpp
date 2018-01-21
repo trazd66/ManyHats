@@ -81,8 +81,8 @@ int main()
 
 	gsm->init();
 	InputManager::setCursorCallBack(window);
-	std::cout << gsm->getCurrState() << std::endl;
 	InputManager::loadCurrGameState(gsm->getCurrState());
+
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
@@ -91,6 +91,10 @@ int main()
 		glfwPollEvents();
 		// Update the game's state.
 		gsm->update();
+		if (gsm->getCurrState()->getWorld() != nullptr) {
+			InputManager::process_DUO_gameplay_input(gsm->getCurrState()->getWorld(), window);
+		}
+		gsm->getCurrState()->renderCall();
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
