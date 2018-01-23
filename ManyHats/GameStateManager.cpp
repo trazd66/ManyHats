@@ -1,18 +1,20 @@
 #include "GameStateManager.h"
 
 
-
+// Default constructor.
 GameStateManager::GameStateManager(GL_Manager * manager, GL_Sprite_Renderer* renderer)
 {
 	this->manager = manager;
 	this->renderer = renderer;
 }
 
+// Changes the current GameState.
 void GameStateManager::switchState(state nextState)
 {
 	this->currState = nextState;
 }
 
+// Initializes the current GameStateManager.
 void GameStateManager::init()
 {
 	setWelcomeState();
@@ -21,22 +23,24 @@ void GameStateManager::init()
 	this->currState = Welcome;
 }
 
+// Returns the current GameState.
 GameState* GameStateManager::getCurrState()
 {
 	return gameStates.at(currState);
 }
 
+// Sets the Welcome GameState.
 void GameStateManager::setWelcomeState()
 {
 	GameState * welcome = new GameState(window);
 	this->gameStates.push_back(welcome);
 
 	std::function<void()> windowCallBack = [this]() mutable {
-		// the function that this button is going to execute when pressed
+		// The function that this button is going to execute when pressed.
 		this->switchState(Gameplay);
 	};
 
-	//creates a new button
+	// Creates a new button.
 	GUI_Button* startGame = new GUI_Button(
 		windowCallBack,
 		window,
@@ -44,11 +48,11 @@ void GameStateManager::setWelcomeState()
 		320, 60,
 		manager->getTexture("Button_Texture"));
 
+	// Adds a button to start the game.
 	welcome->addButton(startGame);
 
-
 	std::function<void()> renderCall = [this, welcome]() {
-		// Clear the colorbuffer
+		// Clear the colour buffer.
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
@@ -69,10 +73,11 @@ void GameStateManager::setWelcomeState()
 			glm::vec3(1, 0.5, 0));
 
 	};
-	welcome->initGameState(renderCall);
 
+	welcome->initGameState(renderCall);
 }
 
+// Sets the GamePlay GameState.
 void GameStateManager::setgameplayState()
 {
 	GameWorld* game = new GameWorld();
@@ -128,36 +133,39 @@ void GameStateManager::setgameplayState()
 		}
 
 	};
-
 	gameplay->initGameState(renderCall);
 }
 
+// Sets the paused state of this game.
 void GameStateManager::setPausedState()
 {
 
 }
 
+// Adds the given animation to the animation map.
 void GameStateManager::addAnimToMap(std::string name, Animation* animation)
 {
 	animMap[name] = animation;
 }
 
+// Updates this GameState's GameWorld.
 void GameStateManager::update()
 {
-	// - Measure time
+	// - Measure time.
 	nowTime = glfwGetTime();
 	deltaTime += (nowTime - lastTime) / limitFPS;
 	lastTime = nowTime;
 
-	// - Only update at 60 frames / s
+	// - Only update at 60 frames / s.
 	while (deltaTime >= 1.0) {
 		this->updateGameWorld();
-		// - Update function
+		// - Update function.
 		updates++;
 		deltaTime--;
 	}
 }
 
+// Update the GameState's GameWorld.
 void GameStateManager::updateGameWorld()
 {
 	if (getCurrState()->getWorld() != nullptr) {

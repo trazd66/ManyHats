@@ -48,6 +48,7 @@ private:
 
 	void addAnimToMap(std::string name, Animation* animation);
 
+	// A map from strings to Animation pointers.
 	std::map<std::string, Animation*> animMap;
 
 	state currState;
