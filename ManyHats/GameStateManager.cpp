@@ -80,26 +80,22 @@ void GameStateManager::setgameplayState()
 	this->gameStates.push_back(gameplay);
 
 	game->initiate();
+	Animation* moveLeft = new Animation(renderer,
+		manager->getTexture("char_sprite_text"),
+		manager->getShader("char_sprite"),
+		glm::vec2(0.120, 0.5),
+		glm::vec2(0.120, 0.5),
+		7);
 
-	char fileName1[100];
+	Animation* moveRight = new Animation(renderer,
+		manager->getTexture("char_sprite_text"),
+		manager->getShader("char_sprite"),
+		glm::vec2(0.120, 0.5),
+		glm::vec2(0.120, 0),
+		7);
 
-	int i;
-	for (i = 0; i < game->getCharacters()[0]->getImage().size(); i++) {
-		fileName1[i] = game->getCharacters()[0]->getImage()[i];
-	}
-	fileName1[i] = '\0';
-
-	manager->LoadTexture(fileName1, true, "Char_Texture0");
-	char fileName2[100];
-
-	for (i = 0; i < game->getCharacters()[1]->getImage().size(); i++) {
-		fileName2[i] = game->getCharacters()[1]->getImage()[i];
-	}
-	fileName2[i] = '\0';
-	manager->LoadTexture(fileName2, true, "Char_Texture1");
-
-
-
+	this->addAnimToMap("moveLeft", moveLeft);
+	this->addAnimToMap("moveRight", moveRight);
 
 	std::function<void()> renderCall = [this, gameplay]() {
 		// Clear the colorbuffer
@@ -128,14 +124,7 @@ void GameStateManager::setgameplayState()
 
 		// Rendering the characters.
 		for (int i = 0; i < gameplay->getWorld()->getCharacters().size(); i++) {
-			renderer->renderSprite(
-				manager->getTexture("Char_Texture" + std::to_string(i)),
-				manager->getShader("Char_Shader"),
-				glm::vec2(
-				(float)(gameplay->getWorld()->getCharacters()[i]->getLocation()[0]),
-					(float)(gameplay->getWorld()->getCharacters()[i]->getLocation()[1])),
-				0.1f,
-				0.1f);
+			getAnim("moveLeft")->render(gameplay->getWorld()->getCharacters()[i]);
 		}
 
 	};
@@ -146,6 +135,11 @@ void GameStateManager::setgameplayState()
 void GameStateManager::setPausedState()
 {
 
+}
+
+void GameStateManager::addAnimToMap(std::string name,Animation* animation)
+{
+	animMap[name] = animation;
 }
 
 void GameStateManager::update()

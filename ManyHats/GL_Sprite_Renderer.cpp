@@ -1,7 +1,6 @@
 #include "GL_Sprite_Renderer.h"
 
-
-void GL_Sprite_Renderer::initShader()
+void GL_Sprite_Renderer::initBufferBinding()
 {
 	unsigned int VBO, EBO;
 	// set up vertex data (and buffer(s)) and configure vertex attributes
@@ -77,8 +76,8 @@ void GL_Sprite_Renderer::renderSprite(Texture2D texture, Shader shader, glm::vec
 
 	// Changes position from a vector (x, y) with 0 <= x <= 800, 0 <= y <= 600
 	// to a vector (x', y') with -1 <= x', y' <= 1 (which is the form that OpenGL needs).
-	position[0] *= 1.0f / 400.0f;
-	position[1] *= 1.0f / 300.0f;
+	position[0] *= 1.0f / (WIDTH/2);
+	position[1] *= 1.0f / (HEIGHT/2);
 	position -= glm::vec2(1.0f, 1.0f);
 
 	transform = glm::translate(transform, glm::vec3(position, 0.0f));
@@ -101,6 +100,48 @@ void GL_Sprite_Renderer::renderSprite(Texture2D texture, Shader shader, glm::vec
 	}
 
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+	glBindVertexArray(quadVAO);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+}
+
+void GL_Sprite_Renderer::renderAnim(Texture2D texture, Shader shader, glm::vec2 position, glm::vec2 texOffSet0, glm::vec2 texOffSet1, float scalingFactorX, float scalingFactorY,glm::vec3 colorOffSet)
+{
+	// bind textures on corresponding texture units
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, *texture.getTextureID());   // TextureID of Char is 3.
+	// render container
+	shader.use();
+	// create transformations
+	glm::mat4 transform;
+
+	// Changes position from a vector (x, y) with 0 <= x <= 800, 0 <= y <= 600
+	// to a vector (x', y') with -1 <= x', y' <= 1 (which is the form that OpenGL needs).
+	position[0] *= 1.0f / (WIDTH / 2);
+	position[1] *= 1.0f / (HEIGHT / 2);
+	position -= glm::vec2(1.0f, 1.0f);
+
+	transform = glm::translate(transform, glm::vec3(position, 0.0f));
+
+	//transform the size of the
+	transform = glm::scale(transform, glm::vec3(scalingFactorX, scalingFactorY, 1.0f));
+
+
+	// get matrix's uniform location and set matrix
+	unsigned int ID = shader.getID();
+	int transformLoc = glGetUniformLocation(ID, "transform");
+	// Check for errors.
+	if (transformLoc < 0) {
+		perror("glGetUniformLocation");
+		exit(1);
+	}
+
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+
+	shader.SetVector3f("textColor", colorOffSet, false);
+	shader.SetVector2f("texOffset0", texOffSet0,false);
+	shader.SetVector2f("texOffset1", texOffSet1, false);
+
 	glBindVertexArray(quadVAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 

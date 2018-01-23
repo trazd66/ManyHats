@@ -66,7 +66,7 @@ int main()
 
 	// build and compile our shader program
 	// ------------------------------------
-	renderer->initShader();
+	renderer->initBufferBinding();
 	manager->LoadShader("GLSL/text_shader.vs", "GLSL/Text_shader.fs", nullptr, "Text_Shader");
 	manager->loadFont("Fonts/Vera.ttf");
 	renderer->initTextRendering(manager->getShader("Text_Shader"), manager->getCharacterMap());
@@ -79,7 +79,9 @@ int main()
 	manager->LoadTexture("platform.jpg", false, "Platform_Texture");
 	manager->LoadTexture("button-1.jpg", false, "Button_Texture");
 
+	manager->LoadTexture("Sprites/action.png", true, "char_sprite_text");
 	manager->LoadShader("GLSL/sprite_sheat.vs", "GLSL/sprite_sheat.fs", nullptr, "char_sprite");
+
 	gsm->init();
 	InputManager::setCursorCallBack(window);
 	InputManager::loadCurrGameState(gsm->getCurrState());
@@ -97,6 +99,7 @@ int main()
 			InputManager::process_DUO_gameplay_input(gsm->getCurrState()->getWorld(), window);
 		}
 		gsm->getCurrState()->renderCall();
+
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------

@@ -2,6 +2,7 @@
 #include "GameState.h"
 
 #include "GL_Sprite_Renderer.h"
+#include "Animation.h"
 
 enum state
 {
@@ -23,6 +24,10 @@ public:
 
 	void update();
 
+	Animation* getAnim(std::string name) {
+		return animMap[name];
+	}
+
 private:
 	double limitFPS = 1.0 / 60.0;
 
@@ -40,6 +45,10 @@ private:
 	void setgameplayState();
 
 	void setPausedState();
+
+	void addAnimToMap(std::string name,Animation* animation);
+
+	std::map<std::string,Animation*> animMap;
 
 	state currState;
 
