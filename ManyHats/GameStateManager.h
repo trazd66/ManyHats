@@ -1,6 +1,8 @@
 #pragma once
 #include "GameState.h"
 
+#include "GL_Sprite_Renderer.h"
+
 enum state
 {
 	Welcome,
@@ -20,12 +22,19 @@ public:
 		this->update();	
 	}
 
+
+	void init();
+
 	GameState* getCurrState();
 
 	void setWelcomeState();
 
-
 private:
+
+	
+
+	void setgameplayState();
+
 	void update();
 
 	state currState;

@@ -3,8 +3,6 @@
 
 #include "GUI_Button.h"
 
-#include "GL_Sprite_Renderer.h"
-
 class GameState
 {
 public:
@@ -24,15 +22,11 @@ public:
 		return buttons;
 	}
 
+	GameWorld* getWorld() {
+		return currWorld;
+	}
 
 	void initGameState(std::function<void()> func);
-
-	void testCall(GL_Sprite_Renderer* renderer, GL_Manager* manager) {
-		renderer->renderSprite(
-			manager->getTexture("BG_Texture"),
-			manager->getShader("Char_Shader"),
-			glm::vec2(400, 300));
-	}
 
 private:
 	GLFWwindow* window;

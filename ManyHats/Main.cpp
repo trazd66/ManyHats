@@ -81,7 +81,27 @@ int main()
 
 	manager->LoadTexture("platform.jpg", false, "Platform_Texture");
 	manager->LoadTexture("button-1.jpg", false, "Button_Texture");
-	gsm->initWelcomeState();
+	gsm->setWelcomeState();
+
+
+
+
+	char fileName1[100];
+
+	int i;
+	for (i = 0; i < game->getCharacters()[0]->getImage().size(); i++) {
+		fileName1[i] = game->getCharacters()[0]->getImage()[i];
+	}
+	fileName1[i] = '\0';
+
+	manager->LoadTexture(fileName1, true, "Char_Texture0");
+	char fileName2[100];
+
+	for (i = 0; i < game->getCharacters()[1]->getImage().size(); i++) {
+		fileName2[i] = game->getCharacters()[1]->getImage()[i];
+	}
+	fileName2[i] = '\0';
+	manager->LoadTexture(fileName2, true, "Char_Texture1");
 
 	// render loop
 	// -----------
@@ -90,14 +110,6 @@ int main()
 	{
 		// Check and call events
 		glfwPollEvents();
-
-		// Clear the colorbuffer
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		//renderer->renderText(manager->getShader("text_shader"), "This is sample text",glm::vec2( 25.0f, 25.0f), glm::vec3(0.5, 0.8f, 0.2f));
-		// Swap the buffers
-
 		
 		// Update the game's state.
 		game->update();
