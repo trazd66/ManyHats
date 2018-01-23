@@ -9,30 +9,40 @@
 class GUI_Button : public GUI_Obj
 {
 public:
-	GUI_Button(std::function<void()> windowCallBack,
+
+	// Default constructor.
+	GUI_Button(
+		std::function<void()> windowCallBack,
 		GLFWwindow * window,
 		glm::vec2 location,
 		double length,
 		double height,
-		Texture2D texture)
+		Texture2D texture
+	) : window(window),GUI_Obj(location,length,height,texture) 
+	{
+		this->windowCallBack = windowCallBack;
+	};
 
-		:windowCallBack(windowCallBack),window(window),GUI_Obj(location,length,height,texture) {};
-
+	// Default destructor.
 	~GUI_Button();
 
-	//type of this gui obj
+	// Returns the type of this GUI object.
 	string getGUI_type() {
 		return "Button";
 	}
-
-	void onPressed() {// when the button is pressed down, execute windowCallBack
-		windowCallBack(); // executes the function
+	
+	// When the button is pressed down, execute windowCallBack().
+	void onPressed() {
+		// Executes the function.
+		this->windowCallBack(); 
 	}
 
 private:
-	GLFWwindow* window; // the window where this button belongs to
+	// The window that this button belongs to.
+	GLFWwindow* window; 
 
-	std::function<void()>	windowCallBack; // the function that this button is going to execute when pressed
+	// The function that this button is going to execute when pressed.
+	std::function<void()>	windowCallBack; 
 
 };
 

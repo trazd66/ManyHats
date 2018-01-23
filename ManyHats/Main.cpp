@@ -10,11 +10,9 @@
 
 #include "GL_Manager.h"
 #include "GL_Sprite_Renderer.h"
-
+#include "InputManager.h"
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
-
-
 
 #include "GameStateManager.h"
 
@@ -22,18 +20,15 @@ const unsigned int SCR_HEIGHT = 600;
 
 
 
-// settings
+// Make a GL_Manager, GL_Sprite_Renderer and GameStateManager for the game.
 GL_Manager * manager = new GL_Manager();
 GL_Sprite_Renderer * renderer = new GL_Sprite_Renderer(SCR_WIDTH, SCR_HEIGHT);
-
-GameStateManager* gsm = new GameStateManager(manager,renderer);
-GameWorld* game = new GameWorld();
-
+GameStateManager* gsm = new GameStateManager(manager, renderer);
 
 // The MAIN function, from here we start our application and run the Game loop
 int main()
 {
-	// Init GLFW
+	// Initialize GLFW
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -42,7 +37,7 @@ int main()
 
 #ifdef __APPLE__
 	// uncomment this statement to fix compilation on OS X
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	// glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
 	// glfw window creation
@@ -68,12 +63,11 @@ int main()
 
 	// build and compile our shader program
 	// ------------------------------------
-	renderer->initShader();
+	renderer->initBufferBinding();
 	manager->LoadShader("GLSL/text_shader.vs", "GLSL/Text_shader.fs", nullptr, "Text_Shader");
 	manager->loadFont("Fonts/Vera.ttf");
 	renderer->initTextRendering(manager->getShader("Text_Shader"), manager->getCharacterMap());
-	// Initiate the game.
-	game->initiate();
+
 
 	manager->LoadShader("GLSL/Char_texture.vs", "GLSL/Char_texture.fs", nullptr, "Char_Shader");
 	manager->LoadTexture(BACKGROUND_IMAGE, false, "BG_Texture");
@@ -81,40 +75,28 @@ int main()
 
 	manager->LoadTexture("platform.jpg", false, "Platform_Texture");
 	manager->LoadTexture("button-1.jpg", false, "Button_Texture");
-	gsm->setWelcomeState();
 
+	manager->LoadTexture("Sprites/action.png", true, "char_sprite_text");
+	manager->LoadShader("GLSL/sprite_sheat.vs", "GLSL/sprite_sheat.fs", nullptr, "char_sprite");
 
+	gsm->init();
+	InputManager::setCursorCallBack(window);
+	InputManager::loadCurrGameState(gsm->getCurrState());
 
-
-	char fileName1[100];
-
-	int i;
-	for (i = 0; i < game->getCharacters()[0]->getImage().size(); i++) {
-		fileName1[i] = game->getCharacters()[0]->getImage()[i];
-	}
-	fileName1[i] = '\0';
-
-	manager->LoadTexture(fileName1, true, "Char_Texture0");
-	char fileName2[100];
-
-	for (i = 0; i < game->getCharacters()[1]->getImage().size(); i++) {
-		fileName2[i] = game->getCharacters()[1]->getImage()[i];
-	}
-	fileName2[i] = '\0';
-	manager->LoadTexture(fileName2, true, "Char_Texture1");
 
 	// render loop
 	// -----------
-
 	while (!glfwWindowShouldClose(window))
 	{
 		// Check and call events
 		glfwPollEvents();
-		
 		// Update the game's state.
-		game->update();
-
+		gsm->update();
+		if (gsm->getCurrState()->getWorld() != nullptr) {
+			InputManager::process_DUO_gameplay_input(gsm->getCurrState()->getWorld(), window);
+		}
 		gsm->getCurrState()->renderCall();
+
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
