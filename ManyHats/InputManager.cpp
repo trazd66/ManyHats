@@ -20,7 +20,7 @@ void InputManager::loadCurrGameState(GameState * gameState)
 		InputManager::currGameState = gameState;
 	}
 	else {
-		//gameState = nullptr;
+		// gameState = nullptr;
 	}
 }
 
@@ -28,14 +28,17 @@ double * InputManager::getCursorLocation(GLFWwindow * window)
 {
 	double xpos, ypos;
 	glfwGetCursorPos(window, &xpos, &ypos);
-	double location[2] = { xpos, abs( ypos-600)}; //position with top left corner as (0,0)
+	double location[2] = { xpos, abs( ypos-600)}; // Position with top left corner as (0,0).
 	return location;
 }
 
 bool InputManager::cursorOnButton(GLFWwindow * window, GUI_Button * button)
 {
-	double x_loc = button->getLocation().x;//x location of the button
-	double y_loc = button->getLocation().y;//y location of the button
+	// X location of the button.
+	double x_loc = button->getLocation().x;
+
+	// Y location of the button.
+	double y_loc = button->getLocation().y;
 
 	double y_diff0 = y_loc - button->getHeight() / 2;
 	double y_diff1 = y_loc + button->getHeight() / 2;
@@ -50,10 +53,33 @@ bool InputManager::cursorOnButton(GLFWwindow * window, GUI_Button * button)
 
 void InputManager::process_DUO_gameplay_input(GameWorld * game, GLFWwindow * window)
 {
-	// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-	// Pressing the Escape key should close the window.
+	// Process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly.
+
+	// Pressing the Escape key should pause/unpause the game.
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-		//	glfwSetWindowShouldClose(window, true);
+		// Pauses or unpauses the game if it is ready to be paused.
+		if (game->getReadyToBePaused()) {
+			game->setPaused(!game->getPaused());
+			if (game->getPaused()) {
+				game->storeCharacterStates();
+			}
+		}
+
+		// The game is now not ready to change its "paused" state.
+		game->setReadyToBePaused(false);
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_RELEASE) {
+		// The game is now ready to change its "paused" state.
+		if (!game->getReadyToBePaused() && !game->getPaused()) {
+			game->restoreCharacterStates();
+		}
+		game->setReadyToBePaused(true);
+	}
+
+	// Exit if the game is paused. 
+	if (game->getPaused()) {
+		return;
 	}
 
 	/* PLAYER 1 MOVEMENT */

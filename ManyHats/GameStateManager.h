@@ -4,60 +4,96 @@
 #include "GL_Sprite_Renderer.h"
 #include "Animation.h"
 
+// An enum containing the states of this game.
 enum state
 {
 	Welcome,
-	Gameplay
+	Gameplay,
+	Paused
 };
 
-
+// This class deals with the GameStates of this game.
 class GameStateManager
 {
 public:
+
+	// The default constructor.
 	GameStateManager(GL_Manager* manager, GL_Sprite_Renderer* renderer);
 
+	// The default destructor.
 	~GameStateManager() {};
 
+	// Initializes the states in this GameStateManager, and sets the current state to Welcome.
 	void init();
 
+	// Returns the current state of the game.
 	GameState* getCurrState();
 
+	/* Updates the game (by calling GameWorld.update()).
+	 * Ensures that this updating occurs periodically.
+	 */
 	void update();
 
+	// Returns the Animation associated to the specified name.
 	Animation* getAnim(std::string name) {
 		return animMap[name];
 	}
 
+	// Sets the game's state to paused.
+	void pauseGame() {
+		switchState(Paused);
+	}
+
+	// Sets the game's state to unpaused.
+	void unpauseGame() {
+		switchState(Gameplay);
+	}
+
 private:
+
+	// The FPS limit, which is set to 60 FPS.
 	double limitFPS = 1.0 / 60.0;
 
 	double lastTime = glfwGetTime(), timer = lastTime;
 	double deltaTime = 0, nowTime = 0;
 	int frames = 0, updates = 0;
 
-
+	// Updates the current GameWorld.
 	void updateGameWorld();
 
+	// Changes the Game's state.
 	void switchState(state nextState);
 
+	// Sets the Welcome state.
 	void setWelcomeState();
 
+	// Sets the GamePlay state.
 	void setgameplayState();
 
+	// Sets the Paused state.
 	void setPausedState();
 
+	// Adds an animation to the animations map.
 	void addAnimToMap(std::string name, Animation* animation);
 
 	// A map from strings to Animation pointers.
 	std::map<std::string, Animation*> animMap;
 
+	// The current state of the game, which is a member of the state enum.
 	state currState;
 
+	// A vector containing the states of this game.
 	vector<GameState*> gameStates;
 
+	// The game's GL Manager.
 	GL_Manager* manager;
 
+	// The sprite renderer of the game.
 	GL_Sprite_Renderer* renderer;
 
-	GLFWwindow * window;//there really should just be one window
+	// The game's window,which should be unique.
+	GLFWwindow * window;
+
+	// The current GameWorld.
+	GameWorld* game;
 };

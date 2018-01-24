@@ -36,6 +36,14 @@ void Character::moveLeft()
 {
 	faceRight = false;
 	InGameObj::setX_vel(-movementSpeed);
+	/* TODO:  I wrote in to subtract 40 since it makes it look good.
+	 * But in the future, it should probably depend on just the hitbox.
+	 * At this point, I think there is something wrong with the hitboxes,
+	 * so try to fix this once the hitboxes are working better.
+	 */
+	if (getLocation()[0] - getHitBox()[0] - 40 <= 0) {
+		InGameObj::setX_vel(0);
+	}
 }
 
 // Move the character to the right.
@@ -43,6 +51,9 @@ void Character::moveRight()
 {
 	faceRight = true;
 	InGameObj::setX_vel(movementSpeed);
+	if (getLocation()[0] + getHitBox()[0] >= 800) {
+		InGameObj::setX_vel(0);
+	}
 }
 
 // Allows the character to throw a hat.

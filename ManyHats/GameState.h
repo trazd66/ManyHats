@@ -9,8 +9,10 @@ class GameState
 public:
 
 	// Default constructor.
-	GameState(GLFWwindow* window, GameWorld* world = nullptr) :
-		window(window), currWorld(world) {};
+	GameState(GLFWwindow* window, GameWorld* world = nullptr) 
+		: window(window), currWorld(world) 
+	{
+	};
 
 	// Default destructor.
 	~GameState();

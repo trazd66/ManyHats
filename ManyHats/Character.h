@@ -63,8 +63,9 @@ public:
 	{
 		return health;
 	}
-	// Set the health of this character.
-	// Precondition:  0 <= num <= 100.
+	/* Set the health of this character.
+	 * Precondition:  0 <= num <= 100.
+	 */
 	void setHealth(int num);
 
 	// Returns whether the player is facing right.

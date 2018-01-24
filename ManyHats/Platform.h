@@ -2,7 +2,6 @@
 #include "InGameObj.h"
 
 // If a character is not airborne, then it must be on a platform.
-// Platforms are rectangles basically.
 class Platform : public InGameObj
 {
 
@@ -22,7 +21,6 @@ public:
 
 	// Default constructor for this class.
 	Platform(int x, int y, double(&hitBox)[2]);
-	//  : InGameObj(hitBox), length(y), width(x) {};
 
 	// Default destructor for this class.
 	~Platform() {

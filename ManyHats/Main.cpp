@@ -88,12 +88,42 @@ int main()
 	// -----------
 	while (!glfwWindowShouldClose(window))
 	{
-		// Check and call events
+		// Check and call events.
 		glfwPollEvents();
-		// Update the game's state.
-		gsm->update();
+
 		if (gsm->getCurrState()->getWorld() != nullptr) {
+
 			InputManager::process_DUO_gameplay_input(gsm->getCurrState()->getWorld(), window);
+
+			// Update the game's state, if the game is not meant to be paused.
+			if (!gsm->getCurrState()->getWorld()->getPaused()) {
+				gsm->update();
+				gsm->unpauseGame();
+			}
+			else {
+				gsm->pauseGame();
+			}
+			
+			/* Loops through the charList and checks to see if one of the characters has
+			 * travelled too far since the game was unpaused.  In this case, they move back.
+			 */
+			for (int i = 0; i < 2; i++) {
+				if (gsm->getCurrState()->getWorld()->distanceLastTravelled(i) > 100) {
+					std::cout << "Hello?" << "\n";
+					gsm->getCurrState()->getWorld()->restoreCharacterStates();
+				}
+			}
+
+			gsm->getCurrState()->getWorld()->storeCharacterStates();
+			
+
+			/*for (int i = 0; i < 2; i++) { 
+				if (std::abs(gsm->getCurrState()->getWorld()->getCharacters()[i]->getX_vel()) > 100) {
+					gsm->getCurrState()->getWorld()->getCharacters()[i]->setX_vel(0);
+				} else if (std::abs(gsm->getCurrState()->getWorld()->getCharacters()[i]->getY_vel()) > 100) {
+					gsm->getCurrState()->getWorld()->getCharacters()[i]->setY_vel(0);
+				}
+			}*/
 		}
 		gsm->getCurrState()->renderCall();
 

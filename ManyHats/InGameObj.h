@@ -91,6 +91,7 @@ public:
 
 	// Update this object.
 	void update() {
+		//std::cout << yvel
 		location[0] += x_Vel;
 		location[1] += y_Vel;
 	}

@@ -6,8 +6,8 @@
 #include <vector>
 using std::vector;
 
-class GameWorld {
-	// Provides simple physics, generates the gameworld.
+// Provides simple physics, generates the gameworld.
+class GameWorld {	
 private:
 	// Gravity pull for the game world.
 	const static int GRAVITY = -1;
@@ -16,18 +16,16 @@ private:
 	const double MAP_SIZE[2] = { 800, 600 };
 
 
-	// The number of platforms in the game.
-	// By default, this is one, since the continentHitBox is always in the list of platforms.
-	int numPlatforms = 1;
+	/* The number of platforms in the game.
+	 * By default, this is zero, since it increases whenever generatePlatform() is called.
+	 */
+	int numPlatforms = 0;
 
 	// The number of hats that must be drawn.  Should be equal to the number of hats in the array.
 	int numHats = 0;
 
 	// The hitBoxes of players, depend on the sprite.
 	double playerHitBox[2] = { 5, 10 };
-
-	// The bottom hit box.
-	double continentHitBox[2] = { MAP_SIZE[0], MAP_SIZE[1] / 8 };
 
 	// A list containing the characters in this game.
 	vector<Character*> charList;
@@ -38,12 +36,27 @@ private:
 	// An array containing the hats in this game.
 	Hat* hatArray[50];
 
+	// True iff game is meant to be paused.  False by default.
+	bool gameIsPaused = false;
+
 	void randomGenPlatform();
 
 	// Randomlty generates the hats in the game.
 	void randomGenHats();
 
+	/* Represents whether the game is ready to be paused 
+	 * (i.e. whether the escape key has been released).
+	 */
+	bool readyToBePaused = true;
+
+	// The last locations of the characters before the game is paused.
+	std::vector<double> lastLocations;
+
+	// The last speeds of the characters before the game is paused.
+	std::vector<int> lastSpeeds;
+
 public:
+
 	// Constructor.
 	GameWorld();
 
@@ -78,4 +91,36 @@ public:
 	static int getGravity() {
 		return GRAVITY;
 	}
+
+	// Sets the game to be paused or to continue.
+	void setPaused(bool newValue) {
+		gameIsPaused = newValue;
+	}
+
+	// Returns whether the game is meant to be paused.
+	bool getPaused() {
+		return gameIsPaused;
+	}
+
+	// Sets the variable representing whether or not the game is ready to be paused.
+	void setReadyToBePaused(bool newValue) {
+		readyToBePaused = newValue;
+	}
+
+	// Returns whether the game is ready to be paused.
+	bool getReadyToBePaused() {
+		return readyToBePaused;
+	}
+	// Stores the current state of the game's characters before it is paused.
+	void storeCharacterStates();
+
+	// Restores the character states after the game is unpaused.
+	void restoreCharacterStates(); 
+
+	/* Returns the distance between the character now and the character a
+	* few milliseconds ago.  This function is being used to prevent a
+	* strange bug in the pause functionality.
+	* Note:  - charNo is the index (0 or 1) of the character in the charList.
+	*/
+	int GameWorld::distanceLastTravelled(int charNo);
 };

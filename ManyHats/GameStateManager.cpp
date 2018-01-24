@@ -14,7 +14,7 @@ void GameStateManager::switchState(state nextState)
 	this->currState = nextState;
 }
 
-// Initializes the current GameStateManager.
+// Initializes the states in this GameStateManager, and sets the current state to Welcome.
 void GameStateManager::init()
 {
 	setWelcomeState();
@@ -70,8 +70,8 @@ void GameStateManager::setWelcomeState()
 			manager->getShader("Text_Shader"),
 			"START GAME!",
 			glm::vec2(235, 285),
-			glm::vec3(1, 0.5, 0));
-
+			glm::vec3(1, 0.5, 0)
+		);
 	};
 
 	welcome->initGameState(renderCall);
@@ -81,7 +81,10 @@ void GameStateManager::setWelcomeState()
 void GameStateManager::setgameplayState()
 {
 	GameWorld* game = new GameWorld();
-	GameState * gameplay = new GameState(window, game);
+
+	// This is required, so that the Paused state can use the game object.
+	this->game = game;
+	GameState* gameplay = new GameState(window, game);
 	this->gameStates.push_back(gameplay);
 
 	game->initiate();
@@ -131,7 +134,6 @@ void GameStateManager::setgameplayState()
 		for (int i = 0; i < gameplay->getWorld()->getCharacters().size(); i++) {
 			getAnim("moveLeft")->render(gameplay->getWorld()->getCharacters()[i]);
 		}
-
 	};
 	gameplay->initGameState(renderCall);
 }
@@ -139,7 +141,18 @@ void GameStateManager::setgameplayState()
 // Sets the paused state of this game.
 void GameStateManager::setPausedState()
 {
+	GameState * paused = new GameState(window, this->game);
+	this->gameStates.push_back(paused);
 
+	std::function<void()> renderCall = [this, paused]() {
+		// TODO:  Do we need anything else to happen in here?
+		renderer->renderText(
+			manager->getShader("Text_Shader"),
+			"PAUSED",
+			glm::vec2(235, 285),
+			glm::vec3(1, 0.5, 0));
+	};
+	paused->initGameState(renderCall);
 }
 
 // Adds the given animation to the animation map.
