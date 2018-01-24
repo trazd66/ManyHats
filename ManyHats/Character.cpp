@@ -35,6 +35,7 @@ void Character::jump()
 void Character::moveLeft()
 {
 	faceRight = false;
+	isMoving = true;
 	InGameObj::setX_vel(-movementSpeed);
 	/* TODO:  I wrote in to subtract 40 since it makes it look good.
 	 * But in the future, it should probably depend on just the hitbox.
@@ -50,6 +51,7 @@ void Character::moveLeft()
 void Character::moveRight()
 {
 	faceRight = true;
+	isMoving = true;
 	InGameObj::setX_vel(movementSpeed);
 	if (getLocation()[0] + getHitBox()[0] >= 800) {
 		InGameObj::setX_vel(0);

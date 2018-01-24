@@ -51,14 +51,10 @@ public:
 
 private:
 
-	// The FPS limit, which is set to 60 FPS.
-	double limitFPS = 1.0 / 60.0;
+	Timer* gameUpdateTimer = new Timer((double)1 / 60);
 
-	double lastTime = glfwGetTime(), timer = lastTime;
-	double deltaTime = 0, nowTime = 0;
-	int frames = 0, updates = 0;
+	void updateAnimation();
 
-	// Updates the current GameWorld.
 	void updateGameWorld();
 
 	// Changes the Game's state.

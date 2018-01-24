@@ -91,20 +91,20 @@ void GameStateManager::setgameplayState()
 	Animation* moveLeft = new Animation(renderer,
 		manager->getTexture("char_sprite_text"),
 		manager->getShader("char_sprite"),
-		glm::vec2(0.120, 0.5),
-		glm::vec2(0.120, 0.5),
-		7);
+		glm::vec2(0.142, 0.5),
+		glm::vec2(0.142, 0.5),
+		7, (double)1 / 25);
 
 	Animation* moveRight = new Animation(renderer,
 		manager->getTexture("char_sprite_text"),
 		manager->getShader("char_sprite"),
-		glm::vec2(0.120, 0.5),
-		glm::vec2(0.120, 0),
-		7);
+		glm::vec2(0.142, 0.5),
+		glm::vec2(0.142, 0),
+		7,(double)1/25);
+
 
 	this->addAnimToMap("moveLeft", moveLeft);
 	this->addAnimToMap("moveRight", moveRight);
-
 	std::function<void()> renderCall = [this, gameplay]() {
 		// Clear the colorbuffer
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -131,8 +131,23 @@ void GameStateManager::setgameplayState()
 		}
 
 		// Rendering the characters.
+		//called in the render loop
 		for (int i = 0; i < gameplay->getWorld()->getCharacters().size(); i++) {
-			getAnim("moveLeft")->render(gameplay->getWorld()->getCharacters()[i]);
+			if (gameplay->getWorld()->getCharacters()[i]->ifFaceRight()) {
+				if (gameplay->getWorld()->getCharacters()[i]->currMoving()) {
+					getAnim("moveRight")->render(gameplay->getWorld()->getCharacters()[i]);
+				}else {//when standing still
+					getAnim("moveRight")->staticRender(gameplay->getWorld()->getCharacters()[i], 0);
+				}
+			}
+			else {//facing left
+				if (gameplay->getWorld()->getCharacters()[i]->currMoving()) {
+					getAnim("moveLeft")->render(gameplay->getWorld()->getCharacters()[i]);
+				}
+				else {//when standing still
+					getAnim("moveLeft")->staticRender(gameplay->getWorld()->getCharacters()[i], 0);
+				}
+			}
 		}
 	};
 	gameplay->initGameState(renderCall);
@@ -164,17 +179,17 @@ void GameStateManager::addAnimToMap(std::string name, Animation* animation)
 // Updates this GameState's GameWorld.
 void GameStateManager::update()
 {
-	// - Measure time.
-	nowTime = glfwGetTime();
-	deltaTime += (nowTime - lastTime) / limitFPS;
-	lastTime = nowTime;
-
-	// - Only update at 60 frames / s.
-	while (deltaTime >= 1.0) {
+	gameUpdateTimer->update();
+	// - Only update every 60 frames
+	if (gameUpdateTimer->ticks()) {
 		this->updateGameWorld();
-		// - Update function.
-		updates++;
-		deltaTime--;
+	}
+}
+
+void GameStateManager::updateAnimation()
+{
+	for (const auto& animation : this->animMap) {
+		animation.second->updateCurrState();
 	}
 }
 

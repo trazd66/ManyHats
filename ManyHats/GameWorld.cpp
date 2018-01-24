@@ -39,8 +39,6 @@ void GameWorld::initChars(int* coords, int numOfPlayers)
 		thisChar->setLocation(coords[2 * i], coords[2 * i + 1]);
 		charList.push_back(thisChar);
 	}
-	charList[0]->setImage("MarioTest.png");
-	charList[1]->setImage("LuigiTest.png");
 }
 
 // Randomly drop the generated hats to players.

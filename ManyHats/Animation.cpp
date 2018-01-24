@@ -6,9 +6,9 @@ Animation::Animation(GL_Sprite_Renderer * renderer,
 	Shader shader,
 	glm::vec2 spriteOffSet0,
 	glm::vec2 spriteOffSet1,
-	int numToRender
-) : 
-	// Initializing assets.
+	int numToRender,
+	double refreshRate) :
+	//initializing assets
 	currTexture(texture),
 	shader(shader),
 	renderer(renderer),
@@ -16,6 +16,7 @@ Animation::Animation(GL_Sprite_Renderer * renderer,
 	spriteOffSet1(spriteOffSet1),
 	renderCount(numToRender)
 {
+	RefreshTimer = new Timer(refreshRate);
 }
 
 // Default destructor.
@@ -26,25 +27,42 @@ Animation::~Animation()
 // Renders the animated object.
 void Animation::render(InGameObj* obj)
 {
-	// Gets the time in between now and the last time this was called.
-	nowTime = glfwGetTime();
-	deltaTime += (nowTime - lastTime) / limitFPS;
-	lastTime = nowTime;
-
-	for (int i = 0; i < renderCount; i++) {
-		// - Measure time
-
-		// Renders the current 
+	RefreshTimer->update();
+	if (this->RefreshTimer->ticks()) {
+		this->updateCurrState();
+	}
 		renderer->renderAnim(
 			currTexture,
 			shader,
 			glm::vec2(
 				(float)(obj->getLocation()[0]),
 				(float)(obj->getLocation()[1])),
-				spriteOffSet0,
-				glm::vec2((float)spriteOffSet1.x * i, spriteOffSet1.y),
+			spriteOffSet0,
+			glm::vec2((float)spriteOffSet1.x * currState, spriteOffSet1.y),
 			0.1f,
-			0.25f
-		);
+			0.25f);
+}
+
+void Animation::updateCurrState()
+{
+	if (currState < renderCount) {
+		currState++;
 	}
+	else {
+		currState = 0;
+	}
+}
+
+void Animation::staticRender(InGameObj* obj,int staticState)
+{
+	renderer->renderAnim(
+		currTexture,
+		shader,
+		glm::vec2(
+		(float)(obj->getLocation()[0]),
+		(float)(obj->getLocation()[1])),
+		spriteOffSet0,
+		glm::vec2((float)spriteOffSet1.x * staticState, spriteOffSet1.y),
+		0.1f,
+		0.25f);
 }

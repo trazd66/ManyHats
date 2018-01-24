@@ -91,13 +91,12 @@ void InputManager::process_DUO_gameplay_input(GameWorld * game, GLFWwindow * win
 		game->getCharacters()[0]->moveLeft();
 	}
 	else {
-		game->getCharacters()[0]->setX_vel(0);
+		game->getCharacters()[0]->standStill();
 	}
 
 	// Deals with vertical movement.
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && !(game->getCharacters()[0]->getAirborneStatus())) {
-		game->getCharacters()[0]->setAirborneStatus(true);
-		game->getCharacters()[0]->setY_vel(game->getCharacters()[0]->getJumpSpeed());
+		game->getCharacters()[0]->jump();
 	}
 
 
@@ -110,13 +109,12 @@ void InputManager::process_DUO_gameplay_input(GameWorld * game, GLFWwindow * win
 		game->getCharacters()[1]->moveLeft();
 	}
 	else {
-		game->getCharacters()[1]->setX_vel(0);
+		game->getCharacters()[1]->standStill();
 	}
 
 	// Deals with vertical movement.
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !(game->getCharacters()[1]->getAirborneStatus())) {
-		game->getCharacters()[1]->setAirborneStatus(true);
-		game->getCharacters()[1]->setY_vel(game->getCharacters()[1]->getJumpSpeed());
+		game->getCharacters()[1]->jump();
 	}
 }
 

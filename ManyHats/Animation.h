@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <vector>
+#include "Timer.h"
 using std::vector;
 
 // Allows for the characters to be animated.
@@ -18,7 +19,8 @@ public:
 		Shader shader, 
 		glm::vec2 spriteOffSet0, 
 		glm::vec2 spriteOffSet1, 
-		int numToRender
+		int numToRender,
+		double refreshRate
 	);
 
 	// Default destructor.
@@ -27,23 +29,12 @@ public:
 	// Renders the animated object.
 	void render(InGameObj* obj);
 
+	void updateCurrState();
+
+	void staticRender(InGameObj* obj,int staticState);//used to render a non-moving object
 private:
-
-	// The FPS limit.
-	double limitFPS = 1.0 / 5.0;
-
-	// The last time that was recorded.
-	double lastTime = glfwGetTime(), timer = lastTime;
-
-	// The difference between the last time and the current time.
-	double deltaTime = 0, nowTime = 0;
-
-	int frames = 0, updates = 0;
-
-	// The initial x-velocity of the object being animated.
-	float initX_vel;
-
-
+	Timer *RefreshTimer;
+	int currState;
 	glm::vec2 spriteOffSet0;
 	glm::vec2 spriteOffSet1;
 	int renderCount;

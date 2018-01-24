@@ -76,7 +76,7 @@ int main()
 	manager->LoadTexture("platform.jpg", false, "Platform_Texture");
 	manager->LoadTexture("button-1.jpg", false, "Button_Texture");
 
-	manager->LoadTexture("Sprites/action.png", true, "char_sprite_text");
+	manager->LoadTexture("Sprites/walkingSprite.png", true, "char_sprite_text");
 	manager->LoadShader("GLSL/sprite_sheat.vs", "GLSL/sprite_sheat.fs", nullptr, "char_sprite");
 
 	gsm->init();
@@ -108,7 +108,7 @@ int main()
 			 * travelled too far since the game was unpaused.  In this case, they move back.
 			 */
 			for (int i = 0; i < 2; i++) {
-				if (gsm->getCurrState()->getWorld()->distanceLastTravelled(i) > 100) {
+				if (gsm->getCurrState()->getWorld()->distanceLastTravelled(i) > 20) {
 					std::cout << "Hello?" << "\n";
 					gsm->getCurrState()->getWorld()->restoreCharacterStates();
 				}
