@@ -83,7 +83,6 @@ int main()
 	InputManager::setCursorCallBack(window);
 	InputManager::loadCurrGameState(gsm->getCurrState());
 
-
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
@@ -97,7 +96,13 @@ int main()
 
 			// Update the game's state, if the game is not meant to be paused.
 			if (!gsm->getCurrState()->getWorld()->getPaused()) {
-				gsm->update();
+				if (gsm->getCurrState()->getWorld()->counter > 200) {
+					gsm->update();
+				}
+				else {
+					gsm->getCurrState()->getWorld()->counter++;
+				}
+				
 				gsm->unpauseGame();
 			}
 			else {

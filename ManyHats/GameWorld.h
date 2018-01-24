@@ -123,4 +123,6 @@ public:
 	* Note:  - charNo is the index (0 or 1) of the character in the charList.
 	*/
 	int GameWorld::distanceLastTravelled(int charNo);
+
+	int counter = 0;
 };
