@@ -29,12 +29,9 @@ public:
 	}
 
 private:
-	double limitFPS = 1.0 / 60.0;
+	Timer* gameUpdateTimer = new Timer((double)1 / 60);
 
-	double lastTime = glfwGetTime(), timer = lastTime;
-	double deltaTime = 0, nowTime = 0;
-	int frames = 0, updates = 0;
-
+	void updateAnimation();
 
 	void updateGameWorld();
 
@@ -60,4 +57,3 @@ private:
 
 	GLFWwindow * window;//there really should just be one window
 };
-

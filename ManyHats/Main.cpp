@@ -79,7 +79,7 @@ int main()
 	manager->LoadTexture("platform.jpg", false, "Platform_Texture");
 	manager->LoadTexture("button-1.jpg", false, "Button_Texture");
 
-	manager->LoadTexture("Sprites/action.png", true, "char_sprite_text");
+	manager->LoadTexture("Sprites/walkingSprite.png", true, "char_sprite_text");
 	manager->LoadShader("GLSL/sprite_sheat.vs", "GLSL/sprite_sheat.fs", nullptr, "char_sprite");
 
 	gsm->init();

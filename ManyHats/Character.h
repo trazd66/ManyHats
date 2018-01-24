@@ -29,7 +29,18 @@ private:
 	// True if facing right (default), false if left.
 	bool faceRight = true;
 
+	bool isMoving = false;
+
 public:
+	void standStill() {
+		isMoving = false;
+		setX_vel(0);
+	}
+
+	bool currMoving() {
+		return isMoving;
+	}
+
 	// The default constructor for Character objects.
 	Character(const int playerNum, double(&hitBox)[2]);
 

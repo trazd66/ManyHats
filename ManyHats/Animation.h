@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <vector>
+#include "Timer.h"
 using std::vector;
 
 
@@ -16,22 +17,19 @@ public:
 		Shader shader, 
 		glm::vec2 spriteOffSet0, 
 		glm::vec2 spriteOffSet1, 
-		int numToRender);
+		int numToRender,
+		double refreshRate);
 
 	~Animation();
 
 	void render(InGameObj* obj);
 
+	void updateCurrState();
+
+	void staticRender(InGameObj* obj,int staticState);//used to render a non-moving object
 private:
-	double limitFPS = 1.0 / 5.0;
-
-	double lastTime = glfwGetTime(), timer = lastTime;
-	double deltaTime = 0, nowTime = 0;
-	int frames = 0, updates = 0;
-
-	float initX_vel;
-
-
+	Timer *RefreshTimer;
+	int currState;
 	glm::vec2 spriteOffSet0;
 	glm::vec2 spriteOffSet1;
 	int renderCount;

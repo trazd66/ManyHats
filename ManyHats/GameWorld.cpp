@@ -16,8 +16,7 @@ GameWorld::~GameWorld()
 // Initializes the game.
 void GameWorld::initiate()
 {
-	double hit[2] = { MAP_SIZE[0], MAP_SIZE[1] / 8 };
-	Platform* floor = new Platform(0, 50, hit);
+	Platform* floor = new Platform(0, 200, continentHitBox);
 	floor->setImage("red.jpg");
 	platformList.push_back(floor);
 	// generatePlatform(200, 200, 300.0, 25.0);
@@ -75,8 +74,6 @@ void GameWorld::initChars(int* coords, int numOfPlayers)
 		thisChar->setLocation(coords[2 * i], coords[2 * i + 1]);
 		charList.push_back(thisChar);
 	}
-	charList[0]->setImage("MarioTest.png");
-	charList[1]->setImage("LuigiTest.png");
 }
 
 // Randomly drop the generated hats to players.

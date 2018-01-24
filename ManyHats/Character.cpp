@@ -35,6 +35,7 @@ void Character::jump()
 void Character::moveLeft()
 {
 	faceRight = false;
+	isMoving = true;
 	InGameObj::setX_vel(-movementSpeed);
 }
 
@@ -42,6 +43,7 @@ void Character::moveLeft()
 void Character::moveRight()
 {
 	faceRight = true;
+	isMoving = true;
 	InGameObj::setX_vel(movementSpeed);
 }
 
