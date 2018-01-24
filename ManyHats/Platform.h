@@ -20,7 +20,10 @@ public:
 	}
 
 	// Default constructor for this class.
-	Platform(int x, int y, double(&hitBox)[2]);
+	Platform(int x, int y, double(&hitBox)[2]) 
+		: width(x), length(y), InGameObj(hitBox) 
+	{
+	};
 
 	// Default destructor for this class.
 	~Platform() {
