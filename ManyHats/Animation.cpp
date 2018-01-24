@@ -6,14 +6,17 @@ Animation::Animation(GL_Sprite_Renderer * renderer,
 	glm::vec2 spriteOffSet0,
 	glm::vec2 spriteOffSet1,
 	int numToRender,
-	double refreshRate) :
+	double refreshRate,
+	glm::vec3 colorOffSet) :
+
 	//initializing assets
 	currTexture(texture),
 	shader(shader),
 	renderer(renderer),
 	spriteOffSet0(spriteOffSet0),
 	spriteOffSet1(spriteOffSet1),
-	renderCount(numToRender)
+	renderCount(numToRender),
+	colorOffSet(colorOffSet)
 {
 	RefreshTimer = new Timer(refreshRate);
 }
@@ -36,8 +39,9 @@ void Animation::render(InGameObj* obj)
 				(float)(obj->getLocation()[1])),
 			spriteOffSet0,
 			glm::vec2((float)spriteOffSet1.x * currState, spriteOffSet1.y),
-			0.1f,
-			0.25f);
+			xScaleFactor,
+			yScaleFactor,
+			colorOffSet);
 }
 
 void Animation::updateCurrState()
@@ -60,6 +64,13 @@ void Animation::staticRender(InGameObj* obj,int staticState)
 		(float)(obj->getLocation()[1])),
 		spriteOffSet0,
 		glm::vec2((float)spriteOffSet1.x * staticState, spriteOffSet1.y),
-		0.1f,
-		0.25f);
+		xScaleFactor,
+		yScaleFactor,
+		colorOffSet);
+}
+
+void Animation::setScalingFactor(glm::vec2 sFactor)
+{
+	this->xScaleFactor = sFactor.x;
+	this->yScaleFactor = sFactor.y;
 }

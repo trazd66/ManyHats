@@ -36,7 +36,7 @@
         <key>dataFormat</key>
         <string>spritesheet-only</string>
         <key>textureFileName</key>
-        <filename>../raw_sprite/left_grey.png</filename>
+        <filename>walkingSprite.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -114,12 +114,12 @@
             <key>maxRects</key>
             <struct type="AlgorithmMaxRectsSettings">
                 <key>heuristic</key>
-                <enum type="AlgorithmMaxRectsSettings::Heuristic">Best</enum>
+                <enum type="AlgorithmMaxRectsSettings::Heuristic">ShortSideFit</enum>
             </struct>
             <key>basic</key>
             <struct type="AlgorithmBasicSettings">
                 <key>sortBy</key>
-                <enum type="AlgorithmBasicSettings::SortBy">Best</enum>
+                <enum type="AlgorithmBasicSettings::SortBy">Height</enum>
                 <key>order</key>
                 <enum type="AlgorithmBasicSettings::Order">Ascending</enum>
             </struct>
@@ -177,11 +177,11 @@
             <key>extrude</key>
             <uint>1</uint>
             <key>trimThreshold</key>
-            <uint>20</uint>
+            <uint>1</uint>
             <key>trimMargin</key>
             <uint>1</uint>
             <key>trimMode</key>
-            <enum type="SpriteSettings::TrimMode">Trim</enum>
+            <enum type="SpriteSettings::TrimMode">None</enum>
             <key>tracerTolerance</key>
             <int>200</int>
             <key>heuristicMask</key>
@@ -193,41 +193,25 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">sp1.png</key>
-            <key type="filename">sp5.png</key>
-            <key type="filename">sp6.png</key>
-            <key type="filename">sp7.png</key>
+            <key type="filename">../raw_sprite/LEFT1.png</key>
+            <key type="filename">../raw_sprite/RIGHT1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>30,58,60,116</rect>
+                <rect>219,58,437,116</rect>
                 <key>scale9Paddings</key>
-                <rect>30,58,60,116</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">sp2.png</key>
-            <key type="filename">sp3.png</key>
-            <key type="filename">sp4.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>30,58,60,115</rect>
-                <key>scale9Paddings</key>
-                <rect>30,58,60,115</rect>
+                <rect>219,58,437,116</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
         </map>
         <key>fileList</key>
         <array>
-            <filename>.</filename>
+            <filename>../raw_sprite/LEFT1.png</filename>
+            <filename>../raw_sprite/RIGHT1.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

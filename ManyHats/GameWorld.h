@@ -27,7 +27,7 @@ private:
 	double playerHitBox[2] = { 5, 10 };
 
 	// The bottom hit box.
-	double continentHitBox[2] = { MAP_SIZE[0], MAP_SIZE[1] / 6 };
+	double continentHitBox[2] = { MAP_SIZE[0], MAP_SIZE[1] / 8 };
 
 	// A list containing the characters in this game.
 	vector<Character*> charList;
