@@ -96,38 +96,12 @@ int main()
 
 			// Update the game's state, if the game is not meant to be paused.
 			if (!gsm->getCurrState()->getWorld()->getPaused()) {
-				if (gsm->getCurrState()->getWorld()->counter > 200) {
-					gsm->update();
-				}
-				else {
-					gsm->getCurrState()->getWorld()->counter++;
-				}
-				
+				gsm->update();
 				gsm->unpauseGame();
 			}
 			else {
 				gsm->pauseGame();
 			}
-			
-			/* Loops through the charList and checks to see if one of the characters has
-			 * travelled too far since the game was unpaused.  In this case, they move back.
-			 */
-			for (int i = 0; i < 2; i++) {
-				if (gsm->getCurrState()->getWorld()->distanceLastTravelled(i) > 200) {
-					gsm->getCurrState()->getWorld()->restoreCharacterStates();
-				}
-			}
-
-			gsm->getCurrState()->getWorld()->storeCharacterStates();
-			
-
-			/*for (int i = 0; i < 2; i++) { 
-				if (std::abs(gsm->getCurrState()->getWorld()->getCharacters()[i]->getX_vel()) > 100) {
-					gsm->getCurrState()->getWorld()->getCharacters()[i]->setX_vel(0);
-				} else if (std::abs(gsm->getCurrState()->getWorld()->getCharacters()[i]->getY_vel()) > 100) {
-					gsm->getCurrState()->getWorld()->getCharacters()[i]->setY_vel(0);
-				}
-			}*/
 		}
 		gsm->getCurrState()->renderCall();
 

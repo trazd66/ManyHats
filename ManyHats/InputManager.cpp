@@ -60,9 +60,6 @@ void InputManager::process_DUO_gameplay_input(GameWorld * game, GLFWwindow * win
 		// Pauses or unpauses the game if it is ready to be paused.
 		if (game->getReadyToBePaused()) {
 			game->setPaused(!game->getPaused());
-			if (game->getPaused()) {
-				game->storeCharacterStates();
-			}
 		}
 
 		// The game is now not ready to change its "paused" state.
@@ -71,10 +68,6 @@ void InputManager::process_DUO_gameplay_input(GameWorld * game, GLFWwindow * win
 
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_RELEASE) {
 		// The game is now ready to change its "paused" state.
-		if (!game->getReadyToBePaused() && !game->getPaused()) {
-			game->restoreCharacterStates();
-			game->counter = 0;
-		}
 		game->setReadyToBePaused(true);
 	}
 

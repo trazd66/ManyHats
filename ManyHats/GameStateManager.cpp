@@ -142,20 +142,23 @@ void GameStateManager::setgameplayState()
 		}
 
 		// Rendering the characters.
-		//called in the render loop
+		// Called in the render loop
 		for (int i = 0; i < gameplay->getWorld()->getCharacters().size(); i++) {
 			if (gameplay->getWorld()->getCharacters()[i]->ifFaceRight()) {
 				if (gameplay->getWorld()->getCharacters()[i]->currMoving()) {
 					getAnim("moveRight")->render(gameplay->getWorld()->getCharacters()[i]);
-				}else {//when standing still
+				}else {
+					// When standing still.
 					getAnim("moveRight")->staticRender(gameplay->getWorld()->getCharacters()[i], 0);
 				}
 			}
-			else {//facing left
+			else {
+				// Facing left
 				if (gameplay->getWorld()->getCharacters()[i]->currMoving()) {
 					getAnim("moveLeft")->render(gameplay->getWorld()->getCharacters()[i]);
 				}
-				else {//when standing still
+				else {
+					// When standing still.
 					getAnim("moveLeft")->staticRender(gameplay->getWorld()->getCharacters()[i], 0);
 				}
 			}

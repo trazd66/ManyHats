@@ -111,18 +111,4 @@ public:
 	bool getReadyToBePaused() {
 		return readyToBePaused;
 	}
-	// Stores the current state of the game's characters before it is paused.
-	void storeCharacterStates();
-
-	// Restores the character states after the game is unpaused.
-	void restoreCharacterStates(); 
-
-	/* Returns the distance between the character now and the character a
-	* few milliseconds ago.  This function is being used to prevent a
-	* strange bug in the pause functionality.
-	* Note:  - charNo is the index (0 or 1) of the character in the charList.
-	*/
-	int GameWorld::distanceLastTravelled(int charNo);
-
-	int counter = 0;
 };
