@@ -108,7 +108,7 @@ int main()
 			 * travelled too far since the game was unpaused.  In this case, they move back.
 			 */
 			for (int i = 0; i < 2; i++) {
-				if (gsm->getCurrState()->getWorld()->distanceLastTravelled(i) > 20) {
+				if (gsm->getCurrState()->getWorld()->distanceLastTravelled(i) > 200) {
 					std::cout << "Hello?" << "\n";
 					gsm->getCurrState()->getWorld()->restoreCharacterStates();
 				}
