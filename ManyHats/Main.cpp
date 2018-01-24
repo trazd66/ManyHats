@@ -114,7 +114,6 @@ int main()
 			 */
 			for (int i = 0; i < 2; i++) {
 				if (gsm->getCurrState()->getWorld()->distanceLastTravelled(i) > 200) {
-					std::cout << "Hello?" << "\n";
 					gsm->getCurrState()->getWorld()->restoreCharacterStates();
 				}
 			}
