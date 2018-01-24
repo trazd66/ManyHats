@@ -70,8 +70,13 @@ void GameStateManager::setWelcomeState()
 			manager->getShader("Text_Shader"),
 			"START GAME!",
 			glm::vec2(235, 285),
-			glm::vec3(1, 0.5, 0)
-		);
+			glm::vec3(1, 0.5, 0));
+
+		renderer->renderText(
+			manager->getShader("Text_Shader"),
+			"The Hat Game During Lecture",
+			glm::vec2(100, 400),
+			glm::vec3(1, 0.5, 0),0.8);
 	};
 
 	welcome->initGameState(renderCall);
@@ -88,23 +93,29 @@ void GameStateManager::setgameplayState()
 	this->gameStates.push_back(gameplay);
 
 	game->initiate();
+
 	Animation* moveLeft = new Animation(renderer,
 		manager->getTexture("char_sprite_text"),
 		manager->getShader("char_sprite"),
 		glm::vec2(0.142, 0.5),
 		glm::vec2(0.142, 0.5),
-		7, (double)1 / 25);
+		7, (double)1 / 25,
+		glm::vec3(1,1,1));
 
 	Animation* moveRight = new Animation(renderer,
 		manager->getTexture("char_sprite_text"),
 		manager->getShader("char_sprite"),
 		glm::vec2(0.142, 0.5),
 		glm::vec2(0.142, 0),
-		7,(double)1/25);
+		7, (double)1 / 25, 
+		glm::vec3(1, 1, 1));
 
 
 	this->addAnimToMap("moveLeft", moveLeft);
 	this->addAnimToMap("moveRight", moveRight);
+
+	moveLeft->setScalingFactor(glm::vec2(0.07f,0.175f));
+	moveRight->setScalingFactor(glm::vec2(0.07f, 0.175f));
 	std::function<void()> renderCall = [this, gameplay]() {
 		// Clear the colorbuffer
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -125,7 +136,7 @@ void GameStateManager::setgameplayState()
 				manager->getShader("Char_Shader"),
 				glm::vec2(
 				(float)(gameplay->getWorld()->getPlatforms()[i]->getLocation()[0]),
-					(float)(gameplay->getWorld()->getPlatforms()[i]->getLocation()[1])),
+				(float)(gameplay->getWorld()->getPlatforms()[i]->getLocation()[1])),
 				0.98f,
 				0.04f);
 		}

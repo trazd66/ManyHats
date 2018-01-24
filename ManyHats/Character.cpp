@@ -19,7 +19,7 @@ Character::Character(const int Num, double(&hitBox)[2]) : playerNum(Num), InGame
 
 	// The movement speed is set to be double the width.
 	// setMovementSpeed((int) getHitBox()[0] * 2);
-	setMovementSpeed(9);
+	setMovementSpeed(7);
 }
 
 // Make the character jump.

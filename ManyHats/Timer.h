@@ -7,6 +7,7 @@
 class Timer
 {
 public:
+
 	Timer(double fps,bool start = true) :limitFPS(fps) {
 		if (start) { this->start(); }
 	};
