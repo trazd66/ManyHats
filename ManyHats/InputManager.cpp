@@ -73,6 +73,7 @@ void InputManager::process_DUO_gameplay_input(GameWorld * game, GLFWwindow * win
 		// The game is now ready to change its "paused" state.
 		if (!game->getReadyToBePaused() && !game->getPaused()) {
 			game->restoreCharacterStates();
+			game->counter = 0;
 		}
 		game->setReadyToBePaused(true);
 	}
