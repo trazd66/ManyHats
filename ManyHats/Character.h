@@ -2,9 +2,7 @@
 #include "InGameObj.h"
 #include "Platform.h"
 #include "Hat.h"
-#include <queue>
-
-using std::queue;
+#include <vector>
 
 // A class representing a character in this game.
 class Character : public InGameObj {
@@ -24,12 +22,15 @@ private:
 
 	// The queue of hats held by the player.
 	// A player can hold up to maximum of 10 hats.
-	queue<Hat*> hatQueue;
+	std::vector<Hat*> hatQueue;
 
 	// True if facing right (default), false if left.
 	bool faceRight = true;
 
 	bool isMoving = false;
+
+	void updateHatLocation();
+
 
 public:
 
@@ -52,7 +53,7 @@ public:
 	// Returns the type of this object.
 	string getItemType() {
 		return "Character";
-	};
+	}
 
 	// Returns the initial jump speed of this character.
 	int getJumpSpeed() {
