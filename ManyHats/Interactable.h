@@ -9,10 +9,20 @@ public:
 
 	// Returns the next vertical speed to adopt, which changes based on whether or not the character is near a platform.
 	int getNextYSpeed(std::vector<Platform*> platformList, int gravity)
-	{//TODO: fix the bug and change the jumping behaviour
-		Platform* currentPlatform;
+	{
+		// TODO: Fix the bug and change the jumping behaviour.
+
 		int newVerticalSpeed = getY_vel() + gravity;
+
+		if (!getAirborneStatus() && goingDown) {
+			goingDown = false;
+			setAirborneStatus(true);
+			return -1;
+		}
+
 		setAirborneStatus(true);
+
+		Platform* currentPlatform;
 		for (int i = 0; i < platformList.size(); i++) {
 			currentPlatform = platformList[i];
 
@@ -47,6 +57,18 @@ public:
 		}
 		return newVerticalSpeed;
 	}
+
+	void setGoingDown(bool status) {
+		goingDown = status;
+	}
+	
+	bool getGoingDown() {
+		return goingDown;
+	}
+private:
+
+	// Represents whether the character is trying to go down to the next platform.
+	bool goingDown = false;
 
 };
 

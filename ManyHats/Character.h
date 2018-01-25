@@ -34,10 +34,8 @@ private:
 
 	void updateHatLocation();
 
-	// Represents whether the character is trying to go down to the next platform.
-	bool goingDown = false;
-
 public:
+
 	//returns the player number
 	int getPlayerNum() {
 		return this->playerNum;
@@ -118,13 +116,10 @@ public:
 	virtual void fetchHat(Hat* hat);
 
 
-	// Returns the next vertical speed to adopt, which changes based on whether or not the character is near a platform.
-	int getNextYSpeed(std::vector<Platform*> platformList, int gravity);
-
 	// Moves the character down if they are on a platform.
 	void moveDown() {
 		if (!getAirborneStatus()) {
-			goingDown = true;
+			setGoingDown(true);
 		}
 	}
 

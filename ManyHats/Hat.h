@@ -1,5 +1,5 @@
 #pragma once // Can CDH sort this out?  -Papa Dylan
-#include "InGameObj.h"
+#include "Interactable.h"
 
 // Represents a Hat in the game.
 class Hat : public Interactable{
@@ -7,9 +7,7 @@ public:
 	// The default constructor for this class.
 	Hat(const int baseDamage, const double damageModifier, const double fallSpeed, const double launchSpeed, vec2 hitBox)
 		: baseDamage(baseDamage), damageModifier(damageModifier), fallSpeedModifier(fallSpeed), launchVelocity(launchSpeed), Interactable(hitBox)
-	{
-
-	};
+	{};
 
 	// The default destructor for this class.
 	~Hat() {
