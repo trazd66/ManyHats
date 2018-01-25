@@ -132,4 +132,7 @@ public:
 	void setLives(int numLives) {
 		lives = numLives;
 	}
+
+	// Kills and respawns the character.
+	void killCharacter();
 };

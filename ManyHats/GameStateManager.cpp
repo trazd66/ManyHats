@@ -146,10 +146,16 @@ void GameStateManager::setgameplayState()
 	char1moveRight->setScalingFactor(glm::vec2(0.05f, 0.125f));
 
 	std::function<void()> renderCall = [this, gameplay]() {
+		// If a character is dead, go to the main screen.
+		for (int i = 0; i < gameplay->getWorld()->getCharacters().size(); i++) {
+			if (gameplay->getWorld()->getCharacters()[i]->getLives() <= 0) {
+				switchState(Welcome);
+			}
+		}
+		
 		// Clear the colorbuffer
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-
 
 		// Rendering the background.
 		renderer->renderSprite(
@@ -237,7 +243,7 @@ void GameStateManager::setgameplayState()
 		// Render player health.
 		renderer->renderText(
 			manager->getShader("Text_Shader"),
-			"HP:  " + std::to_string(this->getCurrState()->getWorld()->getCharacters()[0]->getHealth()),
+			"HP:  " + std::to_string(this->getCurrState()->getWorld()->getCharacters()[1]->getHealth()),
 			glm::vec2(640, 0),
 			glm::vec3(1, 0.5, 0),
 			0.8
@@ -254,7 +260,7 @@ void GameStateManager::setgameplayState()
 		// Render player lives.
 		renderer->renderText(
 			manager->getShader("Text_Shader"),
-			"Lives:  " + std::to_string(this->getCurrState()->getWorld()->getCharacters()[0]->getLives()),
+			"Lives:  " + std::to_string(this->getCurrState()->getWorld()->getCharacters()[1]->getLives()),
 			glm::vec2(640, 45),
 			glm::vec3(1, 0.5, 0),
 			0.8
