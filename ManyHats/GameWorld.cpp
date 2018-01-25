@@ -71,6 +71,28 @@ void GameWorld::generatePlatform(int x, int y, double width, double height)
 	numPlatforms++;
 }
 
+void GameWorld::updateHatStatus()
+{
+	for (auto hat : this->currRenderedHats) {
+		for (auto player : this->charList) {
+			if (hat->getThrownStatus()!= 0 && 
+				hat->getThrownStatus()!= player->getPlayerNum() &&
+				hat->touching(*player)) {
+
+				player->setHealth(player->getHealth() - hat->getBaseDamage());
+				hat->setRenderStatus(false); // should no longer be rendered
+				hat->setPlayerThrown(0); //no longer thrown by a player
+
+			}
+			else {
+				hat->setX_vel(hat->getX_vel());
+				hat->setY_vel(hat->Interactable::getNextYSpeed(platformList,GRAVITY));
+				hat->InGameObj::update();
+			}
+		}
+	}
+}
+
 // Randomly generate different kinds of hats.
 void GameWorld::randomGenHats()
 {

@@ -6,9 +6,6 @@ using std::vector;
 // Sets the character's health.
 void Character::setHealth(int num)
 {
-	if (0 <= num && num <= 100) {
-		health = num;
-	}
 }
 
 void Character::updateHatLocation()
@@ -19,7 +16,7 @@ void Character::updateHatLocation()
 }
 
 // Default constructor for a Character object.
-Character::Character(const int Num, vec2 hitBox) : playerNum(Num), InGameObj(hitBox)
+Character::Character(const int Num, vec2 hitBox) : playerNum(Num), Interactable(hitBox)
 {
 	// The jump speed is set to be double the character's height.
 	setJumpSpeed((int) getHitBox()[1] /1.0f);
@@ -72,7 +69,7 @@ Hat* Character::throwHat()
 		Hat* hatToThrow = hatQueue.front();
 		hatQueue.erase(hatQueue.begin());//removes the first element
 		hatToThrow->hatOnChar(false);
-		hatToThrow->setPlayerThrown(true);
+		hatToThrow->setPlayerThrown(this->getPlayerNum());
 		return hatToThrow;
 		// TODO:  Actually throw the hat.
 	}
@@ -102,7 +99,7 @@ void Character::killCharacter() {
 void Character::update(vector<Platform*> platformList, int gravity)
 {
 	// Set the character's yspeed so that they can interact with the platforms.
-	setY_vel(getNextYSpeed(platformList, gravity));
+	setY_vel(Interactable::getNextYSpeed(platformList, gravity));
 
 	// Updates the location of this Character object.
 	InGameObj::update();

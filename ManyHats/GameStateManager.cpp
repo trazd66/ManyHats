@@ -97,61 +97,9 @@ void GameStateManager::setgameplayState()
 
 	game->initiate();
 
-	Animation* char0moveLeft = new Animation(renderer,
-		manager->getTexture("char_sprite_text0"),
-		manager->getShader("char_sprite"),
-		glm::vec2(0.142, 0.5),
-		glm::vec2(0.142, 0.5),
-		7, (double)1 / 25,
-		glm::vec3(1, 1, 1)
-	);
-
-	Animation* char0moveRight = new Animation(renderer,
-		manager->getTexture("char_sprite_text0"),
-		manager->getShader("char_sprite"),
-		glm::vec2(0.142, 0.5),
-		glm::vec2(0.142, 0),
-		7, 
-		(double)1 / 25
-	);
-
-
-	this->addAnimToMap("char0moveLeft", char0moveLeft);
-	this->addAnimToMap("char0moveRight", char0moveRight);
-
-	char0moveLeft->setScalingFactor(glm::vec2(0.05f,0.125f));
-	char0moveRight->setScalingFactor(glm::vec2(0.05f, 0.125f));
-
-
-	Animation* char1moveLeft = new Animation(renderer,
-		manager->getTexture("char_sprite_text1"),
-		manager->getShader("char_sprite"),
-		glm::vec2(0.142, 0.5),
-		glm::vec2(0.142, 0.5),
-		7, (double)1 / 25,
-		glm::vec3(1, 1, 1));
-
-	Animation* char1moveRight = new Animation(renderer,
-		manager->getTexture("char_sprite_text1"),
-		manager->getShader("char_sprite"),
-		glm::vec2(0.142, 0.5),
-		glm::vec2(0.142, 0),
-		7, (double)1 / 25);
-
-
-	this->addAnimToMap("char1moveLeft", char1moveLeft);
-	this->addAnimToMap("char1moveRight", char1moveRight);
-
-	char1moveLeft->setScalingFactor(glm::vec2(0.05f, 0.125f));
-	char1moveRight->setScalingFactor(glm::vec2(0.05f, 0.125f));
-
+	this->initWalkingAnim();
+	
 	std::function<void()> renderCall = [this, gameplay]() {
-		// If a character is dead, go to the main screen.
-		for (int i = 0; i < gameplay->getWorld()->getCharacters().size(); i++) {
-			if (gameplay->getWorld()->getCharacters()[i]->getLives() <= 0) {
-				switchState(Welcome);
-			}
-		}
 		
 		// Clear the colorbuffer
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -165,28 +113,30 @@ void GameStateManager::setgameplayState()
 
 
 		// Rendering the platforms.
-		for (int i = 0; i < gameplay->getWorld()->getPlatforms().size(); i++) {
+		for (auto platform: gameplay->getWorld()->getPlatforms()) {
 			renderer->renderSprite(
 				manager->getTexture("Platform_Texture"),
 				manager->getShader("Char_Shader"),
 				glm::vec2(
-				(float)(gameplay->getWorld()->getPlatforms()[i]->getLocation()[0]),
-				(float)(gameplay->getWorld()->getPlatforms()[i]->getLocation()[1] - 26)),
-				gameplay->getWorld()->getPlatforms()[i]->getHitBox().x / 800,
-				gameplay->getWorld()->getPlatforms()[i]->getHitBox().y / 600);
+				(float)(platform->getLocation()[0]),
+				(float)(platform->getLocation()[1] - 26)),
+				platform->getHitBox().x / 800,
+				platform->getHitBox().y / 600);
 		}
 
 		// render the hats
-		for (int i = 0; i < gameplay->getWorld()->getHats().size(); i++) {
-			renderer->renderSprite(
-				manager->getTexture("Platform_Texture"),
-				manager->getShader("Char_Shader"),
-				glm::vec2(
-				(float)(gameplay->getWorld()->getHats()[i]->getLocation()[0]),
-				(float)(gameplay->getWorld()->getHats()[i]->getLocation()[1])),
-				0.98f,
-				0.04f
-			);
+		for (auto hat : gameplay->getWorld()->getHats()) {
+			if (hat->getRenderStatus()) {
+				renderer->renderSprite(
+					manager->getTexture("Platform_Texture"),
+					manager->getShader("Char_Shader"),
+					glm::vec2(
+					(float)(hat->getLocation()[0]),
+						(float)(hat->getLocation()[1])),
+					0.98f,
+					0.04f
+				);
+			}
 		}
 
 		// Rendering the characters.
@@ -307,9 +257,73 @@ void GameStateManager::update()
 	// - Only update every 60 frames
 	if (gameUpdateTimer->ticks()) {
 		this->updateGameWorld();
+		// If a character is dead, go to the main screen.
+		if (getCurrState()->getWorld() != nullptr) {
+			for (auto c : getCurrState()->getWorld()->getCharacters()) {
+				if (c->getLives() <= 0) {
+					switchState(Welcome);
+				}
+			}
+		}
 	}
 }
 
+
+void GameStateManager::initWalkingAnim()
+{
+	Animation* char0moveLeft = new Animation(renderer,
+		manager->getTexture("char_sprite_text0"),
+		manager->getShader("char_sprite"),
+		glm::vec2(0.142, 0.5),
+		glm::vec2(0.142, 0.5),
+		7, (double)1 / 25,
+		glm::vec3(1, 1, 1)
+	);
+
+	Animation* char0moveRight = new Animation(renderer,
+		manager->getTexture("char_sprite_text0"),
+		manager->getShader("char_sprite"),
+		glm::vec2(0.142, 0.5),
+		glm::vec2(0.142, 0),
+		7,
+		(double)1 / 25
+	);
+
+
+	this->addAnimToMap("char0moveLeft", char0moveLeft);
+	this->addAnimToMap("char0moveRight", char0moveRight);
+
+	char0moveLeft->setScalingFactor(glm::vec2(0.05f, 0.125f));
+	char0moveRight->setScalingFactor(glm::vec2(0.05f, 0.125f));
+
+
+	Animation* char1moveLeft = new Animation(renderer,
+		manager->getTexture("char_sprite_text1"),
+		manager->getShader("char_sprite"),
+		glm::vec2(0.142, 0.5),
+		glm::vec2(0.142, 0.5),
+		7, (double)1 / 25,
+		glm::vec3(1, 1, 1));
+
+	Animation* char1moveRight = new Animation(renderer,
+		manager->getTexture("char_sprite_text1"),
+		manager->getShader("char_sprite"),
+		glm::vec2(0.142, 0.5),
+		glm::vec2(0.142, 0),
+		7, (double)1 / 25);
+
+
+	this->addAnimToMap("char1moveLeft", char1moveLeft);
+	this->addAnimToMap("char1moveRight", char1moveRight);
+
+	char1moveLeft->setScalingFactor(glm::vec2(0.05f, 0.125f));
+	char1moveRight->setScalingFactor(glm::vec2(0.05f, 0.125f));
+
+}
+
+void GameStateManager::initHatSprite()
+{
+}
 
 // Update the GameState's GameWorld.
 void GameStateManager::updateGameWorld()

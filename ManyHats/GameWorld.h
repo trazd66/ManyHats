@@ -37,7 +37,10 @@ private:
 	vector<Platform*> platformList;
 
 	// An array containing the hats in this game.
-	vector<Hat*> hatArray;
+	vector<Hat*> nonRenderedHat;
+
+	//  hats that appear on the screen will be here.
+	vector<Hat*> currRenderedHats;
 
 	// Randomly generates the game's platforms.
 	void randomGenPlatform();
@@ -81,11 +84,13 @@ public:
 
 	// returns the list of hats this world has
 	vector<Hat*> getHats() {
-		return this->hatArray;
+		return this->nonRenderedHat;
 	}
 
 	// Returns the value of GRAVITY.
 	static int getGravity() {
 		return GRAVITY;
 	}
+
+	void updateHatStatus();
 };

@@ -68,11 +68,17 @@ public:
 		return readyToBePaused;
 	}
 
+
+
 private:
+	//used to initialize walking animation
+	void initWalkingAnim();
+
+	void initHatSprite();
+
+	
 
 	Timer* gameUpdateTimer = new Timer((double)1 / 60);
-
-	void updateAnimation();
 
 	void updateGameWorld();
 

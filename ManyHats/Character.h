@@ -1,11 +1,11 @@
 #pragma once
-#include "InGameObj.h"
 #include "Platform.h"
 #include "Hat.h"
+#include "Interactable.h"
 #include <vector>
 
 // A class representing a character in this game.
-class Character : public InGameObj {
+class Character : public Interactable {
 
 private:
 
@@ -38,6 +38,10 @@ private:
 	bool goingDown = false;
 
 public:
+	//returns the player number
+	int getPlayerNum() {
+		return this->playerNum;
+	}
 
 	bool hasHat() {
 		return !hatQueue.empty();
@@ -112,6 +116,7 @@ public:
 
 	// Adds a hat to the character's hat queue.
 	virtual void fetchHat(Hat* hat);
+
 
 	// Returns the next vertical speed to adopt, which changes based on whether or not the character is near a platform.
 	int getNextYSpeed(std::vector<Platform*> platformList, int gravity);

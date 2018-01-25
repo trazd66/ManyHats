@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <glm/vec2.hpp>
+#include <vector>
+
 using glm::vec2;
 
 // #include "Platform.h"
@@ -125,5 +127,7 @@ private:
 
 	// The name of the image that the InGameObj should have.
 	string image;
+
+
 };
 
