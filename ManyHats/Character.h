@@ -8,6 +8,9 @@
 class Character : public InGameObj {
 
 private:
+
+	int lives = 3;
+	
 	// The health of this character, initially set to 100.
 	int health = 100;
 
@@ -118,5 +121,15 @@ public:
 		if (!getAirborneStatus()) {
 			goingDown = true;
 		}
+	}
+
+	// Returns the number of lives of this character.
+	int getLives() {
+		return lives;
+	}
+
+	// Sets the number of lives of this character.
+	void setLives(int numLives) {
+		lives = numLives;
 	}
 };

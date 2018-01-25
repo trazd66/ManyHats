@@ -80,6 +80,9 @@ int main()
 	manager->LoadTexture("Sprites/walkingSprite1.png", true, "char_sprite_text1");
 	manager->LoadShader("GLSL/sprite_sheat.vs", "GLSL/sprite_sheat.fs", nullptr, "char_sprite");
 
+	manager->LoadTexture("Sprites/head0.png", true, "head0");
+	manager->LoadTexture("Sprites/head1.png", true, "head1");
+
 	gsm->init();
 	InputManager::setCursorCallBack(window);
 	InputManager::loadCurrGameState(gsm->getCurrState());

@@ -100,9 +100,15 @@ void Character::update(vector<Platform*> platformList, int gravity)
 	// Updates the location of this Character object.
 	InGameObj::update();
 
-	//update all the hat locations
+	// Update all the hat locations
 	this->updateHatLocation();
 
+	if (getLocation()[1] < -60) {
+		if (getLives() > 0) {
+			setLives(getLives() - 1);
+		}
+		setLocation(300, 20000);
+	}
 }
 
 // Returns the next vertical speed to adopt, which changes based on whether or not the character is near a platform.

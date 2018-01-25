@@ -46,7 +46,8 @@ void GameStateManager::setWelcomeState()
 		window,
 		glm::vec2(400, 300),
 		320, 60,
-		manager->getTexture("Button_Texture"));
+		manager->getTexture("Button_Texture")
+	);
 
 	// Adds a button to start the game.
 	welcome->addButton(startGame);
@@ -60,19 +61,25 @@ void GameStateManager::setWelcomeState()
 		renderer->renderSprite(
 			manager->getTexture("init_BG_Texture"),
 			manager->getShader("Char_Shader"),
-			glm::vec2(400, 300));
+			glm::vec2(400, 300)
+		);
 
 		for (auto button : welcome->getButtons()) {
 			renderer->renderSprite(button->getTexture(), 
 				manager->getShader("Char_Shader"), 
-				button->getLocation(), 0.4f, 0.4f);
+				button->getLocation(), 
+				0.4f, 
+				0.4f
+			);
 		}
 
 		renderer->renderText(
 			manager->getShader("Text_Shader"),
 			"The Hat Game During Lecture",
 			glm::vec2(100, 500),
-			glm::vec3(1, 0.5, 0),0.8);
+			glm::vec3(1, 0.5, 0),
+			0.8
+		);
 	};
 
 	welcome->initGameState(renderCall);
@@ -179,8 +186,8 @@ void GameStateManager::setgameplayState()
 		// Rendering the characters.
 		// Called in the render loop
 		for (int i = 0; i < gameplay->getWorld()->getCharacters().size(); i++) {
-		string charName_left = "char" + std::to_string(i) + "moveLeft";
-		string charName_right = "char" + std::to_string(i) + "moveRight";
+			string charName_left = "char" + std::to_string(i) + "moveLeft";
+			string charName_right = "char" + std::to_string(i) + "moveRight";
 			if (gameplay->getWorld()->getCharacters()[i]->ifFaceRight()) {
 				//if (gameplay->getWorld()->getCharacters()[i]){
 					//add the throw hat move
@@ -205,6 +212,61 @@ void GameStateManager::setgameplayState()
 				}
 			}
 		}
+
+		// Render player faces.
+		renderer->renderSprite(
+			manager->getTexture("head0"),
+			manager->getShader("Char_Shader"),
+			glm::vec2(
+				80,
+				90),
+			0.05f,
+			0.05f
+		);
+
+		renderer->renderSprite(
+			manager->getTexture("head1"),
+			manager->getShader("Char_Shader"),
+			glm::vec2(
+				720,
+				90),
+			0.05f,
+			0.05f
+		);
+
+		// Render player health.
+		renderer->renderText(
+			manager->getShader("Text_Shader"),
+			"HP:  " + std::to_string(this->getCurrState()->getWorld()->getCharacters()[0]->getHealth()),
+			glm::vec2(640, 0),
+			glm::vec3(1, 0.5, 0),
+			0.8
+		);
+
+		renderer->renderText(
+			manager->getShader("Text_Shader"),
+			"HP:  " + std::to_string(this->getCurrState()->getWorld()->getCharacters()[0]->getHealth()),
+			glm::vec2(0, 0),
+			glm::vec3(1, 0.5, 0),
+			0.8
+		);
+		
+		// Render player lives.
+		renderer->renderText(
+			manager->getShader("Text_Shader"),
+			"Lives:  " + std::to_string(this->getCurrState()->getWorld()->getCharacters()[0]->getLives()),
+			glm::vec2(640, 45),
+			glm::vec3(1, 0.5, 0),
+			0.8
+		);
+
+		renderer->renderText(
+			manager->getShader("Text_Shader"),
+			"Lives:  " + std::to_string(this->getCurrState()->getWorld()->getCharacters()[0]->getLives()),
+			glm::vec2(0, 45),
+			glm::vec3(1, 0.5, 0),
+			0.8
+		);
 	};
 	gameplay->initGameState(renderCall);
 }
