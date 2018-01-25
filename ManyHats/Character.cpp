@@ -11,6 +11,13 @@ void Character::setHealth(int num)
 	}
 }
 
+void Character::updateHatLocation()
+{
+	for (auto hat : hatQueue) {
+		hat->setLocation(getLocation()[0], getLocation()[1]);
+	}
+}
+
 // Default constructor for a Character object.
 Character::Character(const int Num, vec2 hitBox) : playerNum(Num), InGameObj(hitBox)
 {
@@ -42,7 +49,7 @@ void Character::moveLeft()
 	 * At this point, I think there is something wrong with the hitboxes,
 	 * so try to fix this once the hitboxes are working better.
 	 */
-	if (getLocation()[0] - getHitBox()[0] - 40 <= 0) {
+	if (getLocation()[0] - getHitBox()[0]<= 0) {
 		InGameObj::setX_vel(0);
 	}
 }
@@ -63,7 +70,7 @@ Hat* Character::throwHat()
 {
 	if (this->hasHat()) {
 		Hat* hatToThrow = hatQueue.front();
-		hatQueue.pop();
+		hatQueue.erase(hatQueue.begin());//removes the first element
 		hatToThrow->hatOnChar(false);
 		hatToThrow->setPlayerThrown(true);
 		return hatToThrow;
@@ -76,7 +83,7 @@ Hat* Character::throwHat()
 void Character::fetchHat(Hat* hat)
 {
 	if (hatQueue.size() < 10) {
-		hatQueue.push(hat);
+		hatQueue.push_back(hat);
 		hat->setLocation(
 			this->getLocation()[0], 
 			this->getLocation()[1] + (hat->getHitBox().y)*hatQueue.size());//hats will be stacking on top of this char's head
@@ -92,6 +99,10 @@ void Character::update(vector<Platform*> platformList, int gravity)
 
 	// Updates the location of this Character object.
 	InGameObj::update();
+
+	//update all the hat locations
+	this->updateHatLocation();
+
 }
 
 // Returns the next vertical speed to adopt, which changes based on whether or not the character is near a platform.
