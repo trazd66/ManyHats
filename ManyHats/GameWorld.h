@@ -36,24 +36,11 @@ private:
 	// An array containing the hats in this game.
 	Hat* hatArray[50];
 
-	// True iff game is meant to be paused.  False by default.
-	bool gameIsPaused = false;
-
+	// Randomly generates the game's platforms.
 	void randomGenPlatform();
 
 	// Randomlty generates the hats in the game.
 	void randomGenHats();
-
-	/* Represents whether the game is ready to be paused 
-	 * (i.e. whether the escape key has been released).
-	 */
-	bool readyToBePaused = true;
-
-	// The last locations of the characters before the game is paused.
-	std::vector<double> lastLocations;
-
-	// The last speeds of the characters before the game is paused.
-	std::vector<int> lastSpeeds;
 
 public:
 
@@ -90,25 +77,5 @@ public:
 	// Returns the value of GRAVITY.
 	static int getGravity() {
 		return GRAVITY;
-	}
-
-	// Sets the game to be paused or to continue.
-	void setPaused(bool newValue) {
-		gameIsPaused = newValue;
-	}
-
-	// Returns whether the game is meant to be paused.
-	bool getPaused() {
-		return gameIsPaused;
-	}
-
-	// Sets the variable representing whether or not the game is ready to be paused.
-	void setReadyToBePaused(bool newValue) {
-		readyToBePaused = newValue;
-	}
-
-	// Returns whether the game is ready to be paused.
-	bool getReadyToBePaused() {
-		return readyToBePaused;
 	}
 };

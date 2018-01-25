@@ -100,7 +100,8 @@ void GameStateManager::setgameplayState()
 		glm::vec2(0.142, 0.5),
 		glm::vec2(0.142, 0.5),
 		7, (double)1 / 25,
-		glm::vec3(1,1,1));
+		glm::vec3(1, 1, 1)
+	);
 
 	Animation* moveRight = new Animation(renderer,
 		manager->getTexture("char_sprite_text"),
@@ -108,8 +109,8 @@ void GameStateManager::setgameplayState()
 		glm::vec2(0.142, 0.5),
 		glm::vec2(0.142, 0),
 		7, (double)1 / 25, 
-		glm::vec3(1, 1, 1));
-
+		glm::vec3(1, 1, 1)
+	);
 
 	this->addAnimToMap("moveLeft", moveLeft);
 	this->addAnimToMap("moveRight", moveRight);
@@ -138,7 +139,8 @@ void GameStateManager::setgameplayState()
 				(float)(gameplay->getWorld()->getPlatforms()[i]->getLocation()[0]),
 				(float)(gameplay->getWorld()->getPlatforms()[i]->getLocation()[1])),
 				0.98f,
-				0.04f);
+				0.04f
+			);
 		}
 
 		// Rendering the characters.
@@ -147,7 +149,7 @@ void GameStateManager::setgameplayState()
 			if (gameplay->getWorld()->getCharacters()[i]->ifFaceRight()) {
 				if (gameplay->getWorld()->getCharacters()[i]->currMoving()) {
 					getAnim("moveRight")->render(gameplay->getWorld()->getCharacters()[i]);
-				}else {
+				} else {
 					// When standing still.
 					getAnim("moveRight")->staticRender(gameplay->getWorld()->getCharacters()[i], 0);
 				}

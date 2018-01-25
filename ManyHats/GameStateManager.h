@@ -1,6 +1,5 @@
 #pragma once
 #include "GameState.h"
-
 #include "GL_Sprite_Renderer.h"
 #include "Animation.h"
 
@@ -49,6 +48,26 @@ public:
 		switchState(Gameplay);
 	}
 
+	// Sets the game to be paused or to continue.
+	void setPaused(bool newValue) {
+		gameIsPaused = newValue;
+	}
+
+	// Returns whether the game is meant to be paused.
+	bool getPaused() {
+		return gameIsPaused;
+	}
+
+	// Sets the variable representing whether or not the game is ready to be paused.
+	void setReadyToBePaused(bool newValue) {
+		readyToBePaused = newValue;
+	}
+
+	// Returns whether the game is ready to be paused.
+	bool getReadyToBePaused() {
+		return readyToBePaused;
+	}
+
 private:
 
 	Timer* gameUpdateTimer = new Timer((double)1 / 60);
@@ -92,4 +111,12 @@ private:
 
 	// The current GameWorld.
 	GameWorld* game;
+
+	/* Represents whether the game is ready to be paused
+	* (i.e. whether the escape key has been released).
+	*/
+	bool readyToBePaused = true;
+
+	// True iff game is meant to be paused.  False by default.
+	bool gameIsPaused = false;
 };

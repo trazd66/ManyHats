@@ -92,10 +92,10 @@ int main()
 
 		if (gsm->getCurrState()->getWorld() != nullptr) {
 
-			InputManager::process_DUO_gameplay_input(gsm->getCurrState()->getWorld(), window);
+			InputManager::process_DUO_gameplay_input(gsm, window);
 
 			// Update the game's state, if the game is not meant to be paused.
-			if (!gsm->getCurrState()->getWorld()->getPaused()) {
+			if (!gsm->getPaused()) {
 				gsm->update();
 				gsm->unpauseGame();
 			}
