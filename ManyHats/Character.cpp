@@ -110,6 +110,7 @@ int Character::getNextYSpeed(std::vector<Platform*> platformList, int gravity)
 {//TODO: fix the bug and change the jumping behaviour
 	Platform* currentPlatform;
 	int newVerticalSpeed = getY_vel() + gravity;
+	setAirborneStatus(true);
 	for (int i = 0; i < platformList.size(); i++) {
 		currentPlatform = platformList[i];
 
@@ -131,12 +132,14 @@ int Character::getNextYSpeed(std::vector<Platform*> platformList, int gravity)
 
 			// Checks if the character is moving up and the character's head is below the platform's bottom and,
 			// after taking another step, the character's head will be above the platform's bottom.
-			} else if (newVerticalSpeed >= 0
+			
+			/*} else if (newVerticalSpeed >= 0
 				&& getLocation()[1] + (getHitBox()[1] / 2.0) <= currentPlatform->getLocation()[1] - (currentPlatform->getHitBox()[1] / 2.0)
 				&& getLocation()[1] + (getHitBox()[1] / 2.0) + newVerticalSpeed > currentPlatform->getLocation()[1] - (currentPlatform->getHitBox()[1] / 2.0)) {
 
 				// Adjusts new vertical speed.
 				newVerticalSpeed = currentPlatform->getLocation()[1] - (currentPlatform->getHitBox()[1] / 2.0) - getLocation()[1] + (getHitBox()[1] / 2.0);
+				*/
 			}
 		}
 	}

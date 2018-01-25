@@ -96,14 +96,17 @@ void GameStateManager::setgameplayState()
 		glm::vec2(0.142, 0.5),
 		glm::vec2(0.142, 0.5),
 		7, (double)1 / 25,
-		glm::vec3(1,1,1));
+		glm::vec3(1, 1, 1)
+	);
 
 	Animation* char0moveRight = new Animation(renderer,
 		manager->getTexture("char_sprite_text0"),
 		manager->getShader("char_sprite"),
 		glm::vec2(0.142, 0.5),
 		glm::vec2(0.142, 0),
-		7, (double)1 / 25);
+		7, 
+		(double)1 / 25
+	);
 
 
 	this->addAnimToMap("char0moveLeft", char0moveLeft);
@@ -155,7 +158,7 @@ void GameStateManager::setgameplayState()
 				manager->getShader("Char_Shader"),
 				glm::vec2(
 				(float)(gameplay->getWorld()->getPlatforms()[i]->getLocation()[0]),
-				(float)(gameplay->getWorld()->getPlatforms()[i]->getLocation()[1])),
+				(float)(gameplay->getWorld()->getPlatforms()[i]->getLocation()[1] - 26)),
 				gameplay->getWorld()->getPlatforms()[i]->getHitBox().x / 800,
 				gameplay->getWorld()->getPlatforms()[i]->getHitBox().y / 600);
 		}
@@ -169,11 +172,12 @@ void GameStateManager::setgameplayState()
 				(float)(gameplay->getWorld()->getHats()[i]->getLocation()[0]),
 				(float)(gameplay->getWorld()->getHats()[i]->getLocation()[1])),
 				0.98f,
-				0.04f);
+				0.04f
+			);
 		}
 
 		// Rendering the characters.
-		//called in the render loop
+		// Called in the render loop
 		for (int i = 0; i < gameplay->getWorld()->getCharacters().size(); i++) {
 		string charName_left = "char" + std::to_string(i) + "moveLeft";
 		string charName_right = "char" + std::to_string(i) + "moveRight";

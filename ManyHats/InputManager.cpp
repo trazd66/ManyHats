@@ -51,35 +51,35 @@ bool InputManager::cursorOnButton(GLFWwindow * window, GUI_Button * button)
 	return false;
 }
 
-void InputManager::process_DUO_gameplay_input(GameWorld * game, GLFWwindow * window)
-{
-	// Process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly.
-
-	// Pressing the Escape key should pause/unpause the game.
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-		// Pauses or unpauses the game if it is ready to be paused.
-		if (game->getReadyToBePaused()) {
-			game->setPaused(!game->getPaused());
-			if (game->getPaused()) {
-				game->storeCharacterStates();
-			}
+void InputManager::checkPauseGame(GameStateManager* gsm, bool escKeyDown) {
+	if (escKeyDown) {
+		// Pauses or unpauses the game if it is ready to be paused or unpaused.
+		if (gsm->getReadyToBePaused()) {
+			gsm->setPaused(!gsm->getPaused());
 		}
 
 		// The game is now not ready to change its "paused" state.
-		game->setReadyToBePaused(false);
+		gsm->setReadyToBePaused(false);
+		
 	}
-
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_RELEASE) {
+	else {
 		// The game is now ready to change its "paused" state.
-		if (!game->getReadyToBePaused() && !game->getPaused()) {
-			game->restoreCharacterStates();
-			game->counter = 0;
-		}
-		game->setReadyToBePaused(true);
+		gsm->setReadyToBePaused(true);
 	}
+}
+
+void InputManager::process_DUO_gameplay_input(GameStateManager* gsm, GLFWwindow* window)
+{
+	// Get the current game.
+	GameWorld* game = gsm->getCurrState()->getWorld();
+
+	// Process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly.
+
+	// Pressing the Escape key should pause/unpause the game.
+	checkPauseGame(gsm, (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS));
 
 	// Exit if the game is paused. 
-	if (game->getPaused()) {
+	if (gsm->getPaused()) {
 		return;
 	}
 
