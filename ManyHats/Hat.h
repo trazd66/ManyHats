@@ -53,11 +53,18 @@ public:
 		playerThrown = status;
 	}
 
+	//set the status of the hat (that if it's being carried by a character)
+	void hatOnChar(bool status) {
+		onChar = status;
+	}
+
 	virtual void launch() = 0;
 
-private:
 
-	bool onChar;
+private:
+	/*when the hat is carried by a character, the hat moves with the character*/
+	bool onChar = false;
+
 
 	//the default launch status for this
 	glm::vec2 launchStatus;

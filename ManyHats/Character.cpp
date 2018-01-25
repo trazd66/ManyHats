@@ -64,6 +64,8 @@ Hat* Character::throwHat()
 	if (this->hasHat()) {
 		Hat* hatToThrow = hatQueue.front();
 		hatQueue.pop();
+		hatToThrow->hatOnChar(false);
+		hatToThrow->setPlayerThrown(true);
 		return hatToThrow;
 		// TODO:  Actually throw the hat.
 	}
@@ -78,6 +80,7 @@ void Character::fetchHat(Hat* hat)
 		hat->setLocation(
 			this->getLocation()[0], 
 			this->getLocation()[1] + (hat->getHitBox().y)*hatQueue.size());//hats will be stacking on top of this char's head
+		hat->hatOnChar(true);
 	}
 }
 
