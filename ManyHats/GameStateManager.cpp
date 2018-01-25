@@ -113,8 +113,8 @@ void GameStateManager::setgameplayState()
 	this->addAnimToMap("moveLeft", moveLeft);
 	this->addAnimToMap("moveRight", moveRight);
 
-	moveLeft->setScalingFactor(glm::vec2(0.07f,0.175f));
-	moveRight->setScalingFactor(glm::vec2(0.07f, 0.175f));
+	moveLeft->setScalingFactor(glm::vec2(0.05f,0.125f));
+	moveRight->setScalingFactor(glm::vec2(0.05f, 0.125f));
 	std::function<void()> renderCall = [this, gameplay]() {
 		// Clear the colorbuffer
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -136,6 +136,18 @@ void GameStateManager::setgameplayState()
 				glm::vec2(
 				(float)(gameplay->getWorld()->getPlatforms()[i]->getLocation()[0]),
 				(float)(gameplay->getWorld()->getPlatforms()[i]->getLocation()[1])),
+				gameplay->getWorld()->getPlatforms()[i]->getHitBox().x / 800,
+				gameplay->getWorld()->getPlatforms()[i]->getHitBox().y / 600);
+		}
+
+		// render the hats
+		for (int i = 0; i < gameplay->getWorld()->getHats().size(); i++) {
+			renderer->renderSprite(
+				manager->getTexture("Platform_Texture"),
+				manager->getShader("Char_Shader"),
+				glm::vec2(
+				(float)(gameplay->getWorld()->getHats()[i]->getLocation()[0]),
+				(float)(gameplay->getWorld()->getHats()[i]->getLocation()[1])),
 				0.98f,
 				0.04f);
 		}
@@ -145,7 +157,7 @@ void GameStateManager::setgameplayState()
 		for (int i = 0; i < gameplay->getWorld()->getCharacters().size(); i++) {
 			if (gameplay->getWorld()->getCharacters()[i]->ifFaceRight()) {
 				//if (gameplay->getWorld()->getCharacters()[i]){
-
+					//add the throw hat move
 				//} else
 				if (gameplay->getWorld()->getCharacters()[i]->getAirborneStatus()) {//jumping
 					getAnim("moveRight")->staticRender(gameplay->getWorld()->getCharacters()[i], 5);

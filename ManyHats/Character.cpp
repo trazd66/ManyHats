@@ -12,10 +12,10 @@ void Character::setHealth(int num)
 }
 
 // Default constructor for a Character object.
-Character::Character(const int Num, double(&hitBox)[2]) : playerNum(Num), InGameObj(hitBox)
+Character::Character(const int Num, vec2 hitBox) : playerNum(Num), InGameObj(hitBox)
 {
 	// The jump speed is set to be double the character's height.
-	setJumpSpeed((int) getHitBox()[1] * 2);
+	setJumpSpeed((int) getHitBox()[1] /1.0f);
 
 	// The movement speed is set to be double the width.
 	// setMovementSpeed((int) getHitBox()[0] * 2);
@@ -61,13 +61,13 @@ void Character::moveRight()
 // Allows the character to throw a hat.
 Hat* Character::throwHat()
 {
-	if (hatQueue.size() != 0) {
+	if (this->hasHat()) {
 		Hat* hatToThrow = hatQueue.front();
 		hatQueue.pop();
 		return hatToThrow;
 		// TODO:  Actually throw the hat.
 	}
-	return NULL;
+	return nullptr;
 }
 
 // Adds a hat to the character's hat queue.
@@ -75,6 +75,9 @@ void Character::fetchHat(Hat* hat)
 {
 	if (hatQueue.size() < 10) {
 		hatQueue.push(hat);
+		hat->setLocation(
+			this->getLocation()[0], 
+			this->getLocation()[1] + (hat->getHitBox().y)*hatQueue.size());//hats will be stacking on top of this char's head
 	}
 }
 
@@ -90,7 +93,7 @@ void Character::update(vector<Platform*> platformList, int gravity)
 
 // Returns the next vertical speed to adopt, which changes based on whether or not the character is near a platform.
 int Character::getNextYSpeed(std::vector<Platform*> platformList, int gravity)
-{
+{//TODO: fix the bug and change the jumping behaviour
 	Platform* currentPlatform;
 	int newVerticalSpeed = getY_vel() + gravity;
 	for (int i = 0; i < platformList.size(); i++) {

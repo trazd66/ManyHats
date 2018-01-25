@@ -4,7 +4,7 @@ class SantaHat :
 	public Hat
 {
 public:
-	SantaHat();
+	SantaHat();//when wearing a santa hat, the char will be able to throw wierd projectiles
 	~SantaHat();
 };
 

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <glm/vec2.hpp>
+using glm::vec2;
 
 // #include "Platform.h"
 using std::string;
@@ -13,9 +14,7 @@ public:
 	virtual string getItemType() = 0;
 
 	// Velocities of this object are 0 by default, initialize the hitBox.
-	InGameObj(double (&arr)[2]) : x_Vel(0), y_Vel(0), location() {
-		hitBox[0] = arr[0];
-		hitBox[1] = arr[1];
+	InGameObj(vec2 hitBox) :hitBox(hitBox), x_Vel(0), y_Vel(0), location() {
 	};
 
 	// Destructor of the object.
@@ -75,7 +74,7 @@ public:
 	}
 
 	// Returns the pointer to the hitBox of this object.
-	double* getHitBox() {
+	vec2 getHitBox() {
 		return hitBox;
 	}
 
@@ -111,7 +110,7 @@ public:
 private:
 
 	// The hit box of this in game item, x as first element, y as the second element
-	double* hitBox = new double[2];
+	vec2 hitBox;
 
 	// The centre of location of this object, x as first element, y as the second element
 	double location[2];

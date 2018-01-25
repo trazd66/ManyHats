@@ -99,6 +99,7 @@ int main()
 				gsm->update();
 			}
 		}
+
 		gsm->getCurrState()->renderCall();
 
 

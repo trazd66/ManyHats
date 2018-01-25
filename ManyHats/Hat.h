@@ -5,7 +5,7 @@
 class Hat : public InGameObj{
 public:
 	// The default constructor for this class.
-	Hat(const int baseDamage, const double damageModifier, const double fallSpeed, const double launchSpeed, double (&hitBox)[2])
+	Hat(const int baseDamage, const double damageModifier, const double fallSpeed, const double launchSpeed, vec2 hitBox)
 		: baseDamage(baseDamage), damageModifier(damageModifier), fallSpeedModifier(fallSpeed), launchVelocity(launchSpeed), InGameObj(hitBox)
 	{
 
@@ -56,6 +56,9 @@ public:
 	virtual void launch() = 0;
 
 private:
+
+	bool onChar;
+
 	//the default launch status for this
 	glm::vec2 launchStatus;
 
