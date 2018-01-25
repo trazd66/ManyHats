@@ -31,6 +31,8 @@ private:
 
 	void updateHatLocation();
 
+	// Represents whether the character is trying to go down to the next platform.
+	bool goingDown = false;
 
 public:
 
@@ -110,4 +112,11 @@ public:
 
 	// Returns the next vertical speed to adopt, which changes based on whether or not the character is near a platform.
 	int getNextYSpeed(std::vector<Platform*> platformList, int gravity);
+
+	// Moves the character down if they are on a platform.
+	void moveDown() {
+		if (!getAirborneStatus()) {
+			goingDown = true;
+		}
+	}
 };

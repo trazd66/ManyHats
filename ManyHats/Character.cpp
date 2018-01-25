@@ -107,10 +107,20 @@ void Character::update(vector<Platform*> platformList, int gravity)
 
 // Returns the next vertical speed to adopt, which changes based on whether or not the character is near a platform.
 int Character::getNextYSpeed(std::vector<Platform*> platformList, int gravity)
-{//TODO: fix the bug and change the jumping behaviour
-	Platform* currentPlatform;
+{
+	// TODO: Fix the bug and change the jumping behaviour.
+
 	int newVerticalSpeed = getY_vel() + gravity;
+
+	if (!getAirborneStatus() && goingDown) {
+		goingDown = false;
+		setAirborneStatus(true);
+		return -1;
+	}
+	
 	setAirborneStatus(true);
+
+	Platform* currentPlatform;
 	for (int i = 0; i < platformList.size(); i++) {
 		currentPlatform = platformList[i];
 
