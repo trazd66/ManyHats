@@ -8,6 +8,9 @@
 class Character : public Interactable {
 
 private:
+
+	int lives = 3;
+	
 	// The health of this character, initially set to 100.
 	int health = 100;
 
@@ -31,6 +34,8 @@ private:
 
 	void updateHatLocation();
 
+	// Represents whether the character is trying to go down to the next platform.
+	bool goingDown = false;
 
 public:
 	//returns the player number
@@ -111,5 +116,26 @@ public:
 
 	// Adds a hat to the character's hat queue.
 	virtual void fetchHat(Hat* hat);
+
+
+	// Returns the next vertical speed to adopt, which changes based on whether or not the character is near a platform.
+	int getNextYSpeed(std::vector<Platform*> platformList, int gravity);
+
+	// Moves the character down if they are on a platform.
+	void moveDown() {
+		if (!getAirborneStatus()) {
+			goingDown = true;
+		}
+	}
+
+	// Returns the number of lives of this character.
+	int getLives() {
+		return lives;
+	}
+
+	// Sets the number of lives of this character.
+	void setLives(int numLives) {
+		lives = numLives;
+	}
 
 };

@@ -101,12 +101,14 @@ void InputManager::process_DUO_gameplay_input(GameStateManager* gsm, GLFWwindow*
 	// Deals with horizontal movement.
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
 		game->getCharacters()[0]->moveRight();
-	}
-	else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+	} else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
 		game->getCharacters()[0]->moveLeft();
-	}
-	else {
+	} else {
 		game->getCharacters()[0]->standStill();
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+		game->getCharacters()[0]->moveDown();
 	}
 
 
@@ -126,12 +128,15 @@ void InputManager::process_DUO_gameplay_input(GameStateManager* gsm, GLFWwindow*
 	// Deals with horizontal movement.
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
 		game->getCharacters()[1]->moveRight();
-	}
-	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+	} else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
 		game->getCharacters()[1]->moveLeft();
-	}
-	else {
+	} else {
 		game->getCharacters()[1]->standStill();
+	}
+
+
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+		game->getCharacters()[1]->moveDown();
 	}
 
 }
