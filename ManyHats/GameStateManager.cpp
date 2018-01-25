@@ -58,24 +58,20 @@ void GameStateManager::setWelcomeState()
 
 		// Rendering the background.
 		renderer->renderSprite(
-			manager->getTexture("BG_Texture"),
+			manager->getTexture("init_BG_Texture"),
 			manager->getShader("Char_Shader"),
 			glm::vec2(400, 300));
 
 		for (auto button : welcome->getButtons()) {
-			renderer->renderSprite(button->getTexture(), manager->getShader("Char_Shader"), button->getLocation(), 0.4f, 0.1f);
+			renderer->renderSprite(button->getTexture(), 
+				manager->getShader("Char_Shader"), 
+				button->getLocation(), 0.4f, 0.4f);
 		}
 
 		renderer->renderText(
 			manager->getShader("Text_Shader"),
-			"START GAME!",
-			glm::vec2(235, 285),
-			glm::vec3(1, 0.5, 0));
-
-		renderer->renderText(
-			manager->getShader("Text_Shader"),
 			"The Hat Game During Lecture",
-			glm::vec2(100, 400),
+			glm::vec2(100, 500),
 			glm::vec3(1, 0.5, 0),0.8);
 	};
 
@@ -94,8 +90,8 @@ void GameStateManager::setgameplayState()
 
 	game->initiate();
 
-	Animation* moveLeft = new Animation(renderer,
-		manager->getTexture("char_sprite_text"),
+	Animation* char0moveLeft = new Animation(renderer,
+		manager->getTexture("char_sprite_text0"),
 		manager->getShader("char_sprite"),
 		glm::vec2(0.142, 0.5),
 		glm::vec2(0.142, 0.5),
@@ -103,20 +99,45 @@ void GameStateManager::setgameplayState()
 		glm::vec3(1, 1, 1)
 	);
 
-	Animation* moveRight = new Animation(renderer,
-		manager->getTexture("char_sprite_text"),
+	Animation* char0moveRight = new Animation(renderer,
+		manager->getTexture("char_sprite_text0"),
 		manager->getShader("char_sprite"),
 		glm::vec2(0.142, 0.5),
 		glm::vec2(0.142, 0),
-		7, (double)1 / 25, 
-		glm::vec3(1, 1, 1)
+		7, 
+		(double)1 / 25
 	);
 
-	this->addAnimToMap("moveLeft", moveLeft);
-	this->addAnimToMap("moveRight", moveRight);
 
-	moveLeft->setScalingFactor(glm::vec2(0.07f,0.175f));
-	moveRight->setScalingFactor(glm::vec2(0.07f, 0.175f));
+	this->addAnimToMap("char0moveLeft", char0moveLeft);
+	this->addAnimToMap("char0moveRight", char0moveRight);
+
+	char0moveLeft->setScalingFactor(glm::vec2(0.05f,0.125f));
+	char0moveRight->setScalingFactor(glm::vec2(0.05f, 0.125f));
+
+
+	Animation* char1moveLeft = new Animation(renderer,
+		manager->getTexture("char_sprite_text1"),
+		manager->getShader("char_sprite"),
+		glm::vec2(0.142, 0.5),
+		glm::vec2(0.142, 0.5),
+		7, (double)1 / 25,
+		glm::vec3(1, 1, 1));
+
+	Animation* char1moveRight = new Animation(renderer,
+		manager->getTexture("char_sprite_text1"),
+		manager->getShader("char_sprite"),
+		glm::vec2(0.142, 0.5),
+		glm::vec2(0.142, 0),
+		7, (double)1 / 25);
+
+
+	this->addAnimToMap("char1moveLeft", char1moveLeft);
+	this->addAnimToMap("char1moveRight", char1moveRight);
+
+	char1moveLeft->setScalingFactor(glm::vec2(0.05f, 0.125f));
+	char1moveRight->setScalingFactor(glm::vec2(0.05f, 0.125f));
+
 	std::function<void()> renderCall = [this, gameplay]() {
 		// Clear the colorbuffer
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -137,7 +158,19 @@ void GameStateManager::setgameplayState()
 				manager->getShader("Char_Shader"),
 				glm::vec2(
 				(float)(gameplay->getWorld()->getPlatforms()[i]->getLocation()[0]),
-				(float)(gameplay->getWorld()->getPlatforms()[i]->getLocation()[1])),
+				(float)(gameplay->getWorld()->getPlatforms()[i]->getLocation()[1] - 26)),
+				gameplay->getWorld()->getPlatforms()[i]->getHitBox().x / 800,
+				gameplay->getWorld()->getPlatforms()[i]->getHitBox().y / 600);
+		}
+
+		// render the hats
+		for (int i = 0; i < gameplay->getWorld()->getHats().size(); i++) {
+			renderer->renderSprite(
+				manager->getTexture("Platform_Texture"),
+				manager->getShader("Char_Shader"),
+				glm::vec2(
+				(float)(gameplay->getWorld()->getHats()[i]->getLocation()[0]),
+				(float)(gameplay->getWorld()->getHats()[i]->getLocation()[1])),
 				0.98f,
 				0.04f
 			);
@@ -146,22 +179,29 @@ void GameStateManager::setgameplayState()
 		// Rendering the characters.
 		// Called in the render loop
 		for (int i = 0; i < gameplay->getWorld()->getCharacters().size(); i++) {
+		string charName_left = "char" + std::to_string(i) + "moveLeft";
+		string charName_right = "char" + std::to_string(i) + "moveRight";
 			if (gameplay->getWorld()->getCharacters()[i]->ifFaceRight()) {
-				if (gameplay->getWorld()->getCharacters()[i]->currMoving()) {
-					getAnim("moveRight")->render(gameplay->getWorld()->getCharacters()[i]);
-				} else {
-					// When standing still.
-					getAnim("moveRight")->staticRender(gameplay->getWorld()->getCharacters()[i], 0);
+				//if (gameplay->getWorld()->getCharacters()[i]){
+					//add the throw hat move
+				//} else
+				if (gameplay->getWorld()->getCharacters()[i]->getAirborneStatus()) {//jumping
+					getAnim(charName_right)->staticRender(gameplay->getWorld()->getCharacters()[i], 5);
 				}
-			}
-			else {
-				// Facing left
-				if (gameplay->getWorld()->getCharacters()[i]->currMoving()) {
-					getAnim("moveLeft")->render(gameplay->getWorld()->getCharacters()[i]);
+				else if (gameplay->getWorld()->getCharacters()[i]->currMoving()) {
+					getAnim(charName_right)->render(gameplay->getWorld()->getCharacters()[i]);//moving
 				}
 				else {
-					// When standing still.
-					getAnim("moveLeft")->staticRender(gameplay->getWorld()->getCharacters()[i], 0);
+					getAnim(charName_right)->staticRender(gameplay->getWorld()->getCharacters()[i], 0);
+				}
+			}
+			else {//facing left
+				if (gameplay->getWorld()->getCharacters()[i]->getAirborneStatus()) {//jumping
+					getAnim(charName_left)->staticRender(gameplay->getWorld()->getCharacters()[i], 5);
+				} else if (gameplay->getWorld()->getCharacters()[i]->currMoving()) {
+					getAnim(charName_left)->render(gameplay->getWorld()->getCharacters()[i]);//moving
+				} else {//standing still
+					getAnim(charName_left)->staticRender(gameplay->getWorld()->getCharacters()[i], 0);
 				}
 			}
 		}
@@ -202,12 +242,6 @@ void GameStateManager::update()
 	}
 }
 
-void GameStateManager::updateAnimation()
-{
-	for (const auto& animation : this->animMap) {
-		animation.second->updateCurrState();
-	}
-}
 
 // Update the GameState's GameWorld.
 void GameStateManager::updateGameWorld()

@@ -4,6 +4,9 @@
 #include "Hat.h"
 #include "Platform.h"
 #include <vector>
+
+//hats
+
 using std::vector;
 
 // Provides simple physics, generates the gameworld.
@@ -13,7 +16,7 @@ private:
 	const static int GRAVITY = -1;
 
 	// The size of this map.
-	const double MAP_SIZE[2] = { 800, 600 };
+	const vec2 MAP_SIZE = {800,600};
 
 
 	/* The number of platforms in the game.
@@ -24,8 +27,8 @@ private:
 	// The number of hats that must be drawn.  Should be equal to the number of hats in the array.
 	int numHats = 0;
 
-	// The hitBoxes of players, depend on the sprite.
-	double playerHitBox[2] = { 5, 10 };
+	// The hitBoxes of players, depend on the sprite.(the ratiao  x:y = 1:2.5) 
+	vec2  playerHitBox = {6.28, 15.7};
 
 	// A list containing the characters in this game.
 	vector<Character*> charList;
@@ -34,7 +37,7 @@ private:
 	vector<Platform*> platformList;
 
 	// An array containing the hats in this game.
-	Hat* hatArray[50];
+	vector<Hat*> hatArray;
 
 	// Randomly generates the game's platforms.
 	void randomGenPlatform();
@@ -72,7 +75,14 @@ public:
 	}
 
 	// Returns the list of characters in the game.
-	vector<Character*> getCharacters();
+	vector<Character*> getCharacters() {
+		return this->charList;
+	}
+
+	// returns the list of hats this world has
+	vector<Hat*> getHats() {
+		return this->hatArray;
+	}
 
 	// Returns the value of GRAVITY.
 	static int getGravity() {

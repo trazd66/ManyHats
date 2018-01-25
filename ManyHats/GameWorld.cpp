@@ -50,13 +50,13 @@ void GameWorld::dropHats()
 // Generate the world's platforms randomly.
 void GameWorld::randomGenPlatform()
 {
+		
 	// First generate the main continent.
-	generatePlatform(400, 0, MAP_SIZE[0], MAP_SIZE[1] / 8);
+	generatePlatform(400, 50, MAP_SIZE.x/2, 25.0);
 
 	// Generate three more platforms.
-	generatePlatform(200, 200, 300.0, 25.0);
-	generatePlatform(600, 200, 300.0, 25.0);
-	generatePlatform(400, 400, 300.0, 25.0);
+	generatePlatform(300, 100, 200.0, 25.0);
+	generatePlatform(100, 200, 200.0, 25.0);
 	
 	// TODO:  Make this randomized, if there is time.
 
@@ -65,8 +65,7 @@ void GameWorld::randomGenPlatform()
 // Generate a single platform in this game.
 void GameWorld::generatePlatform(int x, int y, double width, double height)
 {
-	double hitBox[2] = { width, height };
-	Platform* p = new Platform(x, y, hitBox);
+	Platform* p = new Platform(x, y, glm::vec2( width, height ));
 	p->setImage("red.jpg");
 	platformList.push_back(p);
 	numPlatforms++;
@@ -76,10 +75,4 @@ void GameWorld::generatePlatform(int x, int y, double width, double height)
 void GameWorld::randomGenHats()
 {
 
-}
-
-// Returns the list of characters in the game.
-vector<Character*> GameWorld::getCharacters()
-{
-	return charList;
 }

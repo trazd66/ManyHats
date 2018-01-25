@@ -84,6 +84,20 @@ void InputManager::process_DUO_gameplay_input(GameStateManager* gsm, GLFWwindow*
 	}
 
 	/* PLAYER 1 MOVEMENT */
+	//Throwing hat is independent from other movements
+	// ie. you can throw when you move/jump
+	if (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS) {
+		if (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_RELEASE) {
+		}//only throw a hat upon a full key press/release sequence
+		if (game->getCharacters()[0]->hasHat()){
+			game->getCharacters()[0]->throwHat()->launch();
+		}
+	}
+	// Deals with vertical movement.
+	//independent from other movements
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && !(game->getCharacters()[0]->getAirborneStatus())) {
+		game->getCharacters()[0]->jump();
+	}
 	// Deals with horizontal movement.
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
 		game->getCharacters()[0]->moveRight();
@@ -95,13 +109,20 @@ void InputManager::process_DUO_gameplay_input(GameStateManager* gsm, GLFWwindow*
 		game->getCharacters()[0]->standStill();
 	}
 
-	// Deals with vertical movement.
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && !(game->getCharacters()[0]->getAirborneStatus())) {
-		game->getCharacters()[0]->jump();
-	}
-
 
 	/* PLAYER 2 MOVEMENT */
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE) {
+		}//only throw a hat upon a full key press/release sequence
+		if (game->getCharacters()[1]->hasHat()) {
+			game->getCharacters()[1]->throwHat()->launch();
+		}
+	}
+	// Deals with vertical movement.
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !(game->getCharacters()[1]->getAirborneStatus())) {
+		game->getCharacters()[1]->jump();
+	}
+
 	// Deals with horizontal movement.
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
 		game->getCharacters()[1]->moveRight();
@@ -113,10 +134,6 @@ void InputManager::process_DUO_gameplay_input(GameStateManager* gsm, GLFWwindow*
 		game->getCharacters()[1]->standStill();
 	}
 
-	// Deals with vertical movement.
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !(game->getCharacters()[1]->getAirborneStatus())) {
-		game->getCharacters()[1]->jump();
-	}
 }
 
 void InputManager::setCursorCallBack(GLFWwindow * window)

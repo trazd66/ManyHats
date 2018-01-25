@@ -32,6 +32,11 @@ private:
 	bool isMoving = false;
 
 public:
+
+	bool hasHat() {
+		return !hatQueue.empty();
+	}
+
 	void standStill() {
 		isMoving = false;
 		setX_vel(0);
@@ -42,7 +47,7 @@ public:
 	}
 
 	// The default constructor for Character objects.
-	Character(const int playerNum, double(&hitBox)[2]);
+	Character(const int playerNum, vec2 hitBox);
 
 	// Returns the type of this object.
 	string getItemType() {

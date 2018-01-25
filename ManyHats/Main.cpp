@@ -16,7 +16,7 @@ const unsigned int SCR_HEIGHT = 600;
 
 #include "GameStateManager.h"
 
-#define BACKGROUND_IMAGE "background.jpg"
+#define BACKGROUND_IMAGE "Sprites/background.png"
 
 
 
@@ -71,12 +71,13 @@ int main()
 
 	manager->LoadShader("GLSL/Char_texture.vs", "GLSL/Char_texture.fs", nullptr, "Char_Shader");
 	manager->LoadTexture(BACKGROUND_IMAGE, false, "BG_Texture");
-
+	manager->LoadTexture("Sprites/hatshop.png",false,"init_BG_Texture");
 
 	manager->LoadTexture("platform.jpg", false, "Platform_Texture");
-	manager->LoadTexture("button-1.jpg", false, "Button_Texture");
+	manager->LoadTexture("Sprites/start.png", true, "Button_Texture");
 
-	manager->LoadTexture("Sprites/walkingSprite.png", true, "char_sprite_text");
+	manager->LoadTexture("Sprites/walkingSprite0.png", true, "char_sprite_text0");
+	manager->LoadTexture("Sprites/walkingSprite1.png", true, "char_sprite_text1");
 	manager->LoadShader("GLSL/sprite_sheat.vs", "GLSL/sprite_sheat.fs", nullptr, "char_sprite");
 
 	gsm->init();
@@ -103,6 +104,7 @@ int main()
 				gsm->pauseGame();
 			}
 		}
+
 		gsm->getCurrState()->renderCall();
 
 
