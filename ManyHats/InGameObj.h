@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <glm/vec2.hpp>
+
 // #include "Platform.h"
 using std::string;
 

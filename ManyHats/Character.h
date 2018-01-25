@@ -32,6 +32,11 @@ private:
 	bool isMoving = false;
 
 public:
+
+	bool hasHat() {
+		return !hatQueue.empty();
+	}
+
 	void standStill() {
 		isMoving = false;
 		setX_vel(0);

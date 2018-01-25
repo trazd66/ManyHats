@@ -41,7 +41,7 @@ public:
 	};
 
 	// Launches the hat with given direction!
-	virtual void launch(double xDir, double yDir) = 0;
+	//virtual void launch(double xDir, double yDir) = 0;
 
 	// Returns true if the hat is being thrown by a player, false otherwise.
 	bool getThrownStatus() {
@@ -53,7 +53,12 @@ public:
 		playerThrown = status;
 	}
 
+	virtual void launch() = 0;
+
 private:
+	//the default launch status for this
+	glm::vec2 launchStatus;
+
 	// The base damage of the hat.
 	const int baseDamage;
 
