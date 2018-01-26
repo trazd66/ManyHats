@@ -26,7 +26,7 @@ GL_Sprite_Renderer * renderer = new GL_Sprite_Renderer(SCR_WIDTH, SCR_HEIGHT);
 GameStateManager* gsm = new GameStateManager(manager, renderer);
 
 // The MAIN function, from here we start our application and run the Game loop
-int main()
+void main()
 {
 	// Initialize GLFW
 	glfwInit();
@@ -47,14 +47,14 @@ int main()
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
-		return -1;
+		return;
 	}
 
 	glfwMakeContextCurrent(window);
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
-		return -1;
+		return;
 	}
 
 	// Define the viewport dimensions
@@ -93,7 +93,6 @@ int main()
 	{
 		// Check and call events.
 		glfwPollEvents();
-
 		if (gsm->getCurrState()->getWorld() != nullptr) {
 
 			InputManager::process_DUO_gameplay_input(gsm, window);
@@ -106,6 +105,7 @@ int main()
 			else {
 				gsm->pauseGame();
 			}
+			std::cout << (gsm->getCurrState()->getWorld() != nullptr) << std::endl;
 		}
 
 		gsm->getCurrState()->renderCall();
@@ -124,5 +124,5 @@ int main()
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
 	glfwTerminate();
-	return 0;
+	return;
 }

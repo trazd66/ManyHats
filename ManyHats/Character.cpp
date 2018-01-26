@@ -98,6 +98,7 @@ void Character::fetchHat(Hat* hat)
 }
 
 void Character::killCharacter() {
+	setHealth(100);
 	setLocation(300, 20000);
 	if (getLives() > 0) {
 		setLives(getLives() - 1);
