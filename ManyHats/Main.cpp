@@ -109,7 +109,6 @@ int main()
 				gsm->pauseGame();
 			}
 		}
-
 		gsm->getCurrState()->renderCall();
 		
 

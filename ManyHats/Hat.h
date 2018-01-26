@@ -38,9 +38,6 @@ public:
 		return this->launchVelocity;
 	};
 
-	// Launches the hat with given direction!
-	//virtual void launch(double xDir, double yDir) = 0;
-
 	// Returns the player number that throw this hat
 	int getThrownStatus() {
 		return playerThrown;
@@ -54,6 +51,10 @@ public:
 	//set the status of the hat (that if it's being carried by a character)
 	void hatOnChar(bool status) {
 		onChar = status;
+	}
+	
+	bool getOnCharStatus() {
+		return this->onChar;
 	}
 
 	virtual void launch() = 0;
@@ -80,6 +81,7 @@ public:
 	int getSpritePosition() {
 		return spritePosition;
 	}
+
 private:
 	int spritePosition;
 

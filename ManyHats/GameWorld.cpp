@@ -94,14 +94,13 @@ void GameWorld::updateHatStatus()
 				this->nonRenderedHat.push_back(theHat);
 				this->currRenderedHats.pop_front();
 			}
-			else {//when this hat is thrown and flying (did not hit anyone)
-													  //hat->setX_vel(hat->getX_vel());
+			else if (theHat->getThrownStatus() == 0 && theHat->touching(*player) && !theHat->getOnCharStatus()) {
+				player->fetchHat(theHat);
+			} else {//when this hat is thrown and flying (did not hit anyone)
 				theHat->setY_vel(theHat->Interactable::getNextYSpeed(platformList, GRAVITY));
 				if (theHat->getY_vel() < -1) {
 					theHat->setY_vel(-1);
 				}
-				std::cout << 0 << std::endl;
-				//theHat->setY_vel(-1);
 				theHat->InGameObj::update();
 			}
 		}
