@@ -101,10 +101,10 @@ void GameStateManager::setgameplayState()
 	this->initHatSprite();
 
 	std::function<void()> renderCall = [this, gameplay]() {
+		
 		// Clear the colorbuffer
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-
 
 		// Rendering the background.
 		renderer->renderSprite(
@@ -191,7 +191,7 @@ void GameStateManager::setgameplayState()
 		// Render player health.
 		renderer->renderText(
 			manager->getShader("Text_Shader"),
-			"HP:  " + std::to_string(this->getCurrState()->getWorld()->getCharacters()[0]->getHealth()),
+			"HP:  " + std::to_string(this->getCurrState()->getWorld()->getCharacters()[1]->getHealth()),
 			glm::vec2(640, 0),
 			glm::vec3(1, 0.5, 0),
 			0.8
@@ -208,7 +208,7 @@ void GameStateManager::setgameplayState()
 		// Render player lives.
 		renderer->renderText(
 			manager->getShader("Text_Shader"),
-			"Lives:  " + std::to_string(this->getCurrState()->getWorld()->getCharacters()[0]->getLives()),
+			"Lives:  " + std::to_string(this->getCurrState()->getWorld()->getCharacters()[1]->getLives()),
 			glm::vec2(640, 45),
 			glm::vec3(1, 0.5, 0),
 			0.8
@@ -255,6 +255,14 @@ void GameStateManager::update()
 	// - Only update every 60 frames
 	if (gameUpdateTimer->ticks()) {
 		this->updateGameWorld();
+		// If a character is dead, go to the main screen.
+		if (getCurrState()->getWorld() != nullptr) {
+			for (auto c : getCurrState()->getWorld()->getCharacters()) {
+				if (c->getLives() <= 0) {
+					switchState(Welcome);
+				}
+			}
+		}
 	}
 }
 

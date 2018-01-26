@@ -97,6 +97,13 @@ void Character::fetchHat(Hat* hat)
 	}
 }
 
+void Character::killCharacter() {
+	setLocation(300, 20000);
+	if (getLives() > 0) {
+		setLives(getLives() - 1);
+	}
+}
+
 // Update this object.
 void Character::update(vector<Platform*> platformList, int gravity)
 {
@@ -110,10 +117,7 @@ void Character::update(vector<Platform*> platformList, int gravity)
 	this->updateHatLocation();
 
 	if (getLocation()[1] < -60) {
-		if (getLives() > 0) {
-			setLives(getLives() - 1);
-		}
-		setLocation(300, 20000);
+		killCharacter();
 	}
 }
 

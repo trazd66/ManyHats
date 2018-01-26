@@ -2,7 +2,7 @@
 #include "Interactable.h"
 
 // Represents a Hat in the game.
-class Hat : public Interactable{
+class Hat : public Interactable {
 public:
 	// The default constructor for this class.
 	Hat(const int baseDamage, const double damageModifier, const double fallSpeed, const double launchSpeed, vec2 hitBox, int pos)
