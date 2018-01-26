@@ -2,7 +2,7 @@
 #include "Platform.h"
 #include "Hat.h"
 #include "Interactable.h"
-#include <vector>
+#include <deque>
 
 // A class representing a character in this game.
 class Character : public Interactable {
@@ -25,7 +25,7 @@ private:
 
 	// The queue of hats held by the player.
 	// A player can hold up to maximum of 10 hats.
-	std::vector<Hat*> hatQueue;
+	std::deque<Hat*> hatQueue;
 
 	// True if facing right (default), false if left.
 	bool faceRight = true;

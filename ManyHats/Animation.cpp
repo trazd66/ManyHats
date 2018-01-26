@@ -19,7 +19,9 @@ Animation::Animation(GL_Sprite_Renderer * renderer,
 	renderCount(numToRender),
 	colorOffSet(colorOffSet)
 {
-	RefreshTimer = new Timer(refreshRate);
+	if (refreshRate != 0) {
+		RefreshTimer = new Timer(refreshRate);
+	}
 }
 
 // Default destructor.
@@ -57,16 +59,16 @@ void Animation::updateCurrState()
 	}
 }
 
-void Animation::staticRender(InGameObj* obj,int staticState)
+void Animation::staticRender(InGameObj* obj,vec2 staticState, double renderOffSet)
 {
 	renderer->renderAnim(
 		currTexture,
 		shader,
 		glm::vec2(
 		(float)(obj->getLocation()[0]),
-		(float)(obj->getLocation()[1])),
+		(float)(obj->getLocation()[1]) - renderOffSet),
 		spriteOffSet0,
-		glm::vec2((float)spriteOffSet1.x * staticState, spriteOffSet1.y),
+		glm::vec2((float)spriteOffSet1.x * staticState.x, spriteOffSet1.y * staticState.y),
 		xScaleFactor,
 		yScaleFactor,
 		colorOffSet);

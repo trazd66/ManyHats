@@ -1,10 +1,10 @@
 #pragma once
 #include <iostream>
 #include "Character.h"
-#include "Hat.h"
+#include "BaseballCap.h"
 #include "Platform.h"
 #include <vector>
-
+#include <deque>
 //hats
 
 using std::vector;
@@ -37,10 +37,10 @@ private:
 	vector<Platform*> platformList;
 
 	// An array containing the hats in this game.
-	vector<Hat*> nonRenderedHat;
+	std::deque<Hat*> nonRenderedHat;
 
 	//  hats that appear on the screen will be here.
-	vector<Hat*> currRenderedHats;
+	std::deque<Hat*> currRenderedHats;
 
 	// Randomly generates the game's platforms.
 	void randomGenPlatform();
@@ -83,8 +83,13 @@ public:
 	}
 
 	// returns the list of hats this world has
-	vector<Hat*> getHats() {
+	std::deque<Hat*> getNonRenderedHats() {
 		return this->nonRenderedHat;
+	}
+
+	// returns the list of hats this world has
+	std::deque<Hat*> getCurrRenderedHats() {
+		return this->currRenderedHats;
 	}
 
 	// Returns the value of GRAVITY.

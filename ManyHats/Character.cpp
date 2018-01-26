@@ -19,8 +19,10 @@ void Character::setHealth(int num)
 
 void Character::updateHatLocation()
 {
-	for (auto hat : hatQueue) {
-		hat->setLocation(getLocation()[0], getLocation()[1]);
+	for (int i = 0; i < hatQueue.size(); i++) {
+		hatQueue[i]->setLocation(
+			this->getLocation()[0],
+			this->getLocation()[1] + this->getHitBox().y*3.5 + (hatQueue[i]->getHitBox().y)*5*i);
 	}
 }
 
@@ -50,13 +52,11 @@ void Character::moveLeft()
 	faceRight = false;
 	isMoving = true;
 	InGameObj::setX_vel(-movementSpeed);
-	/* TODO:  I wrote in to subtract 40 since it makes it look good.
-	 * But in the future, it should probably depend on just the hitbox.
-	 * At this point, I think there is something wrong with the hitboxes,
-	 * so try to fix this once the hitboxes are working better.
-	 */
 	if (getLocation()[0] - getHitBox()[0]<= 0) {
 		InGameObj::setX_vel(0);
+	}
+	for (auto hat : this->hatQueue) {
+		hat->setFaceRight(false);
 	}
 }
 
@@ -69,6 +69,9 @@ void Character::moveRight()
 	if (getLocation()[0] + getHitBox()[0] >= 800) {
 		InGameObj::setX_vel(0);
 	}
+	for (auto hat : this->hatQueue) {
+		hat->setFaceRight(true);
+	}
 }
 
 // Allows the character to throw a hat.
@@ -76,7 +79,7 @@ Hat* Character::throwHat()
 {
 	if (this->hasHat()) {
 		Hat* hatToThrow = hatQueue.front();
-		hatQueue.erase(hatQueue.begin());//removes the first element
+		hatQueue.pop_front();//removes the first element
 		hatToThrow->hatOnChar(false);
 		hatToThrow->setPlayerThrown(this->getPlayerNum());
 		return hatToThrow;

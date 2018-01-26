@@ -20,6 +20,7 @@ public:
 			return -1;
 		}
 
+
 		setAirborneStatus(true);
 
 		Platform* currentPlatform;

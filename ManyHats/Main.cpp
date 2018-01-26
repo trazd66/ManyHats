@@ -83,6 +83,8 @@ void main()
 	manager->LoadTexture("Sprites/head0.png", true, "head0");
 	manager->LoadTexture("Sprites/head1.png", true, "head1");
 
+	manager->LoadTexture("Sprites/hats.png",true,"hats");
+
 	gsm->init();
 	InputManager::setCursorCallBack(window);
 	InputManager::loadCurrGameState(gsm->getCurrState());
@@ -107,9 +109,8 @@ void main()
 			}
 			std::cout << (gsm->getCurrState()->getWorld() != nullptr) << std::endl;
 		}
-
 		gsm->getCurrState()->renderCall();
-
+		
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------

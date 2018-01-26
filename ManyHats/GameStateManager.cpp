@@ -103,7 +103,8 @@ void GameStateManager::setgameplayState()
 	game->initiate();
 
 	this->initWalkingAnim();
-	
+	this->initHatSprite();
+
 	std::function<void()> renderCall = [this, gameplay]() {
 		
 		// Clear the colorbuffer
@@ -129,21 +130,6 @@ void GameStateManager::setgameplayState()
 				platform->getHitBox().y / 600);
 		}
 
-		// render the hats
-		for (auto hat : gameplay->getWorld()->getHats()) {
-			if (hat->getRenderStatus()) {
-				renderer->renderSprite(
-					manager->getTexture("Platform_Texture"),
-					manager->getShader("Char_Shader"),
-					glm::vec2(
-					(float)(hat->getLocation()[0]),
-						(float)(hat->getLocation()[1])),
-					0.98f,
-					0.04f
-				);
-			}
-		}
-
 		// Rendering the characters.
 		// Called in the render loop
 		for (int i = 0; i < gameplay->getWorld()->getCharacters().size(); i++) {
@@ -154,22 +140,35 @@ void GameStateManager::setgameplayState()
 					//add the throw hat move
 				//} else
 				if (gameplay->getWorld()->getCharacters()[i]->getAirborneStatus()) {//jumping
-					getAnim(charName_right)->staticRender(gameplay->getWorld()->getCharacters()[i], 5);
+					getAnim(charName_right)->staticRender(gameplay->getWorld()->getCharacters()[i], vec2(5,1));
 				}
 				else if (gameplay->getWorld()->getCharacters()[i]->currMoving()) {
 					getAnim(charName_right)->render(gameplay->getWorld()->getCharacters()[i]);//moving
 				}
 				else {
-					getAnim(charName_right)->staticRender(gameplay->getWorld()->getCharacters()[i], 0);
+					getAnim(charName_right)->staticRender(gameplay->getWorld()->getCharacters()[i], vec2(0,1));
 				}
 			}
 			else {//facing left
 				if (gameplay->getWorld()->getCharacters()[i]->getAirborneStatus()) {//jumping
-					getAnim(charName_left)->staticRender(gameplay->getWorld()->getCharacters()[i], 5);
+					getAnim(charName_left)->staticRender(gameplay->getWorld()->getCharacters()[i], vec2(5,1));
 				} else if (gameplay->getWorld()->getCharacters()[i]->currMoving()) {
 					getAnim(charName_left)->render(gameplay->getWorld()->getCharacters()[i]);//moving
 				} else {//standing still
-					getAnim(charName_left)->staticRender(gameplay->getWorld()->getCharacters()[i], 0);
+					getAnim(charName_left)->staticRender(gameplay->getWorld()->getCharacters()[i], vec2(0,1));
+				}
+			}
+		}
+
+
+		// render the hats
+		for (auto hat : this->getCurrState()->getWorld()->getCurrRenderedHats()) {
+			if (hat->getRenderStatus()) {
+				if (hat->getFaceRight()) {
+					getAnim("hat_right")->staticRender(hat, { 1,hat->getSpritePosition() },-45);
+				}
+				else {
+					getAnim("hat_left")->staticRender(hat, { 1,hat->getSpritePosition() },-45);
 				}
 			}
 		}
@@ -352,6 +351,27 @@ void GameStateManager::initWalkingAnim()
 
 void GameStateManager::initHatSprite()
 {
+	Animation* hat_left = new Animation(renderer,
+		manager->getTexture("hats"),
+		manager->getShader("char_sprite"),
+		glm::vec2(0.5, 0.20),
+		glm::vec2(0, 0.200),
+		5, 0);
+
+	Animation* hat_right = new Animation(renderer,
+		manager->getTexture("hats"),
+		manager->getShader("char_sprite"),
+		glm::vec2(0.5, 0.20),
+		glm::vec2(0.5, 0.20),
+		5, 0);
+
+	this->addAnimToMap("hat_left", hat_left);
+	this->addAnimToMap("hat_right", hat_right);
+
+	hat_left->setScalingFactor(glm::vec2(0.10f, 0.25f));
+	hat_right->setScalingFactor(glm::vec2(0.10f, 0.25f));
+
+
 }
 
 // Update the GameState's GameWorld.

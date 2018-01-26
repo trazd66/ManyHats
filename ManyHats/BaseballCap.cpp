@@ -1,2 +1,0 @@
-#include "BaseballCap.h"
-
