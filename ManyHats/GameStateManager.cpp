@@ -98,7 +98,8 @@ void GameStateManager::setgameplayState()
 	game->initiate();
 
 	this->initWalkingAnim();
-	
+	this->initHatSprite();
+
 	std::function<void()> renderCall = [this, gameplay]() {
 		// Clear the colorbuffer
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -125,17 +126,14 @@ void GameStateManager::setgameplayState()
 		}
 
 		// render the hats
-		for (auto hat : gameplay->getWorld()->getHats()) {
+		for(auto hat : this->getCurrState()->getWorld()->getCurrRenderedHats()) {
 			if (hat->getRenderStatus()) {
-				renderer->renderSprite(
-					manager->getTexture("Platform_Texture"),
-					manager->getShader("Char_Shader"),
-					glm::vec2(
-					(float)(hat->getLocation()[0]),
-						(float)(hat->getLocation()[1])),
-					0.98f,
-					0.04f
-				);
+				if (hat->getFaceRight()) {
+					getAnim("hat_right")->staticRender(hat, hat->getSpritePosition());
+				}
+				else {
+					getAnim("hat_left")->staticRender(hat, hat->getSpritePosition());
+				}
 			}
 		}
 
@@ -315,6 +313,27 @@ void GameStateManager::initWalkingAnim()
 
 void GameStateManager::initHatSprite()
 {
+	Animation* hat_left = new Animation(renderer,
+		manager->getTexture("hats"),
+		manager->getShader("char_sprite"),
+		glm::vec2(0.5, 0.25),
+		glm::vec2(0, 0.25),
+		5, (double)1 / 25);
+
+	Animation* hat_right = new Animation(renderer,
+		manager->getTexture("hats"),
+		manager->getShader("char_sprite"),
+		glm::vec2(0.5, 0.25),
+		glm::vec2(0.5, 0.25),
+		5, (double)1 / 25);
+
+	this->addAnimToMap("hat_left", hat_left);
+	this->addAnimToMap("hat_right", hat_right);
+
+	hat_left->setScalingFactor(glm::vec2(0.10f, 0.25f));
+	hat_right->setScalingFactor(glm::vec2(0.10f, 0.25f));
+
+
 }
 
 // Update the GameState's GameWorld.

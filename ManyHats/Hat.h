@@ -5,8 +5,8 @@
 class Hat : public Interactable{
 public:
 	// The default constructor for this class.
-	Hat(const int baseDamage, const double damageModifier, const double fallSpeed, const double launchSpeed, vec2 hitBox)
-		: baseDamage(baseDamage), damageModifier(damageModifier), fallSpeedModifier(fallSpeed), launchVelocity(launchSpeed), Interactable(hitBox)
+	Hat(const int baseDamage, const double damageModifier, const double fallSpeed, const double launchSpeed, vec2 hitBox, int pos)
+		: baseDamage(baseDamage), damageModifier(damageModifier), fallSpeedModifier(fallSpeed), launchVelocity(launchSpeed), Interactable(hitBox),spritePosition(pos)
 	{};
 
 	// The default destructor for this class.
@@ -68,7 +68,24 @@ public:
 		return render;
 	}
 
+	void setFaceRight(bool faceRight) {
+		this->faceRight = faceRight;
+	}
+
+	bool getFaceRight() {
+		return faceRight;
+	}
+	
+	//the position of this hat on the sprite sheet
+	int getSpritePosition() {
+		return spritePosition;
+	}
 private:
+	int spritePosition;
+
+	//direction this hat is facing
+	bool faceRight = true;
+
 	/*when the hat is carried by a character, the hat moves with the character*/
 	bool onChar = false;
 
