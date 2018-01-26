@@ -32,7 +32,7 @@ public:
 
 	void updateCurrState();
 
-	void staticRender(InGameObj* obj,int staticState);//used to render a non-moving object
+	void staticRender(InGameObj* obj,vec2 staticState , double renderOffSet = 0);//used to render a non-moving object
 
 	void setScalingFactor(glm::vec2 sFactor);
 

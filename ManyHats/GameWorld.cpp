@@ -49,7 +49,7 @@ void GameWorld::initChars(int* coords, int numOfPlayers)
 void GameWorld::dropHats()
 {
 	for (auto hat : this->getNonRenderedHats()) {
-		hat->setLocation(300, 500);
+		hat->setLocation(100, 500);
 		hat->setRenderStatus(true);
 		this->nonRenderedHat.pop_front();
 		this->currRenderedHats.push_back(hat);
