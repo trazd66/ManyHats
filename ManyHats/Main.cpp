@@ -107,7 +107,7 @@ void main()
 			else {
 				gsm->pauseGame();
 			}
-			std::cout << (gsm->getCurrState()->getWorld() != nullptr) << std::endl;
+			// std::cout << (gsm->getCurrState()->getWorld() != nullptr) << std::endl;
 		}
 		gsm->getCurrState()->renderCall();
 		
