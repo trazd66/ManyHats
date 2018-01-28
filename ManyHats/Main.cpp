@@ -16,7 +16,7 @@ const unsigned int SCR_HEIGHT = 600;
 
 #include "GameStateManager.h"
 
-#define BACKGROUND_IMAGE "Sprites/background.png"
+#define BACKGROUND_IMAGE "C:/Users/HP/Documents/ManyHats/ManyHats/Sprites/background.png"
 
 
 
@@ -64,26 +64,26 @@ void main()
 	// build and compile our shader program
 	// ------------------------------------
 	renderer->initBufferBinding();
-	manager->LoadShader("GLSL/text_shader.vs", "GLSL/Text_shader.fs", nullptr, "Text_Shader");
-	manager->loadFont("Fonts/Vera.ttf");
+	manager->LoadShader("C:/Users/HP/Documents/ManyHats/ManyHats/GLSL/text_shader.vs", "C:/Users/HP/Documents/ManyHats/ManyHats/GLSL/text_shader.fs", nullptr, "Text_Shader");
+	manager->loadFont("C:/Users/HP/Documents/ManyHats/ManyHats/Fonts/Vera.ttf");
 	renderer->initTextRendering(manager->getShader("Text_Shader"), manager->getCharacterMap());
 
 
-	manager->LoadShader("GLSL/Char_texture.vs", "GLSL/Char_texture.fs", nullptr, "Char_Shader");
+	manager->LoadShader("C:/Users/HP/Documents/ManyHats/ManyHats/GLSL/Char_texture.vs", "C:/Users/HP/Documents/ManyHats/ManyHats/GLSL/Char_texture.fs", nullptr, "Char_Shader");
 	manager->LoadTexture(BACKGROUND_IMAGE, false, "BG_Texture");
-	manager->LoadTexture("Sprites/hatshop.png",false,"init_BG_Texture");
+	manager->LoadTexture("C:/Users/HP/Documents/ManyHats/ManyHats/Sprites/hatshop.png",false,"init_BG_Texture");
 
-	manager->LoadTexture("platform.jpg", false, "Platform_Texture");
-	manager->LoadTexture("Sprites/start.png", true, "Button_Texture");
+	manager->LoadTexture("C:/Users/HP/Documents/ManyHats/ManyHats/platform.jpg", false, "Platform_Texture");
+	manager->LoadTexture("C:/Users/HP/Documents/ManyHats/ManyHats/Sprites/start.png", true, "Button_Texture");
 
-	manager->LoadTexture("Sprites/walkingSprite0.png", true, "char_sprite_text0");
-	manager->LoadTexture("Sprites/walkingSprite1.png", true, "char_sprite_text1");
-	manager->LoadShader("GLSL/sprite_sheat.vs", "GLSL/sprite_sheat.fs", nullptr, "char_sprite");
+	manager->LoadTexture("C:/Users/HP/Documents/ManyHats/ManyHats/Sprites/walkingSprite0.png", true, "char_sprite_text0");
+	manager->LoadTexture("C:/Users/HP/Documents/ManyHats/ManyHats/Sprites/walkingSprite1.png", true, "char_sprite_text1");
+	manager->LoadShader("C:/Users/HP/Documents/ManyHats/ManyHats/GLSL/sprite_sheat.vs", "C:/Users/HP/Documents/ManyHats/ManyHats/GLSL/sprite_sheat.fs", nullptr, "char_sprite");
 
-	manager->LoadTexture("Sprites/head0.png", true, "head0");
-	manager->LoadTexture("Sprites/head1.png", true, "head1");
+	manager->LoadTexture("C:/Users/HP/Documents/ManyHats/ManyHats/Sprites/head0.png", true, "head0");
+	manager->LoadTexture("C:/Users/HP/Documents/ManyHats/ManyHats/Sprites/head1.png", true, "head1");
 
-	manager->LoadTexture("Sprites/hats.png",true,"hats");
+	manager->LoadTexture("C:/Users/HP/Documents/ManyHats/ManyHats/Sprites/hats.png",true,"hats");
 
 	gsm->init();
 	InputManager::setCursorCallBack(window);
