@@ -82,6 +82,7 @@ public:
 		return spritePosition;
 	}
 
+	virtual void reset() = 0;
 private:
 	int spritePosition;
 

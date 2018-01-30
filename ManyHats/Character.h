@@ -34,6 +34,8 @@ private:
 
 	void updateHatLocation();
 
+	bool readyToShoot = true;
+
 public:
 
 	//returns the player number
@@ -135,4 +137,14 @@ public:
 
 	// Kills and respawns the character.
 	void killCharacter();
+
+	// Returns the readyToShoot boolean variable.
+	bool getReadyToShoot() {
+		return readyToShoot;
+	}
+
+	// Sets the readyToShoot boolean variable.
+	void setReadyToShoot(bool newValue) {
+		readyToShoot = newValue;
+	}
 };

@@ -1,4 +1,5 @@
 #include "GameWorld.h"
+#include <cstdlib>
 
 // Constructs a GameWorld object.
 GameWorld::GameWorld()
@@ -48,11 +49,11 @@ void GameWorld::initChars(int* coords, int numOfPlayers)
 // Randomly drop the generated hats to players.
 void GameWorld::dropHats()
 {
-	for (auto hat : this->getNonRenderedHats()) {
-		hat->setLocation(100, 500);
-		hat->setRenderStatus(true);
-		this->nonRenderedHat.pop_front();
-		this->currRenderedHats.push_back(hat);
+		for (auto hat : this->getHats()) {
+			if (rand() % 1000 <= 1 && !hat->getRenderStatus()) {
+				hat->setLocation(rand() % 10 * 60, MAP_SIZE[1]);
+				hat->setRenderStatus(true);
+			}
 	}
 }
 
@@ -75,33 +76,40 @@ void GameWorld::randomGenPlatform()
 void GameWorld::generatePlatform(int x, int y, double width, double height)
 {
 	Platform* p = new Platform(x, y, glm::vec2( width, height ));
-	p->setImage("red.jpg");
 	platformList.push_back(p);
 	numPlatforms++;
 }
 
 void GameWorld::updateHatStatus()
 {
-	for (auto theHat : this->currRenderedHats) {
+	for (auto theHat : this->containedHats) {
 		for (auto player : this->charList) {
 			if (theHat->getThrownStatus() != 0 &&
 				theHat->getThrownStatus() != player->getPlayerNum() &&
 				theHat->touching(*player)) {
+
 				// when this hat hit a character
 				player->setHealth(player->getHealth() - theHat->getBaseDamage());
-				theHat->setRenderStatus(false); // should no longer be rendered
-				theHat->setPlayerThrown(0); //no longer thrown by a player
-				this->nonRenderedHat.push_back(theHat);
-				this->currRenderedHats.pop_front();
+				theHat->reset();
 			}
-			else if (theHat->getThrownStatus() == 0 && theHat->touching(*player) && !theHat->getOnCharStatus()) {
+			else if (theHat->getThrownStatus() == 0 &&
+				theHat->touching(*player)) {
+				//catch the hat
 				player->fetchHat(theHat);
-			} else {//when this hat is thrown and flying (did not hit anyone)
+			} else if(
+				theHat->getLocation()[0] < 0 ||
+				theHat->getLocation()[0] > MAP_SIZE[0] ||
+				theHat->getLocation()[1] < 0 ||
+				theHat->getLocation()[1] > MAP_SIZE[1]){
+	
+				theHat->reset();
+			}	else {//when this hat is thrown and flying (did not hit anyone)
 				theHat->setY_vel(theHat->Interactable::getNextYSpeed(platformList, GRAVITY));
 				if (theHat->getY_vel() < -1) {
 					theHat->setY_vel(-1);
 				}
 				theHat->InGameObj::update();
+
 			}
 		}
 	}
@@ -111,6 +119,10 @@ void GameWorld::updateHatStatus()
 void GameWorld::randomGenHats()
 {
 	for (int i = 0; i < 10; i++) {
-		this->nonRenderedHat.push_back(new BaseballCap(vec2(5,5)));
+		this->containedHats.push_back(new BaseballCap(vec2(6,6)));
+//		this->containedHats.push_back(new ChiefHat(vec2(6, 6)));
+		this->containedHats.push_back(new NurseHat(vec2(6, 6)));
+	//	this->containedHats.push_back(new BombHat(vec2(6, 6)));
+	//	this->containedHats.push_back(new SantaHat(vec2(6, 6)));
 	}
 }

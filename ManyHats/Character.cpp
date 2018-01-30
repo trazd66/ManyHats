@@ -7,13 +7,13 @@ using std::vector;
 void Character::setHealth(int num)
 {
 	if (0 <= num && num <= 100) {
-		num = num;
+		health = num;
 	}
 	else if (num > 100) {
-		num = 100;
+		health = 100;
 	}
 	else {
-		num = 0;
+		health = 0;
 	}
 }
 
@@ -91,8 +91,9 @@ Hat* Character::throwHat()
 // Adds a hat to the character's hat queue.
 void Character::fetchHat(Hat* hat)
 {
-	if (hatQueue.size() < 10) {
+	if (hatQueue.size() < 10 && hat->getThrownStatus() == 0) {
 		hatQueue.push_back(hat);
+		std::cout << hat->getThrownStatus() << std::endl;
 		hat->setLocation(
 			this->getLocation()[0], 
 			this->getLocation()[1] + (hat->getHitBox().y)*hatQueue.size());//hats will be stacking on top of this char's head
@@ -103,6 +104,7 @@ void Character::fetchHat(Hat* hat)
 void Character::killCharacter() {
 	setLocation(300, 20000);
 	if (getLives() > 0) {
+		this->setHealth(100);
 		setLives(getLives() - 1);
 	}
 }
@@ -119,7 +121,7 @@ void Character::update(vector<Platform*> platformList, int gravity)
 	// Update all the hat locations
 	this->updateHatLocation();
 
-	if (getLocation()[1] < -60) {
+	if (getLocation()[1] < -60 || this->health <= 0 ) {
 		killCharacter();
 	}
 }

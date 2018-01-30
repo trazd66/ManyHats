@@ -157,15 +157,16 @@ void GameStateManager::setgameplayState()
 
 
 		// render the hats
-		for (auto hat : this->getCurrState()->getWorld()->getCurrRenderedHats()) {
+		for (auto hat : this->getCurrState()->getWorld()->getHats()) {
 			if (hat->getRenderStatus()) {
 				if (hat->getFaceRight()) {
-					getAnim("hat_right")->staticRender(hat, { 1,hat->getSpritePosition() },-45);
+					getAnim("hat_right")->staticRender(hat, {1,hat->getSpritePosition() },-45);
 				}
 				else {
 					getAnim("hat_left")->staticRender(hat, { 1,hat->getSpritePosition() },-45);
 				}
 			}
+
 		}
 
 		// Render player faces.
@@ -325,15 +326,15 @@ void GameStateManager::initHatSprite()
 	Animation* hat_left = new Animation(renderer,
 		manager->getTexture("hats"),
 		manager->getShader("char_sprite"),
-		glm::vec2(0.5, 0.20),
-		glm::vec2(0, 0.200),
+		glm::vec2(0.5, 0.19),
+		glm::vec2(0, 0.2),
 		5, 0);
 
 	Animation* hat_right = new Animation(renderer,
 		manager->getTexture("hats"),
 		manager->getShader("char_sprite"),
-		glm::vec2(0.5, 0.20),
-		glm::vec2(0.5, 0.20),
+		glm::vec2(0.5, 0.19),
+		glm::vec2(0.5, 0.2),
 		5, 0);
 
 	this->addAnimToMap("hat_left", hat_left);

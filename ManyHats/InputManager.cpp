@@ -87,11 +87,13 @@ void InputManager::process_DUO_gameplay_input(GameStateManager* gsm, GLFWwindow*
 	//Throwing hat is independent from other movements
 	// ie. you can throw when you move/jump
 	if (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS) {
-		if (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_RELEASE) {
-		}//only throw a hat upon a full key press/release sequence
-		if (game->getCharacters()[0]->hasHat()){
+		//only throw a hat upon a full key press/release sequence
+		if (game->getCharacters()[0]->hasHat() && game->getCharacters()[0]->getReadyToShoot()) {
 			game->getCharacters()[0]->throwHat()->launch();
-		}
+			game->getCharacters()[0]->setReadyToShoot(false);
+		} 
+	} else {
+		game->getCharacters()[0]->setReadyToShoot(true);
 	}
 	// Deals with vertical movement.
 	//independent from other movements
@@ -114,11 +116,13 @@ void InputManager::process_DUO_gameplay_input(GameStateManager* gsm, GLFWwindow*
 
 	/* PLAYER 2 MOVEMENT */
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE) {
-		}//only throw a hat upon a full key press/release sequence
-		if (game->getCharacters()[1]->hasHat()) {
+		//only throw a hat upon a full key press/release sequence
+		if (game->getCharacters()[1]->hasHat() && game->getCharacters()[1]->getReadyToShoot()) {
 			game->getCharacters()[1]->throwHat()->launch();
+			game->getCharacters()[1]->setReadyToShoot(false);
 		}
+	} else {
+		game->getCharacters()[1]->setReadyToShoot(true);
 	}
 	// Deals with vertical movement.
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !(game->getCharacters()[1]->getAirborneStatus())) {
