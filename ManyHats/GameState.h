@@ -3,44 +3,53 @@
 
 #include "GUI_Button.h"
 
-#include "GL_Sprite_Renderer.h"
-
+// Represents a state in this game.
 class GameState
 {
 public:
-	GameState(GLFWwindow* window, GameWorld* world = nullptr) :
-		window(window), currWorld(world) {};
 
+	// Default constructor.
+	GameState(GLFWwindow* window, GameWorld* world = nullptr) 
+		: window(window), currWorld(world) 
+	{
+	};
+
+	// Default destructor.
 	~GameState();
 
+	// Adds a button to this game.
 	void addButton(GUI_Button* button) {
 		buttons.push_back(button);
 	}
 	
+	// Calls the renderCallBack function.
 	void renderCall();
 
-	//returns the buttons that this game state uses
+	// Returns the buttons that this game state uses.
 	vector<GUI_Button*> getButtons() {
 		return buttons;
 	}
 
-
-	void initGameState(std::function<void()> func);
-
-	void testCall(GL_Sprite_Renderer* renderer, GL_Manager* manager) {
-		renderer->renderSprite(
-			manager->getTexture("BG_Texture"),
-			manager->getShader("Char_Shader"),
-			glm::vec2(400, 300));
+	// Returns the GameWorld being used currently.
+	GameWorld* getWorld() {
+		return currWorld;
 	}
 
+	// Initializes the game's state.
+	void initGameState(std::function<void()> func);
+
 private:
+
+	// The current game's window.
 	GLFWwindow* window;
 
-	std::function<void()> renderCallBack; // call back used during render call
+	// call back used during render call.
+	std::function<void()> renderCallBack; 
+	
+	// A GameState may or may not contain a GameWorld.
+	GameWorld* currWorld;
 
-	GameWorld* currWorld; // a game state may or may not contain a gameworld
-
-	vector<GUI_Button*> buttons; //list of buttons used by in this gameState
+	// List of buttons used by this GameState.
+	vector<GUI_Button*> buttons; 
 };
 

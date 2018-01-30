@@ -1,4 +1,5 @@
 #include "GameWorld.h"
+#include <cstdlib>
 
 // Constructs a GameWorld object.
 GameWorld::GameWorld()
@@ -16,17 +17,13 @@ GameWorld::~GameWorld()
 // Initializes the game.
 void GameWorld::initiate()
 {
-	double hit[2] = { MAP_SIZE[0], MAP_SIZE[1] / 8 };
-	Platform* floor = new Platform(0, 50, hit);
-	floor->setImage("red.jpg");
-	platformList.push_back(floor);
-	// generatePlatform(200, 200, 300.0, 25.0);
-	// generatePlatform(600, 200, 300.0, 25.0);
-	// generatePlatform(400, 400, 300.0, 25.0);
+	randomGenPlatform();
 
 	// Coordinates:   x1   y1   x2   y2
 	int coords[4] = { 200, 350, 300, 400 };
 	initChars(coords, 2);
+
+	randomGenHats();
 }
 
 // Updates the game.
@@ -35,36 +32,8 @@ void GameWorld::update()
 	for (int i = 0; i < charList.size(); i++) {
 		charList[i]->update(this->platformList, GRAVITY);
 	}
-
-	// for (int i = 0; i < platformList.size(); i++) {
-	// 	for (int j = 0; j < charList.size(); j++) {
-
-	// 		if (charList[j]->touching(*(platformList[i]))) {
-
-	// 			if (charList[j]->getLocation()[1] - (charList[j]->getHitBox()[1] / 2.0) - charList[j]->getY_vel() >= platformList[i]->getLocation()[1] + (platformList[i]->getHitBox()[1] / 2.0)) {
-	// 				// Above the platform.
-	// 				charList[j]->setY_vel(0);
-	// 				charList[j]->setLocation(charList[j]->getLocation()[0], platformList[i]->getLocation()[1] + (platformList[i]->getHitBox()[1] + charList[j]->getHitBox()[1]) / 2.0 + 1);
-	// 				charList[j]->setAirborneStatus(false);
-	// 			} else if (charList[j]->getLocation()[1] + (charList[j]->getHitBox()[1] / 2.0) + charList[j]->getY_vel() <= platformList[i]->getLocation()[1] - (platformList[i]->getHitBox()[1] / 2.0)) {
-	// 				// Below the platform.
-	// 				charList[j]->setY_vel(0);
-	// 				charList[j]->setLocation(charList[j]->getLocation()[0], platformList[i]->getLocatio	n()[1] - (platformList[i]->getHitBox()[1] + charList[j]->getHitBox()[1]) / 2.0);
-	// 				// Should not be necessary to set airborne status to true, but do it just in case.
-	// 				charList[j]->setAirborneStatus(true);
-	// 			} else {
-	// 				// On the same level as the platform.
-	// 				charList[j]->setLocation(charList[j]->getLocation()[0] - charList[j]->getX_vel(), charList[j]->getLocation()[1]);
-	// 			}
-	// 		// } else {
-	// 		// 	if (!(charList[j]->getLocation()[0] - (charList[j]->getHitBox()[0] / 2.0) < platformList[i]->getLocation()[0] + (platformList[i]->getHitBox()[0] / 2.0) &&
-	// 		// 		charList[j]->getLocation()[0] + (charList[j]->getHitBox()[0] / 2.0) > platformList[i]->getLocation()[0] - (platformList[i]->getHitBox()[0] / 2.0))) {
-	// 		// 		// Not horizontally colliding.
-	// 		// 		// Also, check whether they are above the platform.
-	// 		// 	}
-	// 		}
-	// 	}
-	// }
+	dropHats();
+	this->updateHatStatus();
 }
 
 // Initializes the characters in this game.
@@ -75,42 +44,86 @@ void GameWorld::initChars(int* coords, int numOfPlayers)
 		thisChar->setLocation(coords[2 * i], coords[2 * i + 1]);
 		charList.push_back(thisChar);
 	}
-	charList[0]->setImage("MarioTest.png");
-	charList[1]->setImage("LuigiTest.png");
 }
 
 // Randomly drop the generated hats to players.
 void GameWorld::dropHats()
 {
-
+		for (auto hat : this->getHats()) {
+			if (rand() % 1000 <= 1 && !hat->getRenderStatus()) {
+				hat->setLocation(rand() % 10 * 60, MAP_SIZE[1]);
+				hat->setRenderStatus(true);
+			}
+	}
 }
 
 // Generate the world's platforms randomly.
 void GameWorld::randomGenPlatform()
 {
+
 	// First generate the main continent.
-	Platform* continent = new Platform(400, 0, continentHitBox);
-	platformList.push_back(continent);
-	// TODO:  Then generate mario-like islands that players can jump to.
+	generatePlatform(400, 50, MAP_SIZE.x * 0.9, 25.0);
+
+	// Generate three more platforms.
+	generatePlatform(200, 200, 200.0, 25.0);
+	generatePlatform(600, 200, 200.0, 25.0);
+	generatePlatform(425, 400, 250.0, 25.0);
+
+	// TODO:  Make this randomized, if there is time.
 
 }
 
 // Generate a single platform in this game.
 void GameWorld::generatePlatform(int x, int y, double width, double height)
 {
-	double hitBox[2] = { width, height };
-	platformList.push_back(new Platform(x, y, hitBox));
+	Platform* p = new Platform(x, y, glm::vec2( width, height ));
+	platformList.push_back(p);
 	numPlatforms++;
+}
+
+void GameWorld::updateHatStatus()
+{
+	for (auto theHat : this->containedHats) {
+		for (auto player : this->charList) {
+			if (theHat->getThrownStatus() != 0 &&
+				theHat->getThrownStatus() != player->getPlayerNum() &&
+				theHat->touching(*player)) {
+
+				// when this hat hit a character
+				player->setHealth(player->getHealth() - theHat->getBaseDamage());
+				theHat->reset();
+			}
+			else if (theHat->getThrownStatus() == 0 &&
+				theHat->touching(*player)) {
+				//catch the hat
+				player->fetchHat(theHat);
+			} else if(
+				theHat->getLocation()[0] < 0 ||
+				theHat->getLocation()[0] > MAP_SIZE[0] ||
+				theHat->getLocation()[1] < 0 ||
+				theHat->getLocation()[1] > MAP_SIZE[1]){
+
+				theHat->reset();
+			}	else {//when this hat is thrown and flying (did not hit anyone)
+				theHat->setY_vel(theHat->Interactable::getNextYSpeed(platformList, GRAVITY));
+				if (theHat->getY_vel() < -1) {
+					theHat->setY_vel(-1);
+				}
+				theHat->InGameObj::update();
+
+			}
+		}
+	}
 }
 
 // Randomly generate different kinds of hats.
 void GameWorld::randomGenHats()
 {
-
-}
-
-// Returns the list of characters in the game.
-vector<Character*> GameWorld::getCharacters()
-{
-	return charList;
+	for (int i = 0; i < 10; i++) {
+		this->containedHats.push_back(new BaseballCap(vec2(6,6)));
+//		this->containedHats.push_back(new ChiefHat(vec2(6, 6)));
+		this->containedHats.push_back(new NurseHat(vec2(6, 6)));
+	//	this->containedHats.push_back(new BombHat(vec2(6, 6)));
+	//	this->containedHats.push_back(new SantaHat(vec2(6, 6)));
+	}
 }

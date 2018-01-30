@@ -4,30 +4,58 @@
 
 #include <iostream>
 #include <vector>
+#include "Timer.h"
 using std::vector;
 
-
+// Allows for the characters to be animated.
 class Animation
 {
 public:
-	Animation(GL_Sprite_Renderer * renderer, vector<Texture2D> textures, InGameObj* obj);
+
+	// Default constructor.
+	Animation(
+		GL_Sprite_Renderer * renderer,
+		Texture2D texture,
+		Shader shader, 
+		glm::vec2 spriteOffSet0, 
+		glm::vec2 spriteOffSet1, 
+		int numToRender,
+		double refreshRate,
+		glm::vec3 colorOffSet = glm::vec3(1,1,1)
+	);
+
+	// Default destructor.
 	~Animation();
 
-	void start();// run the animaion
+	// Renders the animated object.
+	void render(InGameObj* obj);
 
-	void stop();// stop the animation
+	void updateCurrState();
+
+	void staticRender(InGameObj* obj,vec2 staticState , double renderOffSet = 0);//used to render a non-moving object
+
+	void setScalingFactor(glm::vec2 sFactor);
+
 private:
-	InGameObj* obj; // the in game object to animate
+	glm::vec3 colorOffSet;
+
+	double xScaleFactor;
+	double yScaleFactor;
+
+	Timer *RefreshTimer;
+	
+	int currState;
+	
+	glm::vec2 spriteOffSet0;
+	glm::vec2 spriteOffSet1;
+	
+	int renderCount;
 
 	Shader shader; //the shader that will be used in the rendering process of an animation
-
-	vector<Texture2D> textures; //different texutres may be used in the rendering process of an animation
-	//textures must be in the order of the animation
 
 	Texture2D currTexture; // texture used currently
 
 	GL_Sprite_Renderer * renderer; // pointer to a renderer that is initialized already.
 
-	bool isRunning = false; // if the animation is running
 };
 

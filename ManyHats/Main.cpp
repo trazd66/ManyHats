@@ -3,37 +3,32 @@
 #include <map>
 #include <string>
 
-#include <glad/glad.h> 
+#include <glad/glad.h>
 
 // GLFW
 #include <GLFW/glfw3.h>
 
 #include "GL_Manager.h"
 #include "GL_Sprite_Renderer.h"
-
+#include "InputManager.h"
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-
-
 #include "GameStateManager.h"
 
-#define BACKGROUND_IMAGE "background.jpg"
+#define BACKGROUND_IMAGE "src/Sprites/background.png"
 
 
 
-// settings
+// Make a GL_Manager, GL_Sprite_Renderer and GameStateManager for the game.
 GL_Manager * manager = new GL_Manager();
 GL_Sprite_Renderer * renderer = new GL_Sprite_Renderer(SCR_WIDTH, SCR_HEIGHT);
-
-GameStateManager* gsm = new GameStateManager(manager,renderer);
-GameWorld* game = new GameWorld();
-
+GameStateManager* gsm = new GameStateManager(manager, renderer);
 
 // The MAIN function, from here we start our application and run the Game loop
 int main()
 {
-	// Init GLFW
+	// Initialize GLFW
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -41,25 +36,24 @@ int main()
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 #ifdef __APPLE__
-	// uncomment this statement to fix compilation on OS X
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
 	// glfw window creation
 	// --------------------
-	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "THGDL", NULL, NULL);
 	if (window == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
-		return -1;
+		return 1;
 	}
 
 	glfwMakeContextCurrent(window);
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
-		return -1;
+		return 1;
 	}
 
 	// Define the viewport dimensions
@@ -68,41 +62,53 @@ int main()
 
 	// build and compile our shader program
 	// ------------------------------------
-	renderer->initShader();
-	manager->LoadShader("GLSL/text_shader.vs", "GLSL/Text_shader.fs", nullptr, "Text_Shader");
-	manager->loadFont("Fonts/Vera.ttf");
+	renderer->initBufferBinding();
+	manager->LoadShader("src/GLSL/text_shader.vs", "src/GLSL/text_shader.fs", nullptr, "Text_Shader");
+	manager->loadFont("src/Fonts/Vera.ttf");
 	renderer->initTextRendering(manager->getShader("Text_Shader"), manager->getCharacterMap());
-	// Initiate the game.
-	game->initiate();
 
-	manager->LoadShader("GLSL/Char_texture.vs", "GLSL/Char_texture.fs", nullptr, "Char_Shader");
+
+	manager->LoadShader("src/GLSL/Char_texture.vs", "src/GLSL/Char_texture.fs", nullptr, "Char_Shader");
 	manager->LoadTexture(BACKGROUND_IMAGE, false, "BG_Texture");
+	manager->LoadTexture("src/Sprites/hatshop.png",false,"init_BG_Texture");
 
+	manager->LoadTexture("src/platform.jpg", false, "Platform_Texture");
+	manager->LoadTexture("src/Sprites/start.png", true, "Button_Texture");
 
-	manager->LoadTexture("platform.jpg", false, "Platform_Texture");
-	manager->LoadTexture("button-1.jpg", false, "Button_Texture");
-	gsm->initWelcomeState();
+	manager->LoadTexture("src/Sprites/walkingSprite0.png", true, "char_sprite_text0");
+	manager->LoadTexture("src/Sprites/walkingSprite1.png", true, "char_sprite_text1");
+	manager->LoadShader("src/GLSL/sprite_sheat.vs", "src/GLSL/sprite_sheat.fs", nullptr, "char_sprite");
+
+	manager->LoadTexture("src/Sprites/head0.png", true, "head0");
+	manager->LoadTexture("src/Sprites/head1.png", true, "head1");
+
+	manager->LoadTexture("src/Sprites/hats.png",true,"hats");
+
+	gsm->init();
+	InputManager::setCursorCallBack(window);
+	InputManager::loadCurrGameState(gsm->getCurrState());
 
 	// render loop
 	// -----------
-
 	while (!glfwWindowShouldClose(window))
 	{
-		// Check and call events
+		// Check and call events.
 		glfwPollEvents();
+		if (gsm->getCurrState()->getWorld() != nullptr) {
 
-		// Clear the colorbuffer
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+			InputManager::process_DUO_gameplay_input(gsm, window);
 
-		//renderer->renderText(manager->getShader("text_shader"), "This is sample text",glm::vec2( 25.0f, 25.0f), glm::vec3(0.5, 0.8f, 0.2f));
-		// Swap the buffers
-
-		
-		// Update the game's state.
-		game->update();
-
+			// Update the game's state, if the game is not meant to be paused.
+			if (!gsm->getPaused()) {
+				gsm->update();
+				gsm->unpauseGame();
+			}
+			else {
+				gsm->pauseGame();
+			}
+		}
 		gsm->getCurrState()->renderCall();
+
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------

@@ -1,15 +1,13 @@
 #pragma once // Can CDH sort this out?  -Papa Dylan
-#include "InGameObj.h"
+#include "Interactable.h"
 
 // Represents a Hat in the game.
-class Hat : public InGameObj{
+class Hat : public Interactable {
 public:
 	// The default constructor for this class.
-	Hat(const int baseDamage, const double damageModifier, const double fallSpeed, const double launchSpeed, double (&hitBox)[2])
-		: baseDamage(baseDamage), damageModifier(damageModifier), fallSpeedModifier(fallSpeed), launchVelocity(launchSpeed), InGameObj(hitBox)
-	{
-
-	};
+	Hat(const int baseDamage, const double damageModifier, const double fallSpeed, const double launchSpeed, vec2 hitBox, int pos)
+		: baseDamage(baseDamage), damageModifier(damageModifier), fallSpeedModifier(fallSpeed), launchVelocity(launchSpeed), Interactable(hitBox),spritePosition(pos)
+	{};
 
 	// The default destructor for this class.
 	~Hat() {
@@ -40,20 +38,66 @@ public:
 		return this->launchVelocity;
 	};
 
-	// Launches the hat with given direction!
-	virtual void launch(double xDir, double yDir) = 0;
-
-	// Returns true if the hat is being thrown by a player, false otherwise.
-	bool getThrownStatus() {
+	// Returns the player number that throw this hat
+	int getThrownStatus() {
 		return playerThrown;
 	}
 
 	// True if the hat is thrown by a player, false otherwise.
-	void setPlayerThrown(bool status) {
-		playerThrown = status;
+	void setPlayerThrown(int playerNum) {
+		playerThrown = playerNum;
 	}
 
+	//set the status of the hat (that if it's being carried by a character)
+	void hatOnChar(bool status) {
+		onChar = status;
+	}
+	
+	bool getOnCharStatus() {
+		return this->onChar;
+	}
+
+	virtual void launch() = 0;
+
+	/*set the render status of this hat*/
+	void setRenderStatus(bool status) {
+		this->render = status;
+	}
+
+	/*true if this hat is being rendered */
+	bool getRenderStatus() {
+		return render;
+	}
+
+	void setFaceRight(bool faceRight) {
+		this->faceRight = faceRight;
+	}
+
+	bool getFaceRight() {
+		return faceRight;
+	}
+	
+	//the position of this hat on the sprite sheet
+	int getSpritePosition() {
+		return spritePosition;
+	}
+
+	virtual void reset() = 0;
 private:
+	int spritePosition;
+
+	//direction this hat is facing
+	bool faceRight = true;
+
+	/*when the hat is carried by a character, the hat moves with the character*/
+	bool onChar = false;
+
+	/*true if this hat is being rendered */
+	bool render = false;
+
+	//the default launch status for this
+	glm::vec2 launchStatus;
+
 	// The base damage of the hat.
 	const int baseDamage;
 
@@ -67,5 +111,7 @@ private:
 	const double launchVelocity;
 
 	// Represents whether or not the hat is thrown by a player.
-	bool playerThrown = false;
+	// the number is the playernumber
+	// 0 means not being thrown
+	int playerThrown = 0;
 };

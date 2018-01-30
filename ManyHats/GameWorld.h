@@ -1,33 +1,40 @@
 #pragma once
 #include <iostream>
 #include "Character.h"
-#include "Hat.h"
+
+//hats
+#include "BaseballCap.h"
+#include "BombHat.h"
+#include "NurseHat.h"
+#include "SantaHat.h"
+
 #include "Platform.h"
 #include <vector>
+#include <deque>
+//hats
+
 using std::vector;
 
+// Provides simple physics, generates the gameworld.
 class GameWorld {
-	// Provides simple physics, generates the gameworld.
 private:
 	// Gravity pull for the game world.
 	const static int GRAVITY = -1;
 
 	// The size of this map.
-	const double MAP_SIZE[2] = { 800, 600 };
+	const vec2 MAP_SIZE = { 800, 600 };
 
 
-	// The number of platforms in the game.
-	// By default, this is one, since the continentHitBox is always in the list of platforms.
-	int numPlatforms = 1;
+	/* The number of platforms in the game.
+	 * By default, this is zero, since it increases whenever generatePlatform() is called.
+	 */
+	int numPlatforms = 0;
 
 	// The number of hats that must be drawn.  Should be equal to the number of hats in the array.
 	int numHats = 0;
 
-	// The hitBoxes of players, depend on the sprite.
-	double playerHitBox[2] = { 5, 10 };
-
-	// The bottom hit box.
-	double continentHitBox[2] = { MAP_SIZE[0], MAP_SIZE[1] / 8 };
+	// The hitBoxes of players, depend on the sprite.(the ratiao  x:y = 1:2.5)
+	vec2  playerHitBox = {6.28, 15.7};
 
 	// A list containing the characters in this game.
 	vector<Character*> charList;
@@ -36,14 +43,16 @@ private:
 	vector<Platform*> platformList;
 
 	// An array containing the hats in this game.
-	Hat* hatArray[50];
+	std::deque<Hat*> containedHats;
 
+	// Randomly generates the game's platforms.
 	void randomGenPlatform();
 
 	// Randomlty generates the hats in the game.
 	void randomGenHats();
 
 public:
+
 	// Constructor.
 	GameWorld();
 
@@ -72,10 +81,19 @@ public:
 	}
 
 	// Returns the list of characters in the game.
-	vector<Character*> getCharacters();
+	vector<Character*> getCharacters() {
+		return this->charList;
+	}
+
+	// returns the list of hats this world has
+	std::deque<Hat*> getHats() {
+		return this->containedHats;
+	}
 
 	// Returns the value of GRAVITY.
 	static int getGravity() {
 		return GRAVITY;
 	}
+
+	void updateHatStatus();
 };

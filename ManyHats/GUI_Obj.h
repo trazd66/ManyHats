@@ -5,35 +5,51 @@
 #include <glm/vec2.hpp>
 
 using std::string;
+
 class GUI_Obj
 {
 public:
+
+	// Returns the type of this GUI.  This is a virtual method.
 	virtual std::string getGUI_type() = 0;
-	// location is the coordinate at button left of the object
-	GUI_Obj(glm::vec2 location, double height, double length, Texture2D texture) :
-		location(location), height(height), length(length), texture(texture) {
+
+	// Location is the coordinate at bottom left of the object.
+	GUI_Obj(glm::vec2 location, double length, double height, Texture2D texture) :
+		location(location), length(length), height(height), texture(texture) {
 	}
 
-	glm::vec2 getLocation() {//get the location of the object
+	// Get the location of this object.
+	glm::vec2 getLocation() {
 		return location;
 	}
 
-	double getLength() {// get the length of this obj
+	// Get the length of this object.
+	double getLength() {
 		return length;
 	}
 
-	double getHeight() {//height of this obj
+	// The height of this object.
+	double getHeight() {
 		return height;
 	}
 
+	// Returns the texture of this object.
 	Texture2D getTexture() {
 		return texture;
 	}
 
 private:
+	
+	// The location of this object.
 	glm::vec2 location;
-	double length;// length of the gui object
-	double height;// height of the gui object
-	Texture2D texture; // texture used for this gui object
+
+	// The length of the GUI object.
+	double length;
+
+	// The height of the GUI object.
+	double height;
+
+	// The texture used for this GUI object.
+	Texture2D texture;
 };
 
