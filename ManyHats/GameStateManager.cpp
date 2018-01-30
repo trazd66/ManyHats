@@ -29,6 +29,11 @@ GameState* GameStateManager::getCurrState()
 	return gameStates.at(currState);
 }
 
+void GameStateManager::setWelcomeState(GameWorld* world) {
+	game = world;
+	// setWelcomeState();
+}
+
 // Sets the Welcome GameState.
 void GameStateManager::setWelcomeState()
 {
@@ -75,8 +80,16 @@ void GameStateManager::setWelcomeState()
 
 		renderer->renderText(
 			manager->getShader("Text_Shader"),
-			"The Hat Game During Lecture",
-			glm::vec2(100, 500),
+			"The Hat Game",
+			glm::vec2(360, 500),
+			glm::vec3(1, 0.5, 0),
+			0.8
+		);
+
+		renderer->renderText(
+			manager->getShader("Text_Shader"),
+			"During Lecture",
+			glm::vec2(355, 435),
 			glm::vec3(1, 0.5, 0),
 			0.8
 		);
@@ -259,9 +272,33 @@ void GameStateManager::update()
 		this->updateGameWorld();
 		// If a character is dead, go to the main screen.
 		if (getCurrState()->getWorld() != nullptr) {
+			/*for (int i = 0; i < getCurrState()->getWorld()->getCharacters().size(); i++) {
+				if (getCurrState()->getWorld()->getCharacters()[i]->getLives() <= 0) {
+					//setWelcomeState(getCurrState()->getWorld());
+					//setWelcomeState();
+					this->switchState(Welcome);
+					std::cout << getCurrState()->getWorld()->getCharacters().size() << std::endl;
+					// Reset their lives and health.
+					for (int i = 0; i < getCurrState()->getWorld()->getCharacters().size(); i++) {
+						getCurrState()->getWorld()->getCharacters()[i]->setLives(3);
+						getCurrState()->getWorld()->getCharacters()[i]->setHealth(100);
+					}
+				}
+			}*/
 			for (auto c : getCurrState()->getWorld()->getCharacters()) {
 				if (c->getLives() <= 0) {
-					switchState(Welcome);
+					//setWelcomeState(getCurrState()->getWorld());
+					//setWelcomeState();
+
+					/*this->switchState(Welcome);
+					std::cout << getCurrState()->getWorld()->getCharacters().size() << std::endl;
+					// Reset their lives and health.
+
+					for (auto c : getCurrState()->getWorld()->getCharacters()) {
+						c->setLives(3);
+						c->setHealth(100);
+					}*/
+					exit(0);
 				}
 			}
 		}

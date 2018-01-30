@@ -45,7 +45,9 @@ public:
 
 	// Sets the game's state to unpaused.
 	void unpauseGame() {
-		switchState(Gameplay);
+		if (!currState == Welcome) {
+			switchState(Gameplay);
+		}
 	}
 
 	// Sets the game to be paused or to continue.
@@ -68,8 +70,6 @@ public:
 		return readyToBePaused;
 	}
 
-
-
 private:
 	//used to initialize walking animation
 	void initWalkingAnim();
@@ -87,6 +87,7 @@ private:
 
 	// Sets the Welcome state.
 	void setWelcomeState();
+	void setWelcomeState(GameWorld* world);
 
 	// Sets the GamePlay state.
 	void setgameplayState();
@@ -124,5 +125,6 @@ private:
 	bool readyToBePaused = true;
 
 	// True iff game is meant to be paused.  False by default.
+
 	bool gameIsPaused = false;
 };

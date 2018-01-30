@@ -30,7 +30,7 @@ void Character::updateHatLocation()
 Character::Character(const int Num, vec2 hitBox) : playerNum(Num), Interactable(hitBox)
 {
 	// The jump speed is set to be double the character's height.
-	setJumpSpeed((int) getHitBox()[1] /1.0f);
+	setJumpSpeed((int) getHitBox()[1] / 0.7f);
 
 	// The movement speed is set to be double the width.
 	// setMovementSpeed((int) getHitBox()[0] * 2);
@@ -102,6 +102,7 @@ void Character::fetchHat(Hat* hat)
 }
 
 void Character::killCharacter() {
+	setHealth(100);
 	setLocation(300, 20000);
 	if (getLives() > 0) {
 		this->setHealth(100);
