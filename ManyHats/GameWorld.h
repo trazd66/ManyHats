@@ -16,7 +16,7 @@ private:
 	const static int GRAVITY = -1;
 
 	// The size of this map.
-	const vec2 MAP_SIZE = {800,600};
+	const vec2 MAP_SIZE = { 800, 600 };
 
 
 	/* The number of platforms in the game.

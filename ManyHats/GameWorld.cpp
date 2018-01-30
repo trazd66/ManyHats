@@ -61,11 +61,12 @@ void GameWorld::randomGenPlatform()
 {
 		
 	// First generate the main continent.
-	generatePlatform(400, 50, MAP_SIZE.x/2, 25.0);
+	generatePlatform(400, 50, MAP_SIZE.x * 0.9, 25.0);
 
 	// Generate three more platforms.
-	generatePlatform(300, 100, 200.0, 25.0);
-	generatePlatform(100, 200, 200.0, 25.0);
+	generatePlatform(200, 200, 200.0, 25.0);
+	generatePlatform(600, 200, 200.0, 25.0);
+	generatePlatform(425, 400, 250.0, 25.0);
 	
 	// TODO:  Make this randomized, if there is time.
 

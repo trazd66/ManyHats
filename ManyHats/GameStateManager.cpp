@@ -80,8 +80,16 @@ void GameStateManager::setWelcomeState()
 
 		renderer->renderText(
 			manager->getShader("Text_Shader"),
-			"The Hat Game During Lecture",
-			glm::vec2(100, 500),
+			"The Hat Game",
+			glm::vec2(360, 500),
+			glm::vec3(1, 0.5, 0),
+			0.8
+		);
+
+		renderer->renderText(
+			manager->getShader("Text_Shader"),
+			"During Lecture",
+			glm::vec2(355, 435),
 			glm::vec3(1, 0.5, 0),
 			0.8
 		);
