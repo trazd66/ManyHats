@@ -73,7 +73,7 @@ int main()
 	manager->LoadTexture(BACKGROUND_IMAGE, false, "BG_Texture");
 	manager->LoadTexture("Sprites/hatshop.png",false,"init_BG_Texture");
 
-	manager->LoadTexture("Sprites/platform.jpg", false, "Platform_Texture");
+	manager->LoadTexture("Sprites/cloud.png", true, "Platform_Texture");
 	manager->LoadTexture("Sprites/start.png", true, "Button_Texture");
 
 	manager->LoadTexture("Sprites/walkingSprite0.png", true, "char_sprite_text0");
