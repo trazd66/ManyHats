@@ -85,7 +85,7 @@ void GameWorld::updateHatStatus()
 {
 	for (auto theHat : this->containedHats) {
 		for (auto player : this->charList) {
-			if (theHat->touching(*player)) {
+			if (theHat->touching(*player, 0, 10)) {
 				if (theHat->getThrownStatus() != 0 &&
 					theHat->getThrownStatus() != player->getPlayerNum()) {
 
@@ -119,7 +119,7 @@ void GameWorld::updateHatStatus()
 void GameWorld::randomGenHats()
 {
 	for (int i = 0; i < 10; i++) {
-		this->containedHats.push_back(new BaseballCap(vec2(6,6)));
+		this->containedHats.push_back(new BaseballCap(vec2(6, 6)));
 //		this->containedHats.push_back(new ChiefHat(vec2(6, 6)));
 		this->containedHats.push_back(new NurseHat(vec2(6, 6)));
 	//	this->containedHats.push_back(new BombHat(vec2(6, 6)));
