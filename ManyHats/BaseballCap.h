@@ -26,6 +26,7 @@ public:
 		this->setCharNum(0);
 		this->setRenderStatus(false);
 		this->setVelocity(0,0);
+		this->setLocation(900, 900);
 	}
 
 	string getItemType() {

@@ -19,7 +19,7 @@ public:
 		this->setAirborneStatus(true);
 		this->setPlayerThrown(99);
 		this->setRenderStatus(false); // should no longer be rendered
-
+		this->setLocation(900, 900);
 	}
 
 	string getItemType() {

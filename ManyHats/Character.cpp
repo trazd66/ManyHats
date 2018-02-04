@@ -106,6 +106,10 @@ void Character::killCharacter() {
 		this->setHealth(100);
 		setLives(getLives() - 1);
 	}
+	for (auto hat : this->hatQueue) {
+		hat->reset();
+		hatQueue.pop_front();
+	}
 }
 
 // Update this object.
