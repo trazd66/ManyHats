@@ -1,7 +1,7 @@
 # Prerequisites
 *.d
 Debug/
-Release/
+ManyHats/Release/
 .vs/
 
 # Visual Studio
