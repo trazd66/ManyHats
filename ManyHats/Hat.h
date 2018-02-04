@@ -48,13 +48,13 @@ public:
 		playerThrown = playerNum;
 	}
 
-	//set the status of the hat (that if it's being carried by a character)
-	void hatOnChar(bool status) {
-		onChar = status;
+	// Set the status of the hat (that if it's being carried by a character)
+	void setCharNum(int newNum) {
+		charNum = newNum;
 	}
 	
-	bool getOnCharStatus() {
-		return this->onChar;
+	int getCharNum() {
+		return this->charNum;
 	}
 
 	virtual void launch() = 0;
@@ -89,8 +89,10 @@ private:
 	//direction this hat is facing
 	bool faceRight = true;
 
-	/*when the hat is carried by a character, the hat moves with the character*/
-	bool onChar = false;
+	/* When the hat is carried by a character, the hat moves with the character.
+	0 means not on a character, 1 means on Player 1, 2 means on Player 2.
+	*/
+	int charNum = 0;
 
 	/*true if this hat is being rendered */
 	bool render = false;
@@ -104,14 +106,14 @@ private:
 	// The damage modifier of the hat.
 	const double damageModifier;
 
-	//The fall speed of the hat (when it's airborne).
+	// The fall speed of the hat (when it's airborne).
 	const double fallSpeedModifier;
 
 	// The launch velocity of the hat.
 	const double launchVelocity;
 
 	// Represents whether or not the hat is thrown by a player.
-	// the number is the playernumber
-	// 0 means not being thrown
+	// The number is the player's number.
+	// 0 means not being thrown.
 	int playerThrown = 0;
 };

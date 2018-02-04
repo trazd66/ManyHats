@@ -85,23 +85,22 @@ void GameWorld::updateHatStatus()
 {
 	for (auto theHat : this->containedHats) {
 		for (auto player : this->charList) {
-			if (theHat->getThrownStatus() != 0 &&
-				theHat->getThrownStatus() != player->getPlayerNum() &&
-				theHat->touching(*player)) {
+			if (theHat->touching(*player)) {
+				if (theHat->getThrownStatus() != 0 &&
+					theHat->getThrownStatus() != player->getPlayerNum()) {
 
-				// when this hat hit a character
-				player->setHealth(player->getHealth() - theHat->getBaseDamage());
-				theHat->reset();
-			}
-			else if (theHat->getThrownStatus() == 0 &&
-				theHat->touching(*player)) {
-				//catch the hat
-				player->fetchHat(theHat);
-			} else if(
+					// when this hat hit a character
+					player->setHealth(player->getHealth() - theHat->getBaseDamage());
+					theHat->reset();
+				} else if (theHat->getThrownStatus() == 0 && theHat->getCharNum() == 0) {
+					// catch the hat
+					player->fetchHat(theHat);
+				}
+			} else if (
 				theHat->getLocation()[0] < 0 ||
 				theHat->getLocation()[0] > MAP_SIZE[0] ||
 				theHat->getLocation()[1] < 0 ||
-				theHat->getLocation()[1] > MAP_SIZE[1]){
+				theHat->getLocation()[1] > MAP_SIZE[1] + 300) {
 	
 				theHat->reset();
 			}	else {//when this hat is thrown and flying (did not hit anyone)

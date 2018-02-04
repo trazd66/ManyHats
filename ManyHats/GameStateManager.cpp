@@ -272,6 +272,7 @@ void GameStateManager::update()
 		this->updateGameWorld();
 		// If a character is dead, go to the main screen.
 		if (getCurrState()->getWorld() != nullptr) {
+			// TODO:  The code below was for dealing with a character dying.  Work on it later!
 			/*for (int i = 0; i < getCurrState()->getWorld()->getCharacters().size(); i++) {
 				if (getCurrState()->getWorld()->getCharacters()[i]->getLives() <= 0) {
 					//setWelcomeState(getCurrState()->getWorld());

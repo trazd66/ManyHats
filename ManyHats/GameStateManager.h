@@ -76,10 +76,10 @@ private:
 
 	void initHatSprite();
 
-	
-
+	// The game's timer.
 	Timer* gameUpdateTimer = new Timer((double)1 / 60);
 
+	// Updates the game world.
 	void updateGameWorld();
 
 	// Changes the Game's state.
@@ -125,6 +125,5 @@ private:
 	bool readyToBePaused = true;
 
 	// True iff game is meant to be paused.  False by default.
-
 	bool gameIsPaused = false;
 };

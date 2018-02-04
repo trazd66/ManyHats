@@ -34,7 +34,7 @@ private:
 	// The number of hats that must be drawn.  Should be equal to the number of hats in the array.
 	int numHats = 0;
 
-	// The hitBoxes of players, depend on the sprite.(the ratiao  x:y = 1:2.5) 
+	// The hitBoxes of players, depend on the sprite.(the ratio  x:y = 1:2.5) 
 	vec2  playerHitBox = {6.28, 15.7};
 
 	// A list containing the characters in this game.

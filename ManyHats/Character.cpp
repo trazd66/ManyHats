@@ -80,10 +80,9 @@ Hat* Character::throwHat()
 	if (this->hasHat()) {
 		Hat* hatToThrow = hatQueue.front();
 		hatQueue.pop_front();//removes the first element
-		hatToThrow->hatOnChar(false);
+		hatToThrow->setCharNum(0);
 		hatToThrow->setPlayerThrown(this->getPlayerNum());
 		return hatToThrow;
-		// TODO:  Actually throw the hat.
 	}
 	return nullptr;
 }
@@ -93,11 +92,10 @@ void Character::fetchHat(Hat* hat)
 {
 	if (hatQueue.size() < 10 && hat->getThrownStatus() == 0) {
 		hatQueue.push_back(hat);
-		std::cout << hat->getThrownStatus() << std::endl;
 		hat->setLocation(
 			this->getLocation()[0], 
 			this->getLocation()[1] + (hat->getHitBox().y)*hatQueue.size());//hats will be stacking on top of this char's head
-		hat->hatOnChar(true);
+		hat->setCharNum(this->playerNum);
 	}
 }
 

@@ -23,7 +23,7 @@ public:
 	virtual void reset() {
 		this->setPlayerThrown(0);
 		this->setAirborneStatus(true);//unless carried by a character, the hat will always fall
-		this->hatOnChar(false);
+		this->setCharNum(0);
 		this->setRenderStatus(false);
 		this->setVelocity(0,0);
 	}
@@ -32,4 +32,3 @@ public:
 		return "BaseballCap";
 	}
 };
-
