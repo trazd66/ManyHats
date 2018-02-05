@@ -22,7 +22,7 @@ void Character::updateHatLocation()
 	for (int i = 0; i < hatQueue.size(); i++) {
 		hatQueue[i]->setLocation(
 			this->getLocation()[0],
-			this->getLocation()[1] + this->getHitBox().y*3.5 + (hatQueue[i]->getHitBox().y)*5*i);
+			this->getLocation()[1] + 53 + (hatQueue[i]->getHitBox().y)*4*i);
 	}
 }
 
@@ -30,7 +30,8 @@ void Character::updateHatLocation()
 Character::Character(const int Num, vec2 hitBox) : playerNum(Num), Interactable(hitBox)
 {
 	// The jump speed is set to be double the character's height.
-	setJumpSpeed((int) getHitBox()[1] / 0.7f);
+//	setJumpSpeed((int) getHitBox()[1] / 0.7f);
+	setJumpSpeed(21);
 
 	// The movement speed is set to be double the width.
 	// setMovementSpeed((int) getHitBox()[0] * 2);
@@ -92,9 +93,6 @@ void Character::fetchHat(Hat* hat)
 {
 	if (hatQueue.size() < 10 && hat->getThrownStatus() == 0) {
 		hatQueue.push_back(hat);
-		hat->setLocation(
-			this->getLocation()[0], 
-			this->getLocation()[1] + (hat->getHitBox().y)*hatQueue.size());//hats will be stacking on top of this char's head
 		hat->setCharNum(this->playerNum);
 	}
 }

@@ -122,7 +122,7 @@ void GameWorld::randomGenHats()
 		this->containedHats.push_back(new BaseballCap(vec2(6,6)));
 //		this->containedHats.push_back(new ChiefHat(vec2(6, 6)));
 	//	this->containedHats.push_back(new BombHat(vec2(6, 6)));
-	//	this->containedHats.push_back(new SantaHat(vec2(6, 6)));
+		this->containedHats.push_back(new SantaHat(vec2(6, 6)));
 	}
 
 	for (int i = 0; i < 5; i++) {

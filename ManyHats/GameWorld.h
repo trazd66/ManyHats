@@ -35,7 +35,7 @@ private:
 	int numHats = 0;
 
 	// The hitBoxes of players, depend on the sprite.(the ratio  x:y = 1:2.5) 
-	vec2  playerHitBox = {6.28, 15.7};
+	vec2  playerHitBox = {14, 35};
 
 	// A list containing the characters in this game.
 	vector<Character*> charList;

@@ -133,7 +133,7 @@ void GameStateManager::setgameplayState()
 				manager->getShader("Char_Shader"),
 				glm::vec2(
 				(float)(platform->getLocation()[0]),
-				(float)(platform->getLocation()[1] - 26)),
+				(float)(platform->getLocation()[1])),
 				platform->getHitBox().x / 800,
 				platform->getHitBox().y / 600);
 		}
