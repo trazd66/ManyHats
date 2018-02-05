@@ -8,6 +8,7 @@ public:
 	double y_launch_offSet = 5.0f;
 
 	BaseballCap(vec2 hitBox) :Hat(25.0f, 1.5f, -0.5f, 5.0f, hitBox, 5) {
+
 		reset();
 	}
 
