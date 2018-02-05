@@ -2,6 +2,7 @@
 *.d
 Debug/
 ManyHats/Release/
+ManyHats/Debug/
 .vs/
 
 # Visual Studio
