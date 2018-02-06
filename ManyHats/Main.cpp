@@ -37,7 +37,7 @@ int main()
 
 #ifdef __APPLE__
 	// uncomment this statement to fix compilation on OS X
-	// glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
 	// glfw window creation
