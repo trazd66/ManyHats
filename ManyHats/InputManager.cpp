@@ -28,7 +28,9 @@ double * InputManager::getCursorLocation(GLFWwindow * window)
 {
 	double xpos, ypos;
 	glfwGetCursorPos(window, &xpos, &ypos);
-	double location[2] = { xpos, abs( ypos-600)}; // Position with top left corner as (0,0).
+	double *location = (double *) malloc(2 * sizeof(double));
+	location[0] = xpos;
+	location[1] = abs( ypos-600);
 	return location;
 }
 
@@ -44,10 +46,15 @@ bool InputManager::cursorOnButton(GLFWwindow * window, GUI_Button * button)
 	double y_diff1 = y_loc + button->getHeight() / 2;
 	double x_diff0 = x_loc - button->getLength() / 2;
 	double x_diff1 = x_loc + button->getLength() / 2;
-	if ((y_diff0 <= getCursorLocation(window)[1] && getCursorLocation(window)[1] <= y_diff1) &&
-		(x_diff0 <= getCursorLocation(window)[0] && getCursorLocation(window)[0] <= x_diff1)) {
+	double *location = getCursorLocation(window);
+	if ((y_diff0 <= location[1] && location[1] <= y_diff1) &&
+		(x_diff0 <= location[0] && location[0] <= x_diff1)) {
+		free(location);
 		return true;
 	}
+
+	free(location);
+
 	return false;
 }
 
@@ -60,7 +67,7 @@ void InputManager::checkPauseGame(GameStateManager* gsm, bool escKeyDown) {
 
 		// The game is now not ready to change its "paused" state.
 		gsm->setReadyToBePaused(false);
-		
+
 	}
 	else {
 		// The game is now ready to change its "paused" state.
@@ -78,7 +85,7 @@ void InputManager::process_DUO_gameplay_input(GameStateManager* gsm, GLFWwindow*
 	// Pressing the Escape key should pause/unpause the game.
 	checkPauseGame(gsm, (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS));
 
-	// Exit if the game is paused. 
+	// Exit if the game is paused.
 	if (gsm->getPaused()) {
 		return;
 	}
@@ -91,7 +98,7 @@ void InputManager::process_DUO_gameplay_input(GameStateManager* gsm, GLFWwindow*
 		if (game->getCharacters()[0]->hasHat() && game->getCharacters()[0]->getReadyToShoot()) {
 			game->getCharacters()[0]->throwHat()->launch();
 			game->getCharacters()[0]->setReadyToShoot(false);
-		} 
+		}
 	} else {
 		game->getCharacters()[0]->setReadyToShoot(true);
 	}
@@ -159,5 +166,3 @@ void InputManager::process_left_click(GLFWwindow * window)
 		}
 	}
 }
-
-
