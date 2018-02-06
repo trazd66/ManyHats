@@ -144,19 +144,23 @@ void GameWorld::updateHatStatus()
 				theHat->getLocation()[0] < 0 ||
 				theHat->getLocation()[0] > MAP_SIZE[0] ||
 				theHat->getLocation()[1] < 0 ||
-				theHat->getLocation()[1] > MAP_SIZE[1] + 300) {
-
+				theHat->getLocation()[1] > MAP_SIZE[1] + 1000) {
 				theHat->reset();
 			} else if (theHat->getItemType() == "SantaHat" &&
 				theHat->getThrownStatus() != 0 &&
-				theHat->getY_vel() == 0 && !theHat->getGoingDown()) {
+				theHat->getY_vel() == 0 &&
+				!theHat->getGoingDown()) {
 				// If a Santa Hat is at the top of its jump, set its y-speed to make it fall faster.
 				theHat->setX_vel(0);
 				theHat->setGoingDown(true);
+				theHat->setGoDownFaster(true);
 			} else {//when this hat is thrown and flying (did not hit anyone)
 				theHat->setY_vel(theHat->Interactable::getNextYSpeed(platformList, GRAVITY));
 				if (theHat->getY_vel() < -1) {
 					theHat->setY_vel(-1);
+				}
+				if (theHat->shouldGoDownFaster()) {
+					theHat->setY_vel(-5);
 				}
 				theHat->InGameObj::update();
 			}

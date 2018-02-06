@@ -24,11 +24,11 @@ public:
 		this->setRenderStatus(false);
 		this->setVelocity(0, 0);
 		this->setLocation(900, 900);
+		this->setGoDownFaster(false);
 	}
 
 	string getItemType() {
 		return "SantaHat";
 	}
-
 };
 

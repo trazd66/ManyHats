@@ -83,6 +83,17 @@ public:
 	}
 
 	virtual void reset() = 0;
+
+	// Causes the hat to go down faster once it has been thrown.
+	void setGoDownFaster(bool newValue) {
+		goDownFaster = newValue;
+	}
+
+	// Returns whether the hat is meant to be going down faster.
+	bool shouldGoDownFaster() {
+		return goDownFaster;
+	}
+
 private:
 	int spritePosition;
 
@@ -116,4 +127,7 @@ private:
 	// The number is the player's number.
 	// 0 means not being thrown.
 	int playerThrown = 0;
+
+	// Used only for Santa Hats.  This allows them to fall faster once thrown.
+	bool goDownFaster = false;
 };
