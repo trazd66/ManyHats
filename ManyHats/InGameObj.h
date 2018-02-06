@@ -91,21 +91,6 @@ public:
 		&& (obj.location[0] - (obj.hitBox[0] / 2) < location[0] + (hitBox[0] / 2) + xOffset)
 		&& (location[1] - (hitBox[1] / 2) + yOffset < obj.location[1] + (obj.hitBox[1] / 2))
 			&& (obj.location[1] - (obj.hitBox[1] / 2) < location[1] + (hitBox[1] / 2) + yOffset)) {
-			std::cout << "Start " << std::endl;
-
-			std::cout << "hat.left:  " << (location[0] - (hitBox[0] / 2) + yOffset) << std::endl;
-			std::cout << "hat.right:  " << (location[0] + (hitBox[0] / 2) + yOffset) << std::endl;
-
-			std::cout << "hat.bottom:  " << (location[1] - (hitBox[1] / 2) + yOffset) << std::endl;
-			std::cout << "hat.top:  " << (location[1] + (hitBox[1] / 2) + yOffset) << std::endl;
-
-			std::cout << "character.left:  " << (obj.location[0] - (obj.hitBox[0] / 2)) << std::endl;
-			std::cout << "character.right:  " << (obj.location[0] + (obj.hitBox[0] / 2)) << std::endl;
-
-			std::cout << "character.bottom:  " << (obj.location[1] - (obj.hitBox[1] / 2))  << std::endl;
-			std::cout << "character.top:  " << (obj.location[1] + (obj.hitBox[1] / 2))  << std::endl;
-
-			std::cout << "End " << std::endl;
 			return true;
 		} else {
 			return false;

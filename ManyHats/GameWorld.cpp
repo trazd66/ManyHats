@@ -34,6 +34,38 @@ void GameWorld::update()
 	}
 	dropHats();
 	this->updateHatStatus();
+
+	// This code allows players to push other players.
+	/*int newXVel = 30;
+	if (getCharacters()[0]->touching(*getCharacters()[1])) {
+		for (int i = 0; i < getCharacters().size(); i++) {
+			// Set the other character number to whatever i is not.
+			int j = (i == 0) ? 1 : 0;
+			if (getCharacters()[i]->getX_vel() > 0 &&
+				getCharacters()[i]->getLocation()[0] < getCharacters()[j]->getLocation()[0] &&
+				getCharacters()[j]->getX_vel() == 0) {
+				std::cout << "1" << std::endl;
+				newXVel = 10;
+			}
+			else if (getCharacters()[i]->getX_vel() < 0 &&
+				getCharacters()[i]->getLocation()[0] > getCharacters()[j]->getLocation()[0] &&
+				getCharacters()[j]->getX_vel() == 0) {
+				std::cout << "2" << std::endl;
+				newXVel = -10;
+			} else if (getCharacters()[i]->getX_vel() < 0 &&
+				getCharacters()[i]->getLocation()[0] > getCharacters()[j]->getLocation()[0] &&
+				getCharacters()[j]->getX_vel() > 0) {
+				std::cout << "3" << std::endl;
+				newXVel = 0;
+			}
+		}
+	}
+
+	if (newXVel != 30) {
+		std::cout << "4" << std::endl;
+		getCharacters()[0]->setX_vel(newXVel);
+		getCharacters()[1]->setX_vel(newXVel);
+	}*/
 }
 
 // Initializes the characters in this game.
@@ -92,6 +124,16 @@ void GameWorld::updateHatStatus()
 
 				// when this hat hit a character
 				player->setHealth(player->getHealth() - theHat->getBaseDamage());
+				
+				// Moves the player backwards when hit with a baseball hat.
+				// TODO:  Eventually, get it to be a smooth movement.
+				if (theHat->getItemType() == "BaseballCap") {
+					int movementDistance = (theHat->getX_vel() > 0) ? 40 : -40;
+					player->setLocation(player->getLocation()[0] + movementDistance, player->getLocation()[1]);
+				} else if (theHat->getItemType() == "SantaHat" && theHat->getY_vel() > 0) {
+					player->setY_vel(15);
+					// player->setLocation(player->getLocation()[0], player->getLocation()[1] + 50);
+				}
 				theHat->reset();
 			} else if (theHat->touching(*player)
 				&& theHat->getThrownStatus() == 0 &&
