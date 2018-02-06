@@ -16,7 +16,7 @@ public:
 	virtual string getItemType() = 0;
 
 	// Velocities of this object are 0 by default, initialize the hitBox.
-	InGameObj(vec2 hitBox) :hitBox(hitBox), x_Vel(0), y_Vel(0), location() {
+	InGameObj(vec2 hitBox) : hitBox(hitBox), x_Vel(0), y_Vel(0), location() {
 	};
 
 	// Destructor of the object.
@@ -91,7 +91,7 @@ public:
 		&& (obj.location[0] - (obj.hitBox[0] / 2) < location[0] + (hitBox[0] / 2) + xOffset)
 		&& (location[1] - (hitBox[1] / 2) + yOffset < obj.location[1] + (obj.hitBox[1] / 2))
 			&& (obj.location[1] - (obj.hitBox[1] / 2) < location[1] + (hitBox[1] / 2) + yOffset)) {
-			/*std::cout << "Start " << std::endl;
+			std::cout << "Start " << std::endl;
 
 			std::cout << "hat.left:  " << (location[0] - (hitBox[0] / 2) + yOffset) << std::endl;
 			std::cout << "hat.right:  " << (location[0] + (hitBox[0] / 2) + yOffset) << std::endl;
@@ -105,7 +105,7 @@ public:
 			std::cout << "character.bottom:  " << (obj.location[1] - (obj.hitBox[1] / 2))  << std::endl;
 			std::cout << "character.top:  " << (obj.location[1] + (obj.hitBox[1] / 2))  << std::endl;
 
-			std::cout << "End " << std::endl;*/
+			std::cout << "End " << std::endl;
 			return true;
 		} else {
 			return false;

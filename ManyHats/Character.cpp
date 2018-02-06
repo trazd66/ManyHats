@@ -92,8 +92,9 @@ Hat* Character::throwHat()
 void Character::fetchHat(Hat* hat)
 {
 	if (hatQueue.size() < 10 && hat->getThrownStatus() == 0) {
-		hatQueue.push_back(hat);
 		hat->setCharNum(this->playerNum);
+		hat->setFaceRight(faceRight);
+		hatQueue.push_back(hat);
 	}
 }
 

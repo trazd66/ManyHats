@@ -85,31 +85,38 @@ void GameWorld::updateHatStatus()
 {
 	for (auto theHat : this->containedHats) {
 		for (auto player : this->charList) {
-			if (theHat->touching(*player)) {
-				if (theHat->getThrownStatus() != 0 &&
-					theHat->getThrownStatus() != player->getPlayerNum()) {
+			// The "or" part of the following if statement is there in order to fix the collisions.
+			if ((theHat->touching(*player, 0, -40) || theHat->touching(*player)) &&
+				theHat->getThrownStatus() != 0 &&
+				theHat->getThrownStatus() != player->getPlayerNum()) {
 
-					// when this hat hit a character
-					player->setHealth(player->getHealth() - theHat->getBaseDamage());
-					theHat->reset();
-				} else if (theHat->getThrownStatus() == 0 && theHat->getCharNum() == 0) {
-					// catch the hat
-					player->fetchHat(theHat);
-				}
+				// when this hat hit a character
+				player->setHealth(player->getHealth() - theHat->getBaseDamage());
+				theHat->reset();
+			} else if (theHat->touching(*player)
+				&& theHat->getThrownStatus() == 0 &&
+				theHat->getCharNum() == 0) {
+				// catch the hat
+				player->fetchHat(theHat);
 			} else if (
 				theHat->getLocation()[0] < 0 ||
 				theHat->getLocation()[0] > MAP_SIZE[0] ||
 				theHat->getLocation()[1] < 0 ||
 				theHat->getLocation()[1] > MAP_SIZE[1] + 300) {
-	
+
 				theHat->reset();
-			}	else {//when this hat is thrown and flying (did not hit anyone)
+			} else if (theHat->getItemType() == "SantaHat" &&
+				theHat->getThrownStatus() != 0 &&
+				theHat->getY_vel() == 0 && !theHat->getGoingDown()) {
+				// If a Santa Hat is at the top of its jump, set its y-speed to make it fall faster.
+				theHat->setX_vel(0);
+				theHat->setGoingDown(true);
+			} else {//when this hat is thrown and flying (did not hit anyone)
 				theHat->setY_vel(theHat->Interactable::getNextYSpeed(platformList, GRAVITY));
 				if (theHat->getY_vel() < -1) {
 					theHat->setY_vel(-1);
 				}
 				theHat->InGameObj::update();
-
 			}
 		}
 	}
@@ -119,14 +126,14 @@ void GameWorld::updateHatStatus()
 void GameWorld::randomGenHats()
 {
 	for (int i = 0; i < 10; i++) {
-		this->containedHats.push_back(new BaseballCap(vec2(6, 6)));
-//		this->containedHats.push_back(new ChiefHat(vec2(6, 6)));
-	//	this->containedHats.push_back(new BombHat(vec2(6, 6)));
-		this->containedHats.push_back(new SantaHat(vec2(6, 6)));
+		this->containedHats.push_back(new BaseballCap(vec2(30, 6)));
+		// this->containedHats.push_back(new ChiefHat(vec2(6, 6)));
+		// this->containedHats.push_back(new BombHat(vec2(6, 6)));
+		this->containedHats.push_back(new SantaHat(vec2(30, 6)));
 	}
 
 	for (int i = 0; i < 5; i++) {
-		this->containedHats.push_back(new NurseHat(vec2(6, 6)));
+		this->containedHats.push_back(new NurseHat(vec2(30, 6)));
 	}
 
 

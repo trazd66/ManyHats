@@ -77,7 +77,7 @@ public:
 		return faceRight;
 	}
 	
-	//the position of this hat on the sprite sheet
+	// The position of this hat on the sprite sheet.
 	int getSpritePosition() {
 		return spritePosition;
 	}

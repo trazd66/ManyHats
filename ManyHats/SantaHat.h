@@ -6,7 +6,7 @@ class SantaHat :
 public:
 	double y_launch_offSet = 30.0f;
 
-	SantaHat(vec2 hitBox) :Hat(10.0f, 1.5f, -0.5f, 5.0f, hitBox, 2) {}
+	SantaHat(vec2 hitBox) : Hat(10.0f, 1.5f, -0.5f, 5.0f, hitBox, 2) {}
 
 	virtual void launch() {
 		if (this->getFaceRight()) {
