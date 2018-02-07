@@ -101,6 +101,7 @@ void Character::fetchHat(Hat* hat)
 void Character::killCharacter() {
 	setHealth(100);
 	setLocation(300, 20000);
+	setRestrictXMotion(true);
 	if (getLives() > 0) {
 		this->setHealth(100);
 		setLives(getLives() - 1);
@@ -119,6 +120,10 @@ void Character::update(vector<Platform*> platformList, int gravity)
 
 	// Updates the location of this Character object.
 	InGameObj::update();
+
+	if (getY_vel() == 0 && restrictXMotion) {
+		restrictXMotion = false;
+	}
 
 	// Update all the hat locations
 	this->updateHatLocation();

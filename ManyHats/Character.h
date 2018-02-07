@@ -36,6 +36,12 @@ private:
 
 	bool readyToShoot = true;
 
+	/* Represents whether the player's x speed should have the ability to change or not.
+	 * It should not be allowed to change when the player is falling from the sky after
+	 dying.
+	 */
+	bool restrictXMotion = false;
+
 public:
 
 	//returns the player number
@@ -146,5 +152,19 @@ public:
 	// Sets the readyToShoot boolean variable.
 	void setReadyToShoot(bool newValue) {
 		readyToShoot = newValue;
+	}
+	
+	/* Sets the variable representing whether the player's x speed should
+	be modifiable.
+	*/
+	void setRestrictXMotion(bool newValue) {
+		restrictXMotion = newValue;
+	}
+
+	/* Returns whether the player should not be allowed to move left or right,
+	 * which should be true when they are falling from the sky after dying.
+	 */
+	bool getRestrictXMotion() {
+		return restrictXMotion;
 	}
 };

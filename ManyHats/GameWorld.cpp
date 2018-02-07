@@ -36,6 +36,7 @@ void GameWorld::update()
 	this->updateHatStatus();
 
 	// This code allows players to push other players.
+	// TODO:  Get this to work maybe?
 	/*int newXVel = 30;
 	if (getCharacters()[0]->touching(*getCharacters()[1])) {
 		for (int i = 0; i < getCharacters().size(); i++) {
@@ -132,7 +133,6 @@ void GameWorld::updateHatStatus()
 					player->setLocation(player->getLocation()[0] + movementDistance, player->getLocation()[1]);
 				} else if (theHat->getItemType() == "SantaHat" && theHat->getY_vel() > 0) {
 					player->setY_vel(15);
-					// player->setLocation(player->getLocation()[0], player->getLocation()[1] + 50);
 				}
 				theHat->reset();
 			} else if (theHat->touching(*player)
