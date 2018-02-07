@@ -43,6 +43,7 @@ void GameStateManager::setWelcomeState()
 	std::function<void()> windowCallBack = [this]() mutable {
 		// The function that this button is going to execute when pressed.
 		this->switchState(Gameplay);
+		this->gameUpdateTimer->start();
 	};
 
 	// Creates a new button.
@@ -253,6 +254,9 @@ void GameStateManager::setPausedState()
 			"PAUSED",
 			glm::vec2(235, 285),
 			glm::vec3(1, 0.5, 0));
+		if (paused) {
+			gameUpdateTimer->start();//reset timer
+		}
 	};
 	paused->initGameState(renderCall);
 }
